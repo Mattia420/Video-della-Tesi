@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mattia Pedron — Portfolio</title>
+<meta name="description" content="Portfolio personale di Mattia Pedron.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div class="preloader" id="preloader">
+  <div class="preloader__count"><span id="preloaderCount">0</span></div>
+  <div class="preloader__label">Caricamento portfolio</div>
+</div>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor" id="cursor">
+  <span class="cursor__label" id="cursorLabel"></span>
+</div>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <a href="#top" class="nav__logo" data-cursor="link">MP<span class="dot">.</span></a>
+  <nav class="nav__links">
+    <a href="#about" data-cursor="link">Chi sono</a>
+    <a href="#work" data-cursor="link">Progetti</a>
+    <a href="#skills" data-cursor="link">Competenze</a>
+    <a href="#contact" data-cursor="link">Contatti</a>
+  </nav>
+  <button class="nav__toggle" id="navToggle" aria-label="Apri menu">
+    <span></span><span></span>
+  </button>
+</header>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about">Chi sono</a>
+  <a href="#work">Progetti</a>
+  <a href="#skills">Competenze</a>
+  <a href="#contact">Contatti</a>
+</div>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__inner">
+      <p class="hero__eyebrow reveal-line"><span>Portfolio personale — 2026</span></p>
+      <h1 class="hero__title">
+        <span class="reveal-line"><span>Ciao, sono</span></span>
+        <span class="reveal-line"><span>Mattia Pedron<span class="hero__accent">.</span></span></span>
+      </h1>
+      <p class="hero__sub reveal-line"><span>Sviluppatore &amp; designer digitale — costruisco esperienze web curate, veloci e con carattere.</span></p>
+      <div class="hero__cta reveal-line">
+        <a href="#work" class="btn btn--magnetic" data-cursor="view">
+          <span>Guarda i progetti</span>
+        </a>
+      </div>
+    </div>
+    <div class="hero__scroll">
+      <span></span>
+      <p>Scorri</p>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee">
+    <div class="marquee__track">
+      <span>Design</span><span>&mdash;</span><span>Sviluppo Front-End</span><span>&mdash;</span>
+      <span>Animazioni</span><span>&mdash;</span><span>UI / UX</span><span>&mdash;</span>
+      <span>Design</span><span>&mdash;</span><span>Sviluppo Front-End</span><span>&mdash;</span>
+      <span>Animazioni</span><span>&mdash;</span><span>UI / UX</span><span>&mdash;</span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="section-head">
+      <p class="section-tag reveal-up">Chi sono</p>
+      <h2 class="section-title reveal-up">Poche righe su di me, ancora più importanti dei miei progetti.</h2>
+    </div>
+    <div class="about__grid">
+      <p class="about__text reveal-up">
+        Sono uno sviluppatore appassionato di dettagli, animazioni e interfacce che raccontano una storia.
+        Mi piace unire codice pulito e design curato per creare esperienze digitali che si notano —
+        senza mai sacrificare la performance. <em>Sostituisci questo testo con la tua storia.</em>
+      </p>
+      <div class="about__stats">
+        <div class="stat reveal-up">
+          <span class="stat__num" data-count="3">0</span><span class="stat__plus">+</span>
+          <p>Anni di esperienza</p>
+        </div>
+        <div class="stat reveal-up">
+          <span class="stat__num" data-count="12">0</span><span class="stat__plus">+</span>
+          <p>Progetti completati</p>
+        </div>
+        <div class="stat reveal-up">
+          <span class="stat__num" data-count="100">0</span><span class="stat__plus">%</span>
+          <p>Passione per i dettagli</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section class="work" id="work">
+    <div class="section-head">
+      <p class="section-tag reveal-up">Progetti</p>
+      <h2 class="section-title reveal-up">Una selezione di lavori recenti.</h2>
+    </div>
+
+    <div class="work__list">
+      <a href="#" class="work__item" data-cursor="view" data-cursor-label="Vedi">
+        <div class="work__item-inner">
+          <div class="work__img" style="background-image:url('https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&q=80')"></div>
+          <div class="work__meta">
+            <h3>Progetto Uno</h3>
+            <span class="work__tags">Branding — Sviluppo Web</span>
+          </div>
+        </div>
+      </a>
+      <a href="#" class="work__item" data-cursor="view" data-cursor-label="Vedi">
+        <div class="work__item-inner">
+          <div class="work__img" style="background-image:url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&q=80')"></div>
+          <div class="work__meta">
+            <h3>Progetto Due</h3>
+            <span class="work__tags">UI/UX — App</span>
+          </div>
+        </div>
+      </a>
+      <a href="#" class="work__item" data-cursor="view" data-cursor-label="Vedi">
+        <div class="work__item-inner">
+          <div class="work__img" style="background-image:url('https://images.unsplash.com/photo-1487014679447-9f8336841d58?w=1200&q=80')"></div>
+          <div class="work__meta">
+            <h3>Progetto Tre</h3>
+            <span class="work__tags">E-commerce — Front-End</span>
+          </div>
+        </div>
+      </a>
+      <a href="#" class="work__item" data-cursor="view" data-cursor-label="Vedi">
+        <div class="work__item-inner">
+          <div class="work__img" style="background-image:url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&q=80')"></div>
+          <div class="work__meta">
+            <h3>Progetto Quattro</h3>
+            <span class="work__tags">Portfolio — Animazioni</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="skills" id="skills">
+    <div class="section-head">
+      <p class="section-tag reveal-up">Competenze</p>
+      <h2 class="section-title reveal-up">Strumenti e tecnologie che uso ogni giorno.</h2>
+    </div>
+    <ul class="skills__list">
+      <li class="reveal-up"><span>01</span>HTML / CSS</li>
+      <li class="reveal-up"><span>02</span>JavaScript</li>
+      <li class="reveal-up"><span>03</span>React</li>
+      <li class="reveal-up"><span>04</span>GSAP / Animazioni</li>
+      <li class="reveal-up"><span>05</span>Figma / UI Design</li>
+      <li class="reveal-up"><span>06</span>Node.js</li>
+    </ul>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact__inner">
+      <p class="section-tag reveal-up">Contatti</p>
+      <h2 class="contact__title reveal-up">Hai un progetto in mente?<br>Parliamone.</h2>
+      <a href="mailto:tuaemail@example.com" class="btn btn--magnetic btn--large reveal-up" data-cursor="view">
+        <span>Scrivimi</span>
+      </a>
+      <div class="contact__socials reveal-up">
+        <a href="#" data-cursor="link">LinkedIn</a>
+        <a href="#" data-cursor="link">GitHub</a>
+        <a href="#" data-cursor="link">Instagram</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>&copy; <span id="year"></span> Mattia Pedron. Tutti i diritti riservati.</p>
+  <a href="#top" class="footer__top" data-cursor="link">Torna su ↑</a>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
