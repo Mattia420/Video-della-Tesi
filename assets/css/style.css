@@ -74,10 +74,12 @@ h1, h2, h3 {
   margin: -7px 0 0 -7px;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 0 3px rgba(12,12,13,0.55);
+  /* dark ring + light ring sandwich: at least one always contrasts,
+     whatever flat color (near-black page, bright accent buttons) sits underneath */
+  box-shadow: 0 0 0 1.5px rgba(0,0,0,0.55), 0 0 0 3px rgba(255,255,255,0.8);
   pointer-events: none;
   z-index: 998;
-  transition: width .3s var(--ease), height .3s var(--ease), margin .3s var(--ease), background .3s var(--ease), box-shadow .3s var(--ease);
+  transition: width .3s var(--ease), height .3s var(--ease), margin .3s var(--ease), background .3s var(--ease);
   display: flex; align-items: center; justify-content: center;
 }
 .cursor__label {
@@ -86,12 +88,18 @@ h1, h2, h3 {
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #0c0c0d;
+  color: var(--text);
   transition: opacity .2s var(--ease);
   white-space: nowrap;
 }
-.cursor.is-link { width: 46px; height: 46px; margin: -23px 0 0 -23px; box-shadow: 0 0 0 1px var(--line); }
-.cursor.is-view { width: 90px; height: 90px; margin: -45px 0 0 -45px; box-shadow: 0 0 0 1px var(--line); }
+.cursor.is-link { width: 46px; height: 46px; margin: -23px 0 0 -23px; }
+.cursor.is-view {
+  width: 90px; height: 90px; margin: -45px 0 0 -45px;
+  /* solid dark fill on the enlarged "view" state: this is the bubble that
+     hovers over buttons/CTAs, which turn accent-colored on hover — a dark
+     fill guarantees it never matches that surface underneath */
+  background: rgba(12,12,13,0.94);
+}
 .cursor.is-view .cursor__label { opacity: 1; }
 @media (max-width: 860px) { .cursor { display: none; } }
 
