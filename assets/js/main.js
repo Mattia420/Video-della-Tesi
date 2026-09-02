@@ -117,16 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* =========================================================
-     WORK ITEM IMAGE FOLLOW CURSOR
-     ========================================================= */
-  document.querySelectorAll('.work__item').forEach((item) => {
-    const img = item.querySelector('.work__img');
-    item.addEventListener('mousemove', (e) => {
-      gsap.to(img, { x: e.clientX - 170, y: e.clientY - 110, duration: 0.6, ease: 'power3.out' });
-    });
-  });
-
-  /* =========================================================
      NAV SHOW/HIDE ON SCROLL
      ========================================================= */
   const nav = document.getElementById('nav');
