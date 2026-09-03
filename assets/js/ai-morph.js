@@ -92,6 +92,7 @@
 
   let morphSmooth = 0;
   let wobbleSmooth = 0;
+  let exitSmooth = 0;
 
   function scrollProgress() {
     const rect = section.getBoundingClientRect();
@@ -102,17 +103,22 @@
 
   function frame() {
     const progress = scrollProgress();
-    const morphTarget = clamp(progress / 0.4, 0, 1);
-    const wobbleTarget = clamp((progress - 0.4) / 0.6, 0, 1);
+    // Three sequential phases across the section's scroll range: form the
+    // arc, rotate the card window through the full set, then slide the
+    // whole arc out to the left before handing off to the next section.
+    const morphTarget = clamp(progress / 0.3, 0, 1);
+    const wobbleTarget = clamp((progress - 0.3) / 0.4, 0, 1);
+    const exitTarget = clamp((progress - 0.72) / 0.28, 0, 1);
 
     const smoothing = prefersReducedMotion ? 1 : 0.09;
     morphSmooth += (morphTarget - morphSmooth) * smoothing;
     wobbleSmooth += (wobbleTarget - wobbleSmooth) * smoothing;
+    exitSmooth += (exitTarget - exitSmooth) * smoothing;
 
     if (introEl && revealEl) {
       const introOpacity = phase === 'circle' ? clamp(1 - morphSmooth * 2, 0, 1) : (phase === 'scatter' ? 0 : 1);
       introEl.style.opacity = String(introOpacity);
-      const revealOpacity = clamp((morphSmooth - 0.75) / 0.25, 0, 1);
+      const revealOpacity = clamp((morphSmooth - 0.75) / 0.25, 0, 1) * (1 - exitSmooth);
       revealEl.style.opacity = String(revealOpacity);
       revealEl.style.transform = `translateY(${(1 - revealOpacity) * 16}px)`;
     }
@@ -126,11 +132,16 @@
     // the window across the full card set, rotating new cards in from the
     // right and out to the left — counter-clockwise along the arc.
     const visibleCount = isMobile ? 4 : 6;
-    const spreadDeg = isMobile ? 100 : 130;
+    // Narrower spread than the visual arc looks (40/34deg half-spread) so
+    // that a single circle radius can drive both x and y — equal angle
+    // steps then give exactly equal spacing between every card, unlike an
+    // ellipse where x and y use different radii.
+    const spreadDeg = isMobile ? 68 : 80;
     const halfSpreadDeg = spreadDeg / 2;
     const anglePerCard = spreadDeg / Math.max(1, visibleCount - 1);
     const maxOffset = Math.max(0, total - visibleCount);
     const windowOffset = wobbleSmooth * maxOffset;
+    const exitOffsetX = -exitSmooth * stageSize.width * 1.3;
 
     cards.forEach((card, i) => {
       let x, y, rotation, scale, opacity;
@@ -158,16 +169,18 @@
         const thetaDeg = (i - windowOffset - (visibleCount - 1) / 2) * anglePerCard;
         const thetaRad = (thetaDeg * Math.PI) / 180;
 
+        // Single true-circle radius drives both axes: x = R sin(theta),
+        // y = baseY + R (1 - cos(theta)). Equal angular steps then land at
+        // exactly equal chord distances, so card spacing never varies.
         const fullSpan = stageSize.width * (isMobile ? 0.92 : 0.86);
         const halfSpreadRad = (halfSpreadDeg * Math.PI) / 180;
         const radius = fullSpan / (2 * Math.sin(halfSpreadRad));
-        const archHeight = stageSize.height * (isMobile ? 0.14 : 0.22);
-        const baseY = stageSize.height * (isMobile ? 0.38 : 0.3);
+        const baseY = stageSize.height * (isMobile ? 0.1 : 0.06);
 
         const arcPos = {
-          x: radius * Math.sin(thetaRad),
-          y: baseY - archHeight * Math.cos(thetaRad),
-          rotation: thetaDeg * 0.35,
+          x: radius * Math.sin(thetaRad) + exitOffsetX,
+          y: baseY + radius * (1 - Math.cos(thetaRad)),
+          rotation: thetaDeg * 0.55,
         };
         const arcScale = isMobile ? 2.1 : 3.1;
 
@@ -189,7 +202,7 @@
       if (document.activeElement !== card) card.style.zIndex = card.style.zIndex === '999' ? '999' : String(baseZ);
       card.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg) scale(${scale})`;
       card.style.opacity = String(opacity);
-      card.style.pointerEvents = opacity < 0.05 ? 'none' : '';
+      card.style.pointerEvents = (opacity < 0.05 || exitSmooth > 0.4) ? 'none' : '';
     });
 
     requestAnimationFrame(frame);
