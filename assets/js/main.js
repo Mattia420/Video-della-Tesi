@@ -181,8 +181,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // stagger the work items and skills list a touch
-  gsap.utils.toArray('.work__item').forEach((el, i) => {
+  // stagger the stacked category cards a touch
+  gsap.utils.toArray('.stack__card').forEach((el, i) => {
     gsap.from(el, {
       opacity: 0,
       y: 30,
