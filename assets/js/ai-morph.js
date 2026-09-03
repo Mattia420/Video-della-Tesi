@@ -144,7 +144,13 @@
     // whole set exits through the same circular motion, not a bolted-on
     // slide.
     const fadeRangeDeg = anglePerCard;
-    const maxOffset = Math.max(0, (total - 1) - (visibleCount - 1) / 2 + (halfSpreadDeg + fadeRangeDeg) / anglePerCard);
+    // The resting window's edge cards (i=0 and i=visibleCount-1) sit exactly
+    // at +/-halfSpreadDeg, right on the fade boundary — push the boundary
+    // out by an extra margin so they stay fully opaque at rest instead of
+    // clipping the instant the arc forms.
+    const fadeMarginDeg = anglePerCard * 0.75;
+    const fadeHalfSpreadDeg = halfSpreadDeg + fadeMarginDeg;
+    const maxOffset = Math.max(0, (total - 1) - (visibleCount - 1) / 2 + (fadeHalfSpreadDeg + fadeRangeDeg) / anglePerCard);
     const windowOffset = wobbleSmooth * maxOffset;
 
     cards.forEach((card, i) => {
@@ -190,7 +196,7 @@
 
         // Cards outside the visible spread fade out instead of piling up
         // off-screen, keeping only ~visibleCount cards on view at once.
-        const arcVisibility = clamp(1 - (Math.abs(thetaDeg) - halfSpreadDeg) / fadeRangeDeg, 0, 1);
+        const arcVisibility = clamp(1 - (Math.abs(thetaDeg) - fadeHalfSpreadDeg) / fadeRangeDeg, 0, 1);
 
         x = lerp(circlePos.x, arcPos.x, morphSmooth);
         y = lerp(circlePos.y, arcPos.y, morphSmooth);

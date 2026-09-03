@@ -325,7 +325,7 @@ h1, h2, h3 {
 .stack__card:nth-child(3) { background: linear-gradient(160deg, #7a12d9, var(--accent-deep)); z-index: 3; }
 .stack__card:nth-child(4) { background: linear-gradient(160deg, var(--accent-deep), #1c0033); z-index: 4; }
 .stack__card:hover {
-  transform: translateY(-22px) rotate(0deg) scale(1.04);
+  transform: translateY(-22px) rotate(0deg) scale(1.1);
   z-index: 10 !important;
   box-shadow: 0 30px 50px -18px rgba(166,0,255,0.45);
 }
@@ -338,7 +338,7 @@ h1, h2, h3 {
   .stack { flex-direction: column; }
   .stack__card { margin-left: 0 !important; margin-top: -48px; transform: rotate(0deg) !important; }
   .stack__card:first-child { margin-top: 0; }
-  .stack__card:hover { transform: translateY(-8px) scale(1.02) !important; }
+  .stack__card:hover { transform: translateY(-8px) scale(1.06) !important; }
 }
 
 /* =========================================================
