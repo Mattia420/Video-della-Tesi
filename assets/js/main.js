@@ -192,26 +192,4 @@ document.addEventListener('DOMContentLoaded', () => {
       scrollTrigger: { trigger: el, start: 'top 92%' },
     });
   });
-
-  /* =========================================================
-     ANIMATED COUNTERS
-     ========================================================= */
-  document.querySelectorAll('.stat__num').forEach((el) => {
-    const target = parseInt(el.getAttribute('data-count'), 10);
-    ScrollTrigger.create({
-      trigger: el,
-      start: 'top 90%',
-      once: true,
-      onEnter: () => {
-        gsap.to({ val: 0 }, {
-          val: target,
-          duration: 1.6,
-          ease: 'power2.out',
-          onUpdate: function () {
-            el.textContent = Math.floor(this.targets()[0].val);
-          },
-        });
-      },
-    });
-  });
 });
