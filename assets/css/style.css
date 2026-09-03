@@ -361,6 +361,66 @@ h1, h2, h3 {
 }
 
 /* =========================================================
+   AI CONTENT — scroll-morph gallery
+   ========================================================= */
+.ai-morph { position: relative; height: 300vh; }
+.ai-morph__sticky {
+  position: sticky; top: 0; height: 100vh; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  border-top: 1px solid var(--line);
+}
+.ai-morph__intro, .ai-morph__reveal {
+  position: absolute; z-index: 3; text-align: center;
+  padding: 0 1.5rem; pointer-events: none;
+  left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: min(90%, 640px);
+  transition: opacity .3s ease;
+}
+.ai-morph__intro h2 { font-size: clamp(1.8rem, 4vw, 3rem); margin-bottom: 0.8rem; }
+.ai-morph__intro p { color: var(--text-dim); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.ai-morph__reveal { top: 14%; transform: translate(-50%, 0); opacity: 0; }
+.ai-morph__reveal h2 { font-size: clamp(1.5rem, 3.2vw, 2.4rem); margin-bottom: 0.8rem; text-wrap: balance; }
+.ai-morph__reveal p { color: var(--text-dim); font-size: 0.95rem; max-width: 46ch; margin: 0 auto; line-height: 1.55; }
+
+.ai-morph__stage { position: absolute; inset: 0; z-index: 2; }
+.morph-card {
+  position: absolute; top: 50%; left: 50%;
+  width: 60px; height: 85px; margin: -42.5px 0 0 -30px;
+  perspective: 900px;
+  pointer-events: auto;
+  will-change: transform;
+}
+.morph-card__inner {
+  position: relative; width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform .5s var(--ease);
+}
+.morph-card:hover .morph-card__inner { transform: rotateY(180deg); }
+.morph-card__front, .morph-card__back {
+  position: absolute; inset: 0; border-radius: 10px;
+  backface-visibility: hidden;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; font-weight: 600;
+  box-shadow: 0 10px 22px -12px rgba(0,0,0,0.6);
+  color: #fbf8ff;
+}
+.morph-card__back {
+  transform: rotateY(180deg);
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  color: var(--accent-soft);
+  letter-spacing: 0.1em;
+}
+
+@media (max-width: 760px) {
+  .ai-morph { height: 220vh; }
+  .morph-card { width: 46px; height: 65px; margin: -32.5px 0 0 -23px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .morph-card { transition: none; }
+}
+
+/* =========================================================
    SKILLS
    ========================================================= */
 .skills { padding: 0 clamp(1.5rem, 5vw, 4rem) clamp(4rem, 8vw, 7rem); }
