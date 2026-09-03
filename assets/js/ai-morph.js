@@ -51,8 +51,10 @@
     inner.appendChild(back);
     card.appendChild(inner);
 
-    card.addEventListener('mouseenter', () => { card.style.zIndex = '999'; });
-    card.addEventListener('mouseleave', () => { card.style.zIndex = ''; card.__baseZ && (card.style.zIndex = card.__baseZ); });
+    card.__hover = false;
+    card.__hoverSmooth = 1;
+    card.addEventListener('mouseenter', () => { card.style.zIndex = '999'; card.__hover = true; });
+    card.addEventListener('mouseleave', () => { card.__hover = false; card.style.zIndex = ''; card.__baseZ && (card.style.zIndex = card.__baseZ); });
     card.addEventListener('click', () => openLightbox(data));
     card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(data); } });
 
@@ -92,7 +94,6 @@
 
   let morphSmooth = 0;
   let wobbleSmooth = 0;
-  let exitSmooth = 0;
 
   function scrollProgress() {
     const rect = section.getBoundingClientRect();
@@ -103,22 +104,21 @@
 
   function frame() {
     const progress = scrollProgress();
-    // Three sequential phases across the section's scroll range: form the
-    // arc, rotate the card window through the full set, then slide the
-    // whole arc out to the left before handing off to the next section.
+    // Two sequential phases across the section's scroll range: form the
+    // arc, then keep rotating the same circular wheel — the window slides
+    // far enough that even the last cards swing off past the arc's left
+    // edge and fade out, all through the one rotation (no separate slide).
     const morphTarget = clamp(progress / 0.3, 0, 1);
-    const wobbleTarget = clamp((progress - 0.3) / 0.4, 0, 1);
-    const exitTarget = clamp((progress - 0.72) / 0.28, 0, 1);
+    const wobbleTarget = clamp((progress - 0.3) / 0.7, 0, 1);
 
     const smoothing = prefersReducedMotion ? 1 : 0.09;
     morphSmooth += (morphTarget - morphSmooth) * smoothing;
     wobbleSmooth += (wobbleTarget - wobbleSmooth) * smoothing;
-    exitSmooth += (exitTarget - exitSmooth) * smoothing;
 
     if (introEl && revealEl) {
       const introOpacity = phase === 'circle' ? clamp(1 - morphSmooth * 2, 0, 1) : (phase === 'scatter' ? 0 : 1);
       introEl.style.opacity = String(introOpacity);
-      const revealOpacity = clamp((morphSmooth - 0.75) / 0.25, 0, 1) * (1 - exitSmooth);
+      const revealOpacity = clamp((morphSmooth - 0.75) / 0.25, 0, 1) * clamp(1 - (wobbleSmooth - 0.7) / 0.3, 0, 1);
       revealEl.style.opacity = String(revealOpacity);
       revealEl.style.transform = `translateY(${(1 - revealOpacity) * 16}px)`;
     }
@@ -139,9 +139,13 @@
     const spreadDeg = isMobile ? 68 : 80;
     const halfSpreadDeg = spreadDeg / 2;
     const anglePerCard = spreadDeg / Math.max(1, visibleCount - 1);
-    const maxOffset = Math.max(0, total - visibleCount);
+    // Keep rotating past the point where the last window is centered, far
+    // enough that the final cards swing beyond the fade-out edge too — the
+    // whole set exits through the same circular motion, not a bolted-on
+    // slide.
+    const fadeRangeDeg = anglePerCard;
+    const maxOffset = Math.max(0, (total - 1) - (visibleCount - 1) / 2 + (halfSpreadDeg + fadeRangeDeg) / anglePerCard);
     const windowOffset = wobbleSmooth * maxOffset;
-    const exitOffsetX = -exitSmooth * stageSize.width * 1.3;
 
     cards.forEach((card, i) => {
       let x, y, rotation, scale, opacity;
@@ -178,7 +182,7 @@
         const baseY = stageSize.height * (isMobile ? 0.1 : 0.06);
 
         const arcPos = {
-          x: radius * Math.sin(thetaRad) + exitOffsetX,
+          x: radius * Math.sin(thetaRad),
           y: baseY + radius * (1 - Math.cos(thetaRad)),
           rotation: thetaDeg * 0.55,
         };
@@ -186,7 +190,6 @@
 
         // Cards outside the visible spread fade out instead of piling up
         // off-screen, keeping only ~visibleCount cards on view at once.
-        const fadeRangeDeg = anglePerCard;
         const arcVisibility = clamp(1 - (Math.abs(thetaDeg) - halfSpreadDeg) / fadeRangeDeg, 0, 1);
 
         x = lerp(circlePos.x, arcPos.x, morphSmooth);
@@ -200,9 +203,13 @@
       const baseZ = Math.round(100 - Math.abs(i - centerIndex));
       card.__baseZ = String(baseZ);
       if (document.activeElement !== card) card.style.zIndex = card.style.zIndex === '999' ? '999' : String(baseZ);
-      card.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg) scale(${scale})`;
+
+      const hoverTarget = card.__hover ? 1.12 : 1;
+      card.__hoverSmooth += (hoverTarget - card.__hoverSmooth) * (prefersReducedMotion ? 1 : 0.2);
+
+      card.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg) scale(${scale * card.__hoverSmooth})`;
       card.style.opacity = String(opacity);
-      card.style.pointerEvents = (opacity < 0.05 || exitSmooth > 0.4) ? 'none' : '';
+      card.style.pointerEvents = opacity < 0.05 ? 'none' : '';
     });
 
     requestAnimationFrame(frame);
