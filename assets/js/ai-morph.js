@@ -15,7 +15,7 @@
   if (!section || !stage) return;
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const CARD_COUNT = 14;
+  const CARD_COUNT = 10;
   const palette = ['#a600ff', '#8f1fe0', '#7a12d9', '#6a10c4', '#c96bff', '#5c1fa3'];
   const DESCS = [
     'Post per campagna social generato con l\'AI.',
@@ -121,9 +121,16 @@
     const isMobile = stageSize.width < 640;
     const minDim = Math.min(stageSize.width, stageSize.height) || 1;
 
-    // gentle bounded wobble once the arc has formed — never enough to push
-    // a card off the visible width, unlike the old radius-based shuffle.
-    const wobble = Math.sin(wobbleSmooth * Math.PI * 1.6) * (stageSize.width * 0.025);
+    // Windowed rotating carousel: only VISIBLE_COUNT cards sit inside the
+    // visible arc spread at a time. Continued scroll (wobbleSmooth) slides
+    // the window across the full card set, rotating new cards in from the
+    // right and out to the left — counter-clockwise along the arc.
+    const visibleCount = isMobile ? 4 : 6;
+    const spreadDeg = isMobile ? 100 : 130;
+    const halfSpreadDeg = spreadDeg / 2;
+    const anglePerCard = spreadDeg / Math.max(1, visibleCount - 1);
+    const maxOffset = Math.max(0, total - visibleCount);
+    const windowOffset = wobbleSmooth * maxOffset;
 
     cards.forEach((card, i) => {
       let x, y, rotation, scale, opacity;
@@ -145,32 +152,44 @@
           rotation: circleAngle + 90,
         };
 
-        // Arc laid out directly across the visible stage width, so card 0
-        // always starts at the left edge on-screen instead of being
-        // positioned by a huge off-screen radius.
-        const t = total > 1 ? i / (total - 1) : 0.5;
+        // Position on the rotating arc: each card gets a slot angle based on
+        // its index and the current window offset, so the whole set reads
+        // as a wheel of cards passing behind a fixed visible window.
+        const thetaDeg = (i - windowOffset - (visibleCount - 1) / 2) * anglePerCard;
+        const thetaRad = (thetaDeg * Math.PI) / 180;
+
         const fullSpan = stageSize.width * (isMobile ? 0.92 : 0.86);
+        const halfSpreadRad = (halfSpreadDeg * Math.PI) / 180;
+        const radius = fullSpan / (2 * Math.sin(halfSpreadRad));
         const archHeight = stageSize.height * (isMobile ? 0.14 : 0.22);
         const baseY = stageSize.height * (isMobile ? 0.38 : 0.3);
+
         const arcPos = {
-          x: -fullSpan / 2 + t * fullSpan + wobble,
-          y: baseY - archHeight * Math.sin(Math.PI * t),
-          rotation: (t - 0.5) * (isMobile ? 24 : 32),
+          x: radius * Math.sin(thetaRad),
+          y: baseY - archHeight * Math.cos(thetaRad),
+          rotation: thetaDeg * 0.35,
         };
         const arcScale = isMobile ? 2.1 : 3.1;
+
+        // Cards outside the visible spread fade out instead of piling up
+        // off-screen, keeping only ~visibleCount cards on view at once.
+        const fadeRangeDeg = anglePerCard;
+        const arcVisibility = clamp(1 - (Math.abs(thetaDeg) - halfSpreadDeg) / fadeRangeDeg, 0, 1);
 
         x = lerp(circlePos.x, arcPos.x, morphSmooth);
         y = lerp(circlePos.y, arcPos.y, morphSmooth);
         rotation = lerp(circlePos.rotation, arcPos.rotation, morphSmooth);
         scale = lerp(1, arcScale, morphSmooth);
-        opacity = 1;
+        opacity = lerp(1, arcVisibility, morphSmooth);
       }
 
-      const baseZ = Math.round(100 - Math.abs(i - (total - 1) / 2));
+      const centerIndex = phase === 'circle' ? windowOffset + (visibleCount - 1) / 2 : (total - 1) / 2;
+      const baseZ = Math.round(100 - Math.abs(i - centerIndex));
       card.__baseZ = String(baseZ);
       if (document.activeElement !== card) card.style.zIndex = card.style.zIndex === '999' ? '999' : String(baseZ);
       card.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg) scale(${scale})`;
       card.style.opacity = String(opacity);
+      card.style.pointerEvents = opacity < 0.05 ? 'none' : '';
     });
 
     requestAnimationFrame(frame);
