@@ -465,6 +465,37 @@ h1, h2, h3 {
 .skills__list li:hover { padding-left: 1.5rem; color: var(--accent); }
 
 /* =========================================================
+   GLOBE — international experience
+   ========================================================= */
+.globe-section { padding: 0 var(--gutter) clamp(4rem, 8vw, 7rem); }
+.globe-wrap {
+  display: flex; align-items: center; gap: clamp(2rem, 5vw, 4rem);
+  flex-wrap: wrap;
+}
+.globe-canvas {
+  width: min(480px, 90vw); height: min(480px, 90vw);
+  flex: 0 0 auto;
+  touch-action: none; cursor: grab;
+}
+.globe-canvas:active { cursor: grabbing; }
+.globe-cities {
+  display: flex; flex-direction: column; gap: 0.9rem;
+  font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem;
+}
+.globe-cities li { display: flex; align-items: center; gap: 0.8rem; color: var(--text-dim); }
+.globe-cities__dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--text); flex: 0 0 auto;
+}
+.globe-cities__dot--hub {
+  background: var(--accent-soft);
+  box-shadow: 0 0 10px 2px rgba(214,146,255,0.7);
+}
+@media (max-width: 760px) {
+  .globe-wrap { flex-direction: column; }
+}
+
+/* =========================================================
    CONTACT
    ========================================================= */
 .contact {
