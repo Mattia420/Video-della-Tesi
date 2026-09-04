@@ -156,11 +156,12 @@ document.addEventListener('DOMContentLoaded', () => {
      ========================================================= */
   function playHeroIntro() {
     gsap.timeline({ defaults: { ease: 'power4.out' } })
+      .to('.hero__portrait', { opacity: 1, duration: 1.4, ease: 'power2.out' }, 0)
       .to('.hero .reveal-line > span', {
         yPercent: 0,
         duration: 1.1,
         stagger: 0.08,
-      })
+      }, 0.1)
       .to('.hero__scroll', { opacity: 1, duration: 0.6 }, '-=0.4');
   }
   gsap.set('.hero__scroll', { opacity: 0 });

@@ -182,7 +182,28 @@ h1, h2, h3 {
   padding: 0 clamp(1.5rem, 5vw, 4rem);
   position: relative;
 }
-.hero__inner { max-width: 900px; }
+.hero__inner { max-width: 900px; position: relative; z-index: 1; }
+
+.hero__portrait {
+  position: absolute; top: 50%; right: clamp(1rem, 4vw, 6rem);
+  transform: translateY(-50%);
+  height: min(78vh, 720px);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.hero__portrait img {
+  height: 100%; width: auto; display: block;
+  filter: url(#duotone) contrast(1.05);
+  -webkit-mask-image: linear-gradient(to top, transparent, #000 14%);
+  mask-image: linear-gradient(to top, transparent, #000 14%);
+}
+@media (max-width: 1080px) {
+  .hero__portrait { height: min(58vh, 520px); opacity: 0.5 !important; }
+}
+@media (max-width: 760px) {
+  .hero__portrait { display: none; }
+}
 
 .hero__eyebrow { color: var(--text-dim); font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.5rem; }
 
