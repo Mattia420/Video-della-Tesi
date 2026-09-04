@@ -480,18 +480,23 @@ h1, h2, h3 {
    GLOBE — international experience
    ========================================================= */
 .globe-section { padding: 0 var(--gutter) clamp(4rem, 8vw, 7rem); }
+.globe-content {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: clamp(2rem, 5vw, 4rem);
+}
 .globe-intro {
+  flex: 1 1 300px;
   font-size: clamp(1rem, 1.4vw, 1.1rem);
   line-height: 1.65;
   color: var(--text-dim);
-  max-width: 56ch;
-  margin: -1rem 0 2.5rem;
+  max-width: 380px;
 }
 .globe-wrap {
+  flex: 1 1 320px;
   display: flex; align-items: center; justify-content: center;
 }
 .globe-canvas {
-  width: min(620px, 92vw); height: min(620px, 92vw);
+  width: min(560px, 46vw); height: min(560px, 46vw);
   flex: 0 0 auto;
   /* opaque backing so the page's own background dot-grid can't show
      through the canvas's transparent (ocean) areas behind the globe */
@@ -500,6 +505,9 @@ h1, h2, h3 {
   touch-action: none; cursor: grab;
 }
 .globe-canvas:active { cursor: grabbing; }
+@media (max-width: 900px) {
+  .globe-canvas { width: min(560px, 90vw); height: min(560px, 90vw); }
+}
 /* accessible text alternative for the canvas — visually hidden, city names
    are rendered as labels on the globe itself */
 .globe-cities-sr {
