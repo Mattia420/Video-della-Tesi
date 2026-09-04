@@ -61,19 +61,18 @@ body {
     radial-gradient(ellipse 32% 40% at 90% 82%, rgba(0,0,0,0.3), transparent 70%);
 }
 
-/* soft glow that follows the cursor around the page */
-.bg-spotlight {
+/* dot grid that repels away from and glows near the cursor */
+.bg-dots {
   position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background: radial-gradient(600px circle at var(--spot-x, 50vw) var(--spot-y, 30vh), rgba(166,0,255,0.16), transparent 62%);
   opacity: 0;
-  transition: opacity 0.6s ease;
+  transition: opacity 0.8s ease;
 }
-body.spotlight-active .bg-spotlight { opacity: 1; }
-@media (max-width: 860px) { .bg-spotlight { display: none; } }
+.bg-dots.is-ready { opacity: 1; }
+@media (max-width: 860px) { .bg-dots { display: none; } }
 
 @media (prefers-reduced-motion: reduce) {
   .bg-gradient span { animation: none !important; }
-  .bg-spotlight { display: none; }
+  .bg-dots { display: none; }
 }
 
 a { color: inherit; text-decoration: none; }
