@@ -1,6 +1,87 @@
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('year').textContent = new Date().getFullYear();
 
+  const isTouch = window.matchMedia('(max-width: 860px)').matches;
+
+  /* =========================================================
+     CUSTOM CURSOR — runs first and never touches GSAP, so a
+     slow/blocked CDN script can't leave the page with no visible
+     pointer at all (the OS cursor is only hidden once this
+     actually succeeds — see the .custom-cursor-active CSS gate).
+     ========================================================= */
+  const cursor = document.getElementById('cursor');
+  const cursorLabel = document.getElementById('cursorLabel');
+
+  if (!isTouch && cursor) {
+    document.body.classList.add('custom-cursor-active');
+
+    let mx = 0, my = 0, cx = 0, cy = 0;
+    let cursorRevealed = false;
+    window.addEventListener('mousemove', (e) => {
+      mx = e.clientX; my = e.clientY;
+      // Snap straight to the real position on the very first move instead of
+      // lerping in from the (0,0) default — otherwise, until the mouse moves,
+      // the dot sits stuck/invisible in the top-left corner.
+      if (!cursorRevealed) {
+        cx = mx; cy = my;
+        cursorRevealed = true;
+        cursor.classList.add('is-ready');
+      }
+    });
+
+    (function tickCursor() {
+      cx += (mx - cx) * 0.42;
+      cy += (my - cy) * 0.42;
+      cursor.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
+      requestAnimationFrame(tickCursor);
+    })();
+
+    document.querySelectorAll('[data-cursor]').forEach((el) => {
+      el.addEventListener('mouseenter', () => {
+        const type = el.getAttribute('data-cursor');
+        cursor.classList.add(`is-${type}`);
+        const label = el.getAttribute('data-cursor-label');
+        if (label) cursorLabel.textContent = label;
+      });
+      el.addEventListener('mouseleave', () => {
+        const type = el.getAttribute('data-cursor');
+        cursor.classList.remove(`is-${type}`);
+        cursorLabel.textContent = '';
+      });
+    });
+  }
+
+  /* =========================================================
+     MOBILE MENU — plain JS, no GSAP dependency
+     ========================================================= */
+  const navToggle = document.getElementById('navToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('is-open');
+    navToggle.classList.remove('is-active');
+  }
+  navToggle.addEventListener('click', () => {
+    mobileMenu.classList.toggle('is-open');
+  });
+
+  /* =========================================================
+     Everything below depends on GSAP/ScrollTrigger/Lenis having
+     loaded from the CDN. Guard it so a blocked/slow CDN degrades
+     to a static (but fully usable) layout instead of leaving
+     reveal-up content, the preloader, etc. stuck forever.
+     ========================================================= */
+  if (typeof gsap === 'undefined') {
+    console.warn('GSAP failed to load — animations disabled, static layout shown.');
+    const preloaderEl = document.getElementById('preloader');
+    if (preloaderEl) preloaderEl.style.display = 'none';
+    document.body.classList.add('is-loaded');
+    document.querySelectorAll('.reveal-up, .hero__portrait, .hero__scroll').forEach((el) => {
+      el.style.opacity = 1;
+      el.style.transform = 'none';
+    });
+    return;
+  }
+
   /* =========================================================
      PRELOADER
      ========================================================= */
@@ -68,49 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* =========================================================
-     CUSTOM CURSOR
-     ========================================================= */
-  const cursor = document.getElementById('cursor');
-  const cursorLabel = document.getElementById('cursorLabel');
-  const isTouch = window.matchMedia('(max-width: 860px)').matches;
-
-  if (!isTouch) {
-    let mx = 0, my = 0, cx = 0, cy = 0;
-    let cursorRevealed = false;
-    window.addEventListener('mousemove', (e) => {
-      mx = e.clientX; my = e.clientY;
-      // Snap straight to the real position on the very first move instead of
-      // lerping in from the (0,0) default — otherwise, until the mouse moves,
-      // the dot sits stuck/invisible in the top-left corner (no cursor visible).
-      if (!cursorRevealed) {
-        cx = mx; cy = my;
-        cursorRevealed = true;
-        cursor.classList.add('is-ready');
-      }
-    });
-
-    gsap.ticker.add(() => {
-      cx += (mx - cx) * 0.42;
-      cy += (my - cy) * 0.42;
-      gsap.set(cursor, { x: cx, y: cy });
-    });
-
-    document.querySelectorAll('[data-cursor]').forEach((el) => {
-      el.addEventListener('mouseenter', () => {
-        const type = el.getAttribute('data-cursor');
-        cursor.classList.add(`is-${type}`);
-        const label = el.getAttribute('data-cursor-label');
-        if (label) cursorLabel.textContent = label;
-      });
-      el.addEventListener('mouseleave', () => {
-        const type = el.getAttribute('data-cursor');
-        cursor.classList.remove(`is-${type}`);
-        cursorLabel.textContent = '';
-      });
-    });
-  }
-
-  /* =========================================================
      MAGNETIC BUTTONS
      ========================================================= */
   if (!isTouch) {
@@ -148,19 +186,6 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     window.addEventListener('scroll', () => handleNavScroll(window.scrollY));
   }
-
-  /* =========================================================
-     MOBILE MENU
-     ========================================================= */
-  const navToggle = document.getElementById('navToggle');
-  const mobileMenu = document.getElementById('mobileMenu');
-  function closeMobileMenu() {
-    mobileMenu.classList.remove('is-open');
-    navToggle.classList.remove('is-active');
-  }
-  navToggle.addEventListener('click', () => {
-    mobileMenu.classList.toggle('is-open');
-  });
 
   /* =========================================================
      HERO INTRO ANIMATION (fires after preloader)

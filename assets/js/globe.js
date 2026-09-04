@@ -2,11 +2,12 @@
  * Rotating dotted globe with great-circle arcs connecting Bolzano to
  * every other marked city. Plain Canvas 2D, no WebGL/library — dots are
  * scattered only over land (an original, hand-authored approximation of
- * the continents built from a handful of ellipses, not real map data),
- * lit by a simple z-depth shade, orthographically projected each frame.
- * Cities are marked with a white dot and a name-tag pill, in the style
- * of the classic "rotating globe with flight routes" genre — an
- * original vanilla rebuild, no external dependencies.
+ * the continents/coastlines as a handful of polygons and ellipses, not
+ * traced from any map asset), lit by a simple z-depth shade,
+ * orthographically projected each frame. Cities are marked with a white
+ * dot and a name-tag pill that fades in/out smoothly as the globe turns
+ * them past the horizon — an original vanilla rebuild of the classic
+ * "rotating globe with flight routes" genre, no external dependencies.
  */
 (() => {
   const canvas = document.getElementById('globeCanvas');
@@ -24,30 +25,70 @@
     { name: 'Trento', lat: 46.07, lng: 11.12 },
   ];
 
-  // Rough continent silhouettes as unions of ellipses in lat/lng space —
-  // an original, stylised approximation (not traced from any map asset),
-  // just enough for the dot cloud to read as "the world" rather than a
-  // uniform sphere.
-  const LANDMASSES = [
-    { lat: 54, lng: -100, rLat: 22, rLng: 38 },   // N. America main
-    { lat: 63, lng: -155, rLat: 9, rLng: 16 },    // Alaska
-    { lat: 72, lng: -42, rLat: 10, rLng: 12 },    // Greenland
-    { lat: 18, lng: -95, rLat: 11, rLng: 12 },    // Central America
-    { lat: -14, lng: -60, rLat: 32, rLng: 17 },   // S. America main
-    { lat: 6, lng: -68, rLat: 9, rLng: 10 },      // S. America north bulge
-    { lat: 50, lng: 15, rLat: 22, rLng: 30 },     // Europe
-    { lat: 0, lng: 20, rLat: 30, rLng: 18 },      // Africa main
-    { lat: 20, lng: 12, rLat: 12, rLng: 24 },     // Africa north / Sahara
-    { lat: 28, lng: 46, rLat: 12, rLng: 14 },     // Middle East
-    { lat: 58, lng: 90, rLat: 20, rLng: 55 },     // N./Central Asia
-    { lat: 25, lng: 95, rLat: 18, rLng: 35 },     // S./E. Asia
-    { lat: -3, lng: 118, rLat: 8, rLng: 14 },     // Indonesia
-    { lat: 36, lng: 138, rLat: 6, rLng: 5 },      // Japan
-    { lat: -25, lng: 135, rLat: 12, rLng: 18 },   // Australia
+  // Rough continent outlines as [lat, lng] polygons — an original,
+  // hand-authored approximation (not traced from any map asset), just
+  // detailed enough for the dot cloud to read as real coastlines rather
+  // than blobs.
+  const LANDMASS_POLYGONS = [
+    // North America
+    [[70,-160],[66,-168],[58,-160],[55,-135],[49,-123],[40,-124],[32,-117],
+     [23,-110],[16,-95],[9,-83],[8,-77],[18,-90],[21,-97],[26,-97],[30,-89],
+     [25,-80],[31,-81],[35,-76],[41,-70],[45,-67],[47,-60],[52,-56],[58,-62],
+     [63,-68],[70,-70],[78,-95],[75,-115],[70,-140]],
+    // South America
+    [[12,-72],[11,-64],[5,-52],[-1,-48],[-8,-35],[-15,-39],[-23,-43],
+     [-30,-51],[-34,-57],[-38,-58],[-42,-64],[-50,-69],[-54,-68],[-52,-74],
+     [-45,-74],[-33,-72],[-24,-70],[-18,-70],[-5,-81],[1,-80],[4,-77],
+     [8,-77],[10,-75]],
+    // Africa
+    [[37,10],[33,10],[31,32],[22,37],[15,40],[12,43],[11,51],[2,45],
+     [-1,42],[-6,40],[-16,40],[-22,35],[-26,33],[-34,20],[-29,17],
+     [-18,12],[-6,12],[4,9],[5,-4],[6,-10],[14,-17],[21,-17],
+     [28,-13],[31,-10],[35,-6]],
+    // Europe
+    [[71,25],[70,30],[65,22],[60,30],[54,20],[45,38],[42,29],[41,26],
+     [37,23],[38,15],[41,16],[44,8],[43,-2],[36,-6],[43,-9],
+     [48,-5],[49,2],[51,3],[53,7],[57,7],[60,5],[65,12]],
+    // Middle East / Asia
+    [[41,29],[41,48],[47,55],[55,60],[70,60],[77,105],[70,140],[62,175],
+     [52,142],[42,132],[35,130],[30,122],[22,114],[10,106],[1,104],
+     [8,98],[13,98],[18,94],[22,89],[20,82],[8,77],[15,73],[24,68],
+     [25,57],[30,48],[35,36],[37,36]],
+    // Australia
+    [[-11,131],[-13,136],[-12,142],[-17,146],[-24,153],[-28,153],
+     [-33,151],[-38,145],[-39,146],[-35,138],[-32,126],[-32,115],
+     [-25,113],[-20,114],[-16,123],[-14,126]],
   ];
 
+  // Smaller islands, as ellipses — plenty of precision for their size.
+  const LANDMASS_ELLIPSES = [
+    { lat: 72, lng: -42, rLat: 10, rLng: 12 },   // Greenland
+    { lat: 65, lng: -18, rLat: 3, rLng: 4 },     // Iceland
+    { lat: 54, lng: -4, rLat: 4.5, rLng: 4 },    // UK / Ireland
+    { lat: 36, lng: 138, rLat: 6, rLng: 5 },     // Japan
+    { lat: -3, lng: 118, rLat: 8, rLng: 14 },    // Indonesia
+    { lat: 12, lng: 122, rLat: 6, rLng: 4 },     // Philippines
+    { lat: -18, lng: 46, rLat: 6.5, rLng: 2.5 }, // Madagascar
+    { lat: -42, lng: 173, rLat: 5, rLng: 3 },    // New Zealand
+  ];
+
+  function pointInPolygon(lat, lng, poly) {
+    let inside = false;
+    for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+      const [latI, lngI] = poly[i];
+      const [latJ, lngJ] = poly[j];
+      const intersect = ((lngI > lng) !== (lngJ > lng)) &&
+        (lat < ((latJ - latI) * (lng - lngI)) / (lngJ - lngI) + latI);
+      if (intersect) inside = !inside;
+    }
+    return inside;
+  }
+
   function isLand(lat, lng) {
-    for (const m of LANDMASSES) {
+    for (const poly of LANDMASS_POLYGONS) {
+      if (pointInPolygon(lat, lng, poly)) return true;
+    }
+    for (const m of LANDMASS_ELLIPSES) {
       const dLat = (lat - m.lat) / m.rLat;
       let dLng = lng - m.lng;
       if (dLng > 180) dLng -= 360;
@@ -106,14 +147,14 @@
   // dot density roughly uniform on the sphere, kept only where isLand().
   function buildLandDots() {
     const dots = [];
-    const LAT_STEP = 4;
+    const LAT_STEP = 2.4;
     for (let lat = -58; lat <= 78; lat += LAT_STEP) {
       const latR = (lat * Math.PI) / 180;
       const lngStep = Math.min(LAT_STEP / Math.cos(latR), 20);
       for (let lng = -180; lng < 180; lng += lngStep) {
         if (!isLand(lat, lng)) continue;
-        const jLat = lat + (Math.random() - 0.5) * 2.4;
-        const jLng = lng + ((Math.random() - 0.5) * 2.4) / Math.max(0.2, Math.cos(latR));
+        const jLat = lat + (Math.random() - 0.5) * 1.6;
+        const jLng = lng + ((Math.random() - 0.5) * 1.6) / Math.max(0.2, Math.cos(latR));
         dots.push(latLngToXYZ(jLat, jLng));
       }
     }
@@ -167,6 +208,14 @@
     };
   }
 
+  // Markers/labels ease out smoothly as they turn past the horizon instead
+  // of popping away at a hard z cutoff.
+  const FADE_IN_Z = 0.14;
+  const FADE_OUT_Z = -0.12;
+  function fadeAlpha(z) {
+    return Math.max(0, Math.min(1, (z - FADE_OUT_Z) / (FADE_IN_Z - FADE_OUT_Z)));
+  }
+
   // Some cities sit almost on top of each other on a world-scale globe
   // (Trento is ~50km from Bolzano) — their labels would collide if just
   // placed straight above each marker. Try a ring of candidate positions
@@ -177,7 +226,7 @@
     [0, -1], [0.75, -0.75], [1, 0], [0.75, 0.75],
     [0, 1], [-0.75, 0.75], [-1, 0], [-0.75, -0.75],
   ];
-  const LABEL_RINGS = [24, 38, 54, 72];
+  const LABEL_RINGS = [26, 42, 60, 80];
 
   function rectsOverlap(a, b, pad) {
     return !(a.x2 + pad < b.x1 || b.x2 + pad < a.x1 || a.y2 + pad < b.y1 || b.y2 + pad < a.y1);
@@ -197,15 +246,19 @@
     return { ax, ay, box: { x1: ax - w / 2, y1: ay - h / 2, x2: ax + w / 2, y2: ay + h / 2 } };
   }
 
-  function drawLabel(markerX, markerY, ax, ay, text, isHub) {
-    ctx.font = '600 11px "Space Grotesk", sans-serif';
-    const textW = ctx.measureText(text).width;
-    const padX = 9;
+  const LABEL_FONT = '700 14px "Space Grotesk", sans-serif';
+
+  function drawLabel(markerX, markerY, ax, ay, text, isHub, alpha) {
+    ctx.globalAlpha = alpha;
+    ctx.font = LABEL_FONT;
+    const label = text.toUpperCase();
+    const textW = ctx.measureText(label).width;
+    const padX = 11;
     const w = textW + padX * 2;
-    const h = 21;
+    const h = 26;
     const pillX = ax - w / 2;
     const pillY = ay - h / 2;
-    const r = 5;
+    const r = 6;
     const pillFill = isHub ? 'rgba(74,0,128,0.94)' : 'rgba(16,13,21,0.94)';
 
     // leader line first, so the pill (drawn after) cleanly caps its end
@@ -232,7 +285,10 @@
     ctx.fillStyle = '#fbf8ff';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(text, ax, ay + 0.5);
+    ctx.letterSpacing = '0.03em';
+    ctx.fillText(label, ax, ay + 1);
+    ctx.letterSpacing = '0px';
+    ctx.globalAlpha = 1;
   }
 
   function frame() {
@@ -280,14 +336,16 @@
       ctx.stroke();
     });
 
-    // city + hub markers: draw all dots first, then lay out labels (hub
-    // gets first pick of position, then front-to-back) so pills never
-    // cover a marker that hasn't been placed yet.
+    // city + hub markers: draw all dots first (each faded by its own
+    // horizon proximity), then lay out labels so pills never cover a
+    // marker that hasn't been placed yet.
     const markers = [{ ...HUB, xyz: hubXYZ, hub: true }, ...cityData]
       .map((city) => ({ city, z: orient(city.xyz).z, proj: project(city.xyz) }))
-      .filter((m) => m.z >= -0.05);
+      .map((m) => ({ ...m, alpha: fadeAlpha(m.z) }))
+      .filter((m) => m.alpha > 0.01);
 
-    markers.forEach(({ city, proj }) => {
+    markers.forEach(({ city, proj, alpha }) => {
+      ctx.globalAlpha = alpha;
       ctx.beginPath();
       ctx.arc(proj.x, proj.y, city.hub ? 5 : 4, 0, Math.PI * 2);
       ctx.fillStyle = '#ffffff';
@@ -303,17 +361,18 @@
         ctx.lineWidth = 1.5;
         ctx.stroke();
       }
+      ctx.globalAlpha = 1;
     });
 
     const labelOrder = [...markers].sort((a, b) => (b.city.hub ? 1 : 0) - (a.city.hub ? 1 : 0) || b.z - a.z);
     const placedBoxes = [];
-    labelOrder.forEach(({ city, proj }) => {
-      ctx.font = '600 11px "Space Grotesk", sans-serif';
-      const w = ctx.measureText(city.name).width + 18;
-      const h = 21;
+    ctx.font = LABEL_FONT;
+    labelOrder.forEach(({ city, proj, alpha }) => {
+      const w = ctx.measureText(city.name.toUpperCase()).width + 22;
+      const h = 26;
       const { ax, ay, box } = placeLabel(proj.x, proj.y, w, h, placedBoxes);
       placedBoxes.push(box);
-      drawLabel(proj.x, proj.y, ax, ay, city.name, city.hub);
+      drawLabel(proj.x, proj.y, ax, ay, city.name, city.hub, alpha);
     });
 
     requestAnimationFrame(frame);

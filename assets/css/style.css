@@ -28,8 +28,11 @@ body {
   font-family: 'Inter', sans-serif;
   font-weight: 300;
   overflow-x: hidden;
-  cursor: none;
 }
+/* native pointer only hides once the custom cursor has actually
+   initialized (see main.js) — if that script never runs (blocked/slow
+   CDN, JS error) the OS pointer stays visible instead of vanishing */
+body.custom-cursor-active { cursor: none; }
 
 /* dot grid that repels away from and glows near the cursor */
 .bg-dots {
@@ -56,10 +59,6 @@ h1, h2, h3 {
 }
 
 ::selection { background: var(--accent); color: #201e21; }
-
-@media (max-width: 860px) {
-  body { cursor: auto; }
-}
 
 /* =========================================================
    PRELOADER
@@ -197,15 +196,19 @@ h1, h2, h3 {
   .hero { justify-content: flex-end; padding-bottom: clamp(3rem, 7vh, 5rem); }
 }
 .hero__row {
-  display: flex; align-items: flex-end; justify-content: flex-start;
+  display: flex; align-items: flex-start; justify-content: flex-start;
   gap: clamp(1.5rem, 3vw, 3rem);
   width: 100%;
 }
 .hero__inner { max-width: 620px; flex: 0 1 620px; }
+@media (min-width: 761px) {
+  .hero__inner { margin-top: clamp(5rem, 11vh, 7rem); }
+}
 
 .hero__portrait {
   flex: 0 0 auto;
   height: min(85vh, 780px);
+  margin-left: clamp(0.5rem, 3vw, 2.5rem);
   opacity: 0;
 }
 .hero__portrait img {
