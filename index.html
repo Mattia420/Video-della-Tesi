@@ -17,18 +17,6 @@
 <!-- BACKGROUND -->
 <canvas class="bg-dots" id="bgDots" aria-hidden="true"></canvas>
 
-<!-- duotone filter used on the hero portrait -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <filter id="duotone" color-interpolation-filters="sRGB">
-    <feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0 0 0 1 0"/>
-    <feComponentTransfer>
-      <feFuncR type="table" tableValues="0.227 0.851"/>
-      <feFuncG type="table" tableValues="0 0.651"/>
-      <feFuncB type="table" tableValues="0.4 1"/>
-    </feComponentTransfer>
-  </filter>
-</svg>
-
 <!-- PRELOADER -->
 <div class="preloader" id="preloader">
   <div class="preloader__count"><span id="preloaderCount">0</span></div>
@@ -68,12 +56,13 @@
   <section class="hero">
     <div class="hero__portrait reveal-fade" aria-hidden="true">
       <img src="assets/img/mattia-portrait.webp" alt="">
+      <div class="hero__portrait-glow"></div>
     </div>
     <div class="hero__inner">
       <p class="hero__eyebrow reveal-line"><span>Contenuti social &amp; pubblicitari con l'AI — Portfolio 2026</span></p>
       <h1 class="hero__title">
-        <span class="reveal-line"><span>Ciao, sono</span></span>
-        <span class="reveal-line"><span>Mattia Pedron<span class="hero__accent">.</span></span></span>
+        <span class="reveal-line"><span>Ciao, sono Mattia.</span></span>
+        <span class="reveal-line"><span>Vuoi scoprire cosa <span class="hero__accent">creo</span>?</span></span>
       </h1>
       <p class="hero__sub reveal-line"><span>Creo contenuti social e pubblicitari con l'AI come strumento principale — motion design e graphic design tradizionale a supporto, per dare solidità a ogni contenuto.</span></p>
     </div>

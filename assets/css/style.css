@@ -194,9 +194,21 @@ h1, h2, h3 {
 }
 .hero__portrait img {
   height: 100%; width: auto; display: block;
-  filter: url(#duotone) contrast(1.05);
   -webkit-mask-image: linear-gradient(to top, transparent, #000 14%);
   mask-image: linear-gradient(to top, transparent, #000 14%);
+}
+/* soft violet light grazing the subject, masked to his silhouette
+   via the same image's alpha channel so it never spills onto the bg */
+.hero__portrait-glow {
+  position: absolute; inset: 0;
+  background: radial-gradient(55% 45% at 78% 22%, rgba(214,146,255,0.9), transparent 68%);
+  mix-blend-mode: screen;
+  opacity: 0.55;
+  -webkit-mask-image: linear-gradient(to top, transparent, #000 14%), url("../img/mattia-portrait.webp");
+  mask-image: linear-gradient(to top, transparent, #000 14%), url("../img/mattia-portrait.webp");
+  -webkit-mask-composite: source-in; mask-composite: intersect;
+  -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
 }
 @media (max-width: 1080px) {
   .hero__portrait { height: min(58vh, 520px); opacity: 0.5 !important; }
@@ -209,6 +221,7 @@ h1, h2, h3 {
 
 .hero__title {
   font-size: clamp(2.6rem, 8vw, 6rem);
+  font-weight: 700;
   margin-bottom: 1.5rem;
 }
 .hero__title span.reveal-line { display: block; }
@@ -351,7 +364,6 @@ h1, h2, h3 {
 .ai-morph__sticky {
   position: sticky; top: 0; height: 100vh; overflow: hidden;
   display: flex; align-items: center; justify-content: center;
-  border-top: 1px solid var(--line);
 }
 .ai-morph__intro, .ai-morph__reveal {
   position: absolute; z-index: 3; text-align: center;
