@@ -72,16 +72,28 @@ document.addEventListener('DOMContentLoaded', () => {
      ========================================================= */
   const cursor = document.getElementById('cursor');
   const cursorLabel = document.getElementById('cursorLabel');
+  const spotlight = document.querySelector('.bg-spotlight');
   const isTouch = window.matchMedia('(max-width: 860px)').matches;
 
   if (!isTouch) {
     let mx = 0, my = 0, cx = 0, cy = 0;
-    window.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
+    let spotlightActivated = false;
+    window.addEventListener('mousemove', (e) => {
+      mx = e.clientX; my = e.clientY;
+      if (!spotlightActivated) {
+        spotlightActivated = true;
+        document.body.classList.add('spotlight-active');
+      }
+    });
 
     gsap.ticker.add(() => {
       cx += (mx - cx) * 0.18;
       cy += (my - cy) * 0.18;
       gsap.set(cursor, { x: cx, y: cy });
+      if (spotlight) {
+        spotlight.style.setProperty('--spot-x', `${cx}px`);
+        spotlight.style.setProperty('--spot-y', `${cy}px`);
+      }
     });
 
     document.querySelectorAll('[data-cursor]').forEach((el) => {
