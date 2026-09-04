@@ -290,7 +290,6 @@ h1, h2, h3 {
 .about { padding: 0 var(--gutter) clamp(4rem, 8vw, 7rem); }
 .about__text {
   display: flex; flex-direction: column; gap: 1.1em;
-  padding-top: 3rem;
 }
 .about__text p {
   font-size: clamp(1.05rem, 1.7vw, 1.25rem);
