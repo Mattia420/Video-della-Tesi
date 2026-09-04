@@ -155,12 +155,16 @@ document.addEventListener('DOMContentLoaded', () => {
      HERO INTRO ANIMATION (fires after preloader)
      ========================================================= */
   function playHeroIntro() {
+    // .from() sets the hidden starting state via JS only once this runs, so
+    // if GSAP ever fails to fire the hero text is never stuck invisible —
+    // it just sits at its normal, visible CSS state instead.
     gsap.timeline({ defaults: { ease: 'power4.out' } })
       .to('.hero__portrait', { opacity: 1, duration: 1.4, ease: 'power2.out' }, 0)
-      .to('.hero .reveal-line > span', {
-        yPercent: 0,
-        duration: 1.1,
-        stagger: 0.08,
+      .from('.hero__eyebrow, .hero__title, .hero__sub', {
+        opacity: 0,
+        y: 24,
+        duration: 1,
+        stagger: 0.12,
       }, 0.1)
       .to('.hero__scroll', { opacity: 1, duration: 0.6 }, '-=0.4');
   }
