@@ -22,12 +22,12 @@
     'Visual per il lancio di un prodotto.',
   ];
 
-  // Per-card overrides for real content as it comes in (Vimeo embed URLs).
+  // Per-card overrides for real content as it comes in.
   const VIDEO_OVERRIDES = {
     0: {
-      title: 'Blue Cascaval Dalia — Commercial',
-      desc: 'Spot pubblicitario realizzato per Lunca Ilvei con l\'AI.',
-      video: 'https://player.vimeo.com/video/1219495603?badge=0&autopause=0&player_id=0&app_id=58479',
+      title: 'Telemea Solomon — Spot',
+      desc: 'Spot pubblicitario generato con l\'intelligenza artificiale.',
+      video: 'assets/video/telemea-solomon-spot.mp4',
     },
   };
 
