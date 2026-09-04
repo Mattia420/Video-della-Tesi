@@ -269,7 +269,7 @@ h1, h2, h3 {
 /* =========================================================
    SECTION HEAD
    ========================================================= */
-.section-head { padding: clamp(5rem, 10vw, 8rem) 0 3rem; max-width: 1000px; }
+.section-head { padding: clamp(5rem, 10vw, 8rem) 0 3rem; padding-left: calc(clamp(1.5rem, 5vw, 4rem) * 0.5); max-width: 1000px; }
 .section-tag {
   display: inline-block; color: var(--accent);
   font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase;
