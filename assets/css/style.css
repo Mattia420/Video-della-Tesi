@@ -26,41 +26,6 @@ body {
   cursor: none;
 }
 
-/* ---------- background layers: soft drifting gradient + grunge texture ---------- */
-.bg-gradient {
-  position: fixed; inset: 0; z-index: -2; overflow: hidden;
-}
-.bg-gradient span {
-  position: absolute; border-radius: 50%; filter: blur(90px);
-  mix-blend-mode: screen; opacity: 0.35;
-}
-.bg-gradient span.g1 {
-  width: 55vw; height: 55vw; left: -12vw; top: -18vw;
-  background: radial-gradient(circle at 40% 40%, var(--accent), transparent 70%);
-  animation: bgDrift1 46s ease-in-out infinite alternate;
-}
-.bg-gradient span.g2 {
-  width: 42vw; height: 42vw; right: -10vw; bottom: -14vw;
-  background: radial-gradient(circle at 45% 45%, #8f8bd6, transparent 70%);
-  opacity: 0.16;
-  animation: bgDrift2 54s ease-in-out infinite alternate;
-}
-@keyframes bgDrift1 { to { transform: translate(6vw, 8vh) scale(1.12); } }
-@keyframes bgDrift2 { to { transform: translate(-5vw, -6vh) scale(1.08); } }
-
-.bg-grain {
-  position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  opacity: 0.1; mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-.bg-stains {
-  position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  opacity: 0.4;
-  background:
-    radial-gradient(ellipse 38% 26% at 10% 15%, rgba(0,0,0,0.35), transparent 70%),
-    radial-gradient(ellipse 32% 40% at 90% 82%, rgba(0,0,0,0.3), transparent 70%);
-}
-
 /* dot grid that repels away from and glows near the cursor */
 .bg-dots {
   position: fixed; inset: 0; z-index: -1; pointer-events: none;
@@ -71,7 +36,6 @@ body {
 @media (max-width: 860px) { .bg-dots { display: none; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .bg-gradient span { animation: none !important; }
   .bg-dots { display: none; }
 }
 
@@ -285,7 +249,7 @@ h1, h2, h3 {
 /* =========================================================
    SECTION HEAD
    ========================================================= */
-.section-head { padding: clamp(5rem, 10vw, 8rem) clamp(1.5rem, 5vw, 4rem) 3rem; max-width: 1000px; }
+.section-head { padding: clamp(5rem, 10vw, 8rem) 0 3rem; max-width: 1000px; }
 .section-tag {
   display: inline-block; color: var(--accent);
   font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase;
