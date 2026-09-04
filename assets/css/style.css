@@ -188,11 +188,11 @@ h1, h2, h3 {
   position: relative;
 }
 .hero__row {
-  display: flex; align-items: center; justify-content: center;
-  gap: clamp(2rem, 5vw, 5rem);
-  max-width: 1400px; width: 100%; margin: 0 auto;
+  display: flex; align-items: center; justify-content: flex-start;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  width: 100%;
 }
-.hero__inner { max-width: 620px; flex: 1 1 420px; }
+.hero__inner { max-width: 620px; flex: 0 1 620px; }
 
 .hero__portrait {
   flex: 0 0 auto;
@@ -341,7 +341,7 @@ h1, h2, h3 {
 /* =========================================================
    AI CONTENT — scroll-morph gallery
    ========================================================= */
-.ai-morph { position: relative; height: 220vh; }
+.ai-morph { position: relative; height: 380vh; }
 .ai-morph__sticky {
   position: sticky; top: 0; height: 100vh; overflow: hidden;
   display: flex; align-items: center; justify-content: center;
@@ -392,7 +392,7 @@ h1, h2, h3 {
 }
 
 @media (max-width: 760px) {
-  .ai-morph { height: 200vh; }
+  .ai-morph { height: 320vh; }
   .morph-card { width: 46px; height: 65px; margin: -32.5px 0 0 -23px; }
 }
 @media (prefers-reduced-motion: reduce) {
