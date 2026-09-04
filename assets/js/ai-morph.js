@@ -1,11 +1,9 @@
 /*
  * Scroll-morph gallery for the "Contenuti AI" section.
- * Vanilla re-implementation of a scatter -> line -> circle -> arc
- * card-morph effect: intro plays once on first view, then scroll
- * through the section morphs the circle into a bottom arc (laid out
- * across the visible width so it always starts on-screen from the
- * first card). Clicking a card opens a lightbox with title,
- * description and video. No external dependencies.
+ * Cards start already arranged in a circle (no scatter/line intro), and
+ * scrolling through the section morphs the circle into a rotating bottom
+ * arc. Clicking a card opens a lightbox with title, description and
+ * video. No external dependencies.
  */
 (() => {
   const section = document.getElementById('ai-content');
@@ -62,32 +60,10 @@
     cards.push(card);
   });
 
-  const scatterPositions = cards.map(() => ({
-    x: (Math.random() - 0.5) * 900,
-    y: (Math.random() - 0.5) * 600,
-    rotation: (Math.random() - 0.5) * 180,
-    scale: 0.6,
-    opacity: 0,
-  }));
-
-  let phase = 'scatter'; // scatter -> line -> circle
   let stageSize = { width: 0, height: 0 };
   function measure() { stageSize = { width: stage.clientWidth, height: stage.clientHeight }; }
   measure();
   window.addEventListener('resize', measure);
-
-  let introStarted = false;
-  function startIntro() {
-    if (introStarted) return;
-    introStarted = true;
-    if (prefersReducedMotion) { phase = 'circle'; return; }
-    setTimeout(() => { phase = 'line'; }, 400);
-    setTimeout(() => { phase = 'circle'; }, 2000);
-  }
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => { if (entry.isIntersecting) startIntro(); });
-  }, { threshold: 0.15 });
-  io.observe(section);
 
   function lerp(a, b, t) { return a * (1 - t) + b * t; }
   function clamp(v, min, max) { return Math.min(max, Math.max(min, v)); }
@@ -116,7 +92,7 @@
     wobbleSmooth += (wobbleTarget - wobbleSmooth) * smoothing;
 
     if (introEl && revealEl) {
-      const introOpacity = phase === 'circle' ? clamp(1 - morphSmooth * 2, 0, 1) : (phase === 'scatter' ? 0 : 1);
+      const introOpacity = clamp(1 - morphSmooth * 2, 0, 1);
       introEl.style.opacity = String(introOpacity);
       const revealOpacity = clamp((morphSmooth - 0.75) / 0.25, 0, 1) * clamp(1 - (wobbleSmooth - 0.7) / 0.3, 0, 1);
       revealEl.style.opacity = String(revealOpacity);
@@ -156,56 +132,47 @@
     cards.forEach((card, i) => {
       let x, y, rotation, scale, opacity;
 
-      if (phase === 'scatter') {
-        ({ x, y, rotation, scale, opacity } = scatterPositions[i]);
-      } else if (phase === 'line') {
-        const spacing = 70;
-        const totalWidth = total * spacing;
-        x = i * spacing - totalWidth / 2;
-        y = 0; rotation = 0; scale = 1; opacity = 1;
-      } else {
-        const circleRadius = Math.min(minDim * 0.32, 220);
-        const circleAngle = (i / total) * 360;
-        const circleRad = (circleAngle * Math.PI) / 180;
-        const circlePos = {
-          x: Math.cos(circleRad) * circleRadius,
-          y: Math.sin(circleRad) * circleRadius,
-          rotation: circleAngle + 90,
-        };
+      const circleRadius = Math.min(minDim * 0.32, 220);
+      const circleAngle = (i / total) * 360;
+      const circleRad = (circleAngle * Math.PI) / 180;
+      const circlePos = {
+        x: Math.cos(circleRad) * circleRadius,
+        y: Math.sin(circleRad) * circleRadius,
+        rotation: circleAngle + 90,
+      };
 
-        // Position on the rotating arc: each card gets a slot angle based on
-        // its index and the current window offset, so the whole set reads
-        // as a wheel of cards passing behind a fixed visible window.
-        const thetaDeg = (i - windowOffset - (visibleCount - 1) / 2) * anglePerCard;
-        const thetaRad = (thetaDeg * Math.PI) / 180;
+      // Position on the rotating arc: each card gets a slot angle based on
+      // its index and the current window offset, so the whole set reads
+      // as a wheel of cards passing behind a fixed visible window.
+      const thetaDeg = (i - windowOffset - (visibleCount - 1) / 2) * anglePerCard;
+      const thetaRad = (thetaDeg * Math.PI) / 180;
 
-        // Single true-circle radius drives both axes: x = R sin(theta),
-        // y = baseY + R (1 - cos(theta)). Equal angular steps then land at
-        // exactly equal chord distances, so card spacing never varies.
-        const fullSpan = stageSize.width * (isMobile ? 0.92 : 0.86);
-        const halfSpreadRad = (halfSpreadDeg * Math.PI) / 180;
-        const radius = fullSpan / (2 * Math.sin(halfSpreadRad));
-        const baseY = stageSize.height * (isMobile ? 0.1 : 0.06);
+      // Single true-circle radius drives both axes: x = R sin(theta),
+      // y = baseY + R (1 - cos(theta)). Equal angular steps then land at
+      // exactly equal chord distances, so card spacing never varies.
+      const fullSpan = stageSize.width * (isMobile ? 0.92 : 0.86);
+      const halfSpreadRad = (halfSpreadDeg * Math.PI) / 180;
+      const radius = fullSpan / (2 * Math.sin(halfSpreadRad));
+      const baseY = stageSize.height * (isMobile ? 0.1 : 0.06);
 
-        const arcPos = {
-          x: radius * Math.sin(thetaRad),
-          y: baseY + radius * (1 - Math.cos(thetaRad)),
-          rotation: thetaDeg * 0.55,
-        };
-        const arcScale = isMobile ? 2.1 : 3.1;
+      const arcPos = {
+        x: radius * Math.sin(thetaRad),
+        y: baseY + radius * (1 - Math.cos(thetaRad)),
+        rotation: thetaDeg * 0.55,
+      };
+      const arcScale = isMobile ? 2.1 : 3.1;
 
-        // Cards outside the visible spread fade out instead of piling up
-        // off-screen, keeping only ~visibleCount cards on view at once.
-        const arcVisibility = clamp(1 - (Math.abs(thetaDeg) - fadeHalfSpreadDeg) / fadeRangeDeg, 0, 1);
+      // Cards outside the visible spread fade out instead of piling up
+      // off-screen, keeping only ~visibleCount cards on view at once.
+      const arcVisibility = clamp(1 - (Math.abs(thetaDeg) - fadeHalfSpreadDeg) / fadeRangeDeg, 0, 1);
 
-        x = lerp(circlePos.x, arcPos.x, morphSmooth);
-        y = lerp(circlePos.y, arcPos.y, morphSmooth);
-        rotation = lerp(circlePos.rotation, arcPos.rotation, morphSmooth);
-        scale = lerp(1, arcScale, morphSmooth);
-        opacity = lerp(1, arcVisibility, morphSmooth);
-      }
+      x = lerp(circlePos.x, arcPos.x, morphSmooth);
+      y = lerp(circlePos.y, arcPos.y, morphSmooth);
+      rotation = lerp(circlePos.rotation, arcPos.rotation, morphSmooth);
+      scale = lerp(1, arcScale, morphSmooth);
+      opacity = lerp(1, arcVisibility, morphSmooth);
 
-      const centerIndex = phase === 'circle' ? windowOffset + (visibleCount - 1) / 2 : (total - 1) / 2;
+      const centerIndex = windowOffset + (visibleCount - 1) / 2;
       const baseZ = Math.round(100 - Math.abs(i - centerIndex));
       card.__baseZ = String(baseZ);
       if (document.activeElement !== card) card.style.zIndex = card.style.zIndex === '999' ? '999' : String(baseZ);
