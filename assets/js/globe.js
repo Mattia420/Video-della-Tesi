@@ -184,7 +184,7 @@
   let dragging = false;
   let dragStartX = 0;
   let rotationAtDragStart = 0;
-  let autoSpin = 0.0016;
+  let autoSpin = 0.0024;
 
   canvas.addEventListener('pointerdown', (e) => {
     dragging = true;
@@ -208,10 +208,11 @@
     };
   }
 
-  // Markers/labels ease out smoothly as they turn past the horizon instead
-  // of popping away at a hard z cutoff.
-  const FADE_IN_Z = 0.14;
-  const FADE_OUT_Z = -0.12;
+  // Markers/labels ease out smoothly right around the horizon (z=0) instead
+  // of popping away — narrow enough that a city reads as "gone" once it's
+  // actually on the far side, not lingering deep into the back hemisphere.
+  const FADE_IN_Z = 0.08;
+  const FADE_OUT_Z = -0.06;
   function fadeAlpha(z) {
     return Math.max(0, Math.min(1, (z - FADE_OUT_Z) / (FADE_IN_Z - FADE_OUT_Z)));
   }
