@@ -76,7 +76,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!isTouch) {
     let mx = 0, my = 0, cx = 0, cy = 0;
-    window.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
+    let cursorRevealed = false;
+    window.addEventListener('mousemove', (e) => {
+      mx = e.clientX; my = e.clientY;
+      // Snap straight to the real position on the very first move instead of
+      // lerping in from the (0,0) default — otherwise, until the mouse moves,
+      // the dot sits stuck/invisible in the top-left corner (no cursor visible).
+      if (!cursorRevealed) {
+        cx = mx; cy = my;
+        cursorRevealed = true;
+        cursor.classList.add('is-ready');
+      }
+    });
 
     gsap.ticker.add(() => {
       cx += (mx - cx) * 0.42;

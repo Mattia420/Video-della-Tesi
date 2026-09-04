@@ -14,7 +14,7 @@
 
   const ctx = canvas.getContext('2d');
   const SPACING = 34;
-  const DOT_RADIUS = 1.4;
+  const DOT_RADIUS = 1.9;
   const REPEL_RADIUS = 110;
   const REPEL_STRENGTH = 22;
   const EASE = 0.14;
@@ -61,6 +61,10 @@
     canvas.classList.add('is-ready');
   });
   window.addEventListener('mouseleave', () => { mouseActive = false; });
+  // Fallback: reveal the grid even if the mouse never moves after load —
+  // otherwise it stays invisible (opacity 0) waiting for a mousemove that
+  // may not come for a while, reading as "no background" on first paint.
+  setTimeout(() => canvas.classList.add('is-ready'), 400);
 
   let t = 0;
   function frame() {

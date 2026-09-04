@@ -4,8 +4,8 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg: #201e21;
-  --bg-alt: #29262b;
+  --bg: #0a0910;
+  --bg-alt: #131019;
   --text: #f3f2ee;
   --text-dim: #a19da3;
   --accent: #a600ff;
@@ -99,11 +99,21 @@ h1, h2, h3 {
   box-shadow: 0 0 0 1.5px rgba(0,0,0,0.55), 0 0 0 3px rgba(255,255,255,0.8);
   pointer-events: none;
   z-index: 998;
-  transition: width .3s var(--ease), height .3s var(--ease), margin .3s var(--ease), background .3s var(--ease);
+  opacity: 0;
+  transition: background .3s var(--ease), opacity .25s var(--ease);
   display: flex; align-items: center; justify-content: center;
 }
+/* only fades in once we have a real mouse position (see main.js) — otherwise
+   it renders stuck at the (0,0) default, reading as "no cursor" in the hero */
+.cursor.is-ready { opacity: 1; }
 .cursor__label {
+  position: absolute;
+  left: 16px; top: 50%;
+  transform: translateY(-50%);
   opacity: 0;
+  padding: 0.3em 0.65em;
+  border-radius: 100px;
+  background: rgba(12,12,13,0.9);
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -112,14 +122,10 @@ h1, h2, h3 {
   transition: opacity .2s var(--ease);
   white-space: nowrap;
 }
-.cursor.is-link { width: 46px; height: 46px; margin: -23px 0 0 -23px; }
-.cursor.is-view {
-  width: 90px; height: 90px; margin: -45px 0 0 -45px;
-  /* solid dark fill on the enlarged "view" state: this is the bubble that
-     hovers over buttons/CTAs, which turn accent-colored on hover — a dark
-     fill guarantees it never matches that surface underneath */
-  background: rgba(12,12,13,0.94);
-}
+/* no size growth on hover — just a color shift and a small label pill,
+   so the cursor never balloons over buttons/links */
+.cursor.is-link { background: var(--accent-soft); }
+.cursor.is-view { background: var(--accent-soft); }
 .cursor.is-view .cursor__label { opacity: 1; }
 @media (max-width: 860px) { .cursor { display: none; } }
 
@@ -187,8 +193,11 @@ h1, h2, h3 {
   padding: 0 var(--gutter);
   position: relative;
 }
+@media (min-width: 761px) {
+  .hero { justify-content: flex-end; padding-bottom: clamp(3rem, 7vh, 5rem); }
+}
 .hero__row {
-  display: flex; align-items: center; justify-content: flex-start;
+  display: flex; align-items: flex-end; justify-content: flex-start;
   gap: clamp(1.5rem, 3vw, 3rem);
   width: 100%;
 }
@@ -196,7 +205,7 @@ h1, h2, h3 {
 
 .hero__portrait {
   flex: 0 0 auto;
-  height: min(72vh, 640px);
+  height: min(85vh, 780px);
   opacity: 0;
 }
 .hero__portrait img {
@@ -469,30 +478,19 @@ h1, h2, h3 {
    ========================================================= */
 .globe-section { padding: 0 var(--gutter) clamp(4rem, 8vw, 7rem); }
 .globe-wrap {
-  display: flex; align-items: center; gap: clamp(2rem, 5vw, 4rem);
-  flex-wrap: wrap;
+  display: flex; align-items: center; justify-content: center;
 }
 .globe-canvas {
-  width: min(480px, 90vw); height: min(480px, 90vw);
+  width: min(620px, 92vw); height: min(620px, 92vw);
   flex: 0 0 auto;
   touch-action: none; cursor: grab;
 }
 .globe-canvas:active { cursor: grabbing; }
-.globe-cities {
-  display: flex; flex-direction: column; gap: 0.9rem;
-  font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem;
-}
-.globe-cities li { display: flex; align-items: center; gap: 0.8rem; color: var(--text-dim); }
-.globe-cities__dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--text); flex: 0 0 auto;
-}
-.globe-cities__dot--hub {
-  background: var(--accent-soft);
-  box-shadow: 0 0 10px 2px rgba(214,146,255,0.7);
-}
-@media (max-width: 760px) {
-  .globe-wrap { flex-direction: column; }
+/* accessible text alternative for the canvas — visually hidden, city names
+   are rendered as labels on the globe itself */
+.globe-cities-sr {
+  position: absolute; width: 1px; height: 1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
 }
 
 /* =========================================================
