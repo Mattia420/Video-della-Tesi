@@ -79,8 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
 
     gsap.ticker.add(() => {
-      cx += (mx - cx) * 0.18;
-      cy += (my - cy) * 0.18;
+      cx += (mx - cx) * 0.42;
+      cy += (my - cy) * 0.42;
       gsap.set(cursor, { x: cx, y: cy });
     });
 

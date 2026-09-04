@@ -197,19 +197,6 @@ h1, h2, h3 {
   -webkit-mask-image: linear-gradient(to top, transparent, #000 14%);
   mask-image: linear-gradient(to top, transparent, #000 14%);
 }
-/* soft violet light grazing the subject, masked to his silhouette
-   via the same image's alpha channel so it never spills onto the bg */
-.hero__portrait-glow {
-  position: absolute; inset: 0;
-  background: radial-gradient(55% 45% at 78% 22%, rgba(214,146,255,0.9), transparent 68%);
-  mix-blend-mode: screen;
-  opacity: 0.55;
-  -webkit-mask-image: linear-gradient(to top, transparent, #000 14%), url("../img/mattia-portrait.webp");
-  mask-image: linear-gradient(to top, transparent, #000 14%), url("../img/mattia-portrait.webp");
-  -webkit-mask-composite: source-in; mask-composite: intersect;
-  -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
-}
 @media (max-width: 1080px) {
   .hero__portrait { height: min(58vh, 520px); opacity: 0.5 !important; }
 }
@@ -434,13 +421,14 @@ h1, h2, h3 {
 }
 .ai-lightbox.is-open .ai-lightbox__panel { transform: scale(1); }
 .ai-lightbox__media {
-  flex: 1.1; aspect-ratio: 4/5; max-height: 78vh;
+  flex: 1.1; aspect-ratio: 9/16; max-height: 78vh;
   border-radius: 18px; overflow: hidden;
   background: linear-gradient(155deg, var(--accent), #1c0033);
   display: flex; align-items: center; justify-content: center;
   box-shadow: 0 30px 60px -20px rgba(0,0,0,0.7);
 }
-.ai-lightbox__media video { width: 100%; height: 100%; object-fit: cover; }
+.ai-lightbox__media video,
+.ai-lightbox__media iframe { width: 100%; height: 100%; object-fit: cover; border: 0; }
 .ai-lightbox__placeholder {
   color: rgba(251,248,255,0.75); font-family: 'Space Grotesk', sans-serif;
   font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase;
@@ -460,7 +448,7 @@ h1, h2, h3 {
 
 @media (max-width: 760px) {
   .ai-lightbox__panel { flex-direction: column; gap: 1.5rem; }
-  .ai-lightbox__media { max-height: 46vh; width: 100%; aspect-ratio: 4/5; }
+  .ai-lightbox__media { max-height: 62vh; width: auto; aspect-ratio: 9/16; }
   .ai-lightbox__info { text-align: center; }
   .ai-lightbox__info p { margin: 0 auto; }
 }

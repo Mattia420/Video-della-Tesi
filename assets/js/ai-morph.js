@@ -22,10 +22,20 @@
     'Visual per il lancio di un prodotto.',
   ];
 
+  // Per-card overrides for real content as it comes in (Vimeo embed URLs).
+  const VIDEO_OVERRIDES = {
+    0: {
+      title: 'Blue Cascaval Dalia — Commercial',
+      desc: 'Spot pubblicitario realizzato per Lunca Ilvei con l\'AI.',
+      video: 'https://player.vimeo.com/video/1219495603?badge=0&autopause=0&player_id=0&app_id=58479',
+    },
+  };
+
   const CONTENT = Array.from({ length: CARD_COUNT }, (_, i) => ({
     title: `Contenuto AI ${String(i + 1).padStart(2, '0')}`,
     desc: DESCS[i % DESCS.length],
     video: '', // set to a real video URL/path when available
+    ...VIDEO_OVERRIDES[i],
   }));
 
   const cards = [];
@@ -213,7 +223,15 @@
     titleEl.textContent = data.title;
     descEl.textContent = data.desc;
     mediaEl.innerHTML = '';
-    if (data.video) {
+    if (data.video && data.video.includes('vimeo.com')) {
+      const iframe = document.createElement('iframe');
+      iframe.src = data.video;
+      iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share');
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.title = data.title;
+      mediaEl.appendChild(iframe);
+    } else if (data.video) {
       const video = document.createElement('video');
       video.src = data.video;
       video.autoplay = true;
@@ -237,6 +255,8 @@
     document.body.style.overflow = '';
     const video = mediaEl.querySelector('video');
     if (video) video.pause();
+    const iframe = mediaEl.querySelector('iframe');
+    if (iframe) iframe.src = iframe.src; // stops Vimeo playback on close
   }
 
   closeBtn.addEventListener('click', closeLightbox);
