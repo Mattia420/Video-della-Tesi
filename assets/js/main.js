@@ -160,11 +160,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // it just sits at its normal, visible CSS state instead.
     gsap.timeline({ defaults: { ease: 'power4.out' } })
       .to('.hero__portrait', { opacity: 1, duration: 1.4, ease: 'power2.out' }, 0)
-      .from('.hero__eyebrow, .hero__title, .hero__sub', {
+      .from('.hero__title', {
         opacity: 0,
         y: 24,
         duration: 1,
-        stagger: 0.12,
       }, 0.1)
       .to('.hero__scroll', { opacity: 1, duration: 0.6 }, '-=0.4');
   }

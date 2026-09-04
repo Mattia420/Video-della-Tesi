@@ -13,6 +13,11 @@
   --accent-deep: #3a0066;
   --line: rgba(243,242,238,0.12);
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  /* fixed left-edge gutter so every section's text lines up exactly */
+  --gutter: 100px;
+}
+@media (max-width: 600px) {
+  :root { --gutter: 24px; }
 }
 
 html { scroll-behavior: auto; }
@@ -124,7 +129,7 @@ h1, h2, h3 {
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 200;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 1.75rem clamp(1.5rem, 5vw, 4rem);
+  padding: 1.75rem var(--gutter);
   transition: transform .5s var(--ease), background .4s ease;
 }
 .nav.nav--hidden { transform: translateY(-110%); }
@@ -165,7 +170,7 @@ h1, h2, h3 {
   background: var(--bg);
   display: flex; flex-direction: column;
   align-items: flex-start; justify-content: center;
-  gap: 1.5rem; padding: 2rem clamp(1.5rem, 5vw, 4rem);
+  gap: 1.5rem; padding: 2rem var(--gutter);
   transform: translateY(-100%);
   transition: transform .5s var(--ease);
 }
@@ -179,7 +184,7 @@ h1, h2, h3 {
   min-height: 100svh;
   display: flex; flex-direction: column;
   justify-content: center;
-  padding: 0 clamp(1.5rem, 5vw, 4rem);
+  padding: 0 var(--gutter);
   position: relative;
 }
 .hero__row {
@@ -207,8 +212,6 @@ h1, h2, h3 {
   .hero__portrait { display: none; }
 }
 
-.hero__eyebrow { color: var(--text-dim); font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.5rem; }
-
 .hero__title {
   font-size: clamp(2.6rem, 6.4vw, 4.6rem);
   font-weight: 700;
@@ -216,18 +219,10 @@ h1, h2, h3 {
 }
 .hero__accent { color: var(--accent); }
 
-.hero__sub {
-  font-size: clamp(1rem, 2vw, 1.3rem);
-  color: var(--text-dim);
-  max-width: 40ch;
-  margin-bottom: 2.5rem;
-  font-weight: 300;
-}
-
 .hero__cta { display: flex; justify-content: center; width: 100%; }
 
 .hero__scroll {
-  position: absolute; bottom: 2.5rem; left: clamp(1.5rem, 5vw, 4rem);
+  position: absolute; bottom: 2.5rem; left: var(--gutter);
   display: flex; align-items: center; gap: 0.75rem;
   color: var(--text-dim); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
 }
@@ -269,7 +264,7 @@ h1, h2, h3 {
 /* =========================================================
    SECTION HEAD
    ========================================================= */
-.section-head { padding: clamp(5rem, 10vw, 8rem) 0 3rem; padding-left: calc(clamp(1.5rem, 5vw, 4rem) * 0.5); max-width: 1000px; }
+.section-head { padding: clamp(5rem, 10vw, 8rem) 0 3rem; max-width: 1000px; }
 .section-tag {
   display: inline-block; color: var(--accent);
   font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase;
@@ -280,10 +275,10 @@ h1, h2, h3 {
 /* =========================================================
    ABOUT
    ========================================================= */
-.about { padding: 0 clamp(1.5rem, 5vw, 4rem) clamp(4rem, 8vw, 7rem); }
+.about { padding: 0 var(--gutter) clamp(4rem, 8vw, 7rem); }
 .about__text {
   display: flex; flex-direction: column; gap: 1.1em;
-  border-top: 1px solid var(--line); padding-top: 3rem;
+  padding-top: 3rem;
 }
 .about__text p {
   font-size: clamp(1.05rem, 1.7vw, 1.25rem);
@@ -296,7 +291,7 @@ h1, h2, h3 {
 /* =========================================================
    WORK
    ========================================================= */
-.work { padding: 0 clamp(1.5rem, 5vw, 4rem) clamp(5rem, 8vw, 8rem); }
+.work { padding: 0 var(--gutter) clamp(5rem, 8vw, 8rem); }
 
 .stack { display: flex; }
 .stack__card {
@@ -456,7 +451,7 @@ h1, h2, h3 {
 /* =========================================================
    SKILLS
    ========================================================= */
-.skills { padding: 0 clamp(1.5rem, 5vw, 4rem) clamp(4rem, 8vw, 7rem); }
+.skills { padding: 0 var(--gutter) clamp(4rem, 8vw, 7rem); }
 .skills__list { border-top: 1px solid var(--line); }
 .skills__list li {
   display: flex; align-items: baseline; gap: 1.5rem;
@@ -476,8 +471,7 @@ h1, h2, h3 {
   min-height: 90svh;
   display: flex; align-items: center; justify-content: center;
   text-align: center;
-  padding: 4rem clamp(1.5rem, 5vw, 4rem);
-  border-top: 1px solid var(--line);
+  padding: 4rem var(--gutter);
 }
 .contact__title { font-size: clamp(2rem, 6vw, 4.5rem); margin-top: 1rem; }
 .contact__socials { display: flex; gap: 2rem; justify-content: center; margin-top: 1rem; }
@@ -490,7 +484,7 @@ h1, h2, h3 {
 .footer {
   display: flex; align-items: center; justify-content: space-between;
   flex-wrap: wrap; gap: 0.75rem;
-  padding: 2rem clamp(1.5rem, 5vw, 4rem);
+  padding: 2rem var(--gutter);
   color: var(--text-dim); font-size: 0.8rem;
 }
 .footer__top { color: var(--text); }
@@ -505,11 +499,10 @@ h1, h2, h3 {
    ========================================================= */
 @media (max-width: 600px) {
   .section-head { padding-top: 3.5rem; padding-bottom: 2rem; }
-  .hero__sub { max-width: none; }
   .about { padding-bottom: 3rem; }
   .work { padding-bottom: 3rem; }
   .skills { padding-bottom: 3rem; }
-  .contact { padding: 3rem clamp(1.5rem, 5vw, 4rem); }
+  .contact { padding: 3rem var(--gutter); }
   .contact__socials { flex-wrap: wrap; row-gap: 0.75rem; }
   .footer { flex-direction: column; text-align: center; }
   .btn, .nav__toggle, .stack__card, .skills__list li, .nav__links a {
