@@ -41,11 +41,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const type = el.getAttribute('data-cursor');
         cursor.classList.add(`is-${type}`);
         const label = el.getAttribute('data-cursor-label');
-        if (label) cursorLabel.textContent = label;
+        // only show the label pill when there's real text — otherwise an
+        // empty pill still renders next to the dot (reads as a magnifying
+        // glass), even on plain buttons that never had a label to begin with
+        if (label) {
+          cursorLabel.textContent = label;
+          cursor.classList.add('has-label');
+        }
       });
       el.addEventListener('mouseleave', () => {
         const type = el.getAttribute('data-cursor');
         cursor.classList.remove(`is-${type}`);
+        cursor.classList.remove('has-label');
         cursorLabel.textContent = '';
       });
     });

@@ -243,7 +243,7 @@
       const video = document.createElement('video');
       video.src = data.video;
       video.autoplay = true;
-      video.muted = true;
+      video.muted = false;
       video.loop = true;
       video.playsInline = true;
       video.controls = true;

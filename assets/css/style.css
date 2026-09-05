@@ -125,7 +125,7 @@ h1, h2, h3 {
    so the cursor never balloons over buttons/links */
 .cursor.is-link { background: var(--accent-soft); }
 .cursor.is-view { background: var(--accent-soft); }
-.cursor.is-view .cursor__label { opacity: 1; }
+.cursor.has-label .cursor__label { opacity: 1; }
 @media (max-width: 860px) { .cursor { display: none; } }
 
 /* =========================================================
@@ -478,17 +478,19 @@ h1, h2, h3 {
 /* =========================================================
    GLOBE — international experience
    ========================================================= */
-.globe-section { padding: 0 var(--gutter) clamp(4rem, 8vw, 7rem); }
+.globe-section { padding: clamp(5rem, 10vw, 8rem) var(--gutter) clamp(4rem, 8vw, 7rem); }
 .globe-content {
-  display: flex; flex-wrap: wrap; align-items: flex-start;
+  display: flex; flex-wrap: wrap; align-items: center;
   gap: clamp(2rem, 5vw, 4rem);
 }
+.globe-text { flex: 1 1 300px; max-width: 420px; }
+/* nested inside .globe-content, so the section's own top padding (above)
+   already provides the gap from the previous section — zero it out here */
+.globe-text .section-head { padding: 0 0 3rem; max-width: none; }
 .globe-intro {
-  flex: 1 1 300px;
   font-size: clamp(1rem, 1.4vw, 1.1rem);
   line-height: 1.65;
   color: var(--text-dim);
-  max-width: 380px;
 }
 .globe-wrap {
   flex: 1 1 320px;
