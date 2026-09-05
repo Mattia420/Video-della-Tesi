@@ -133,7 +133,7 @@ h1, h2, h3 {
    ========================================================= */
 .nav {
   position: fixed; top: 1.25rem; left: 50%; z-index: 200;
-  width: min(1240px, calc(100% - 2 * var(--gutter)));
+  width: calc(100% - 2 * var(--gutter));
   transform: translateX(-50%);
   display: flex; align-items: center; justify-content: space-between;
   padding: 0.85rem 1.75rem;
@@ -147,7 +147,7 @@ h1, h2, h3 {
 .nav.nav--hidden { transform: translateX(-50%) translateY(-160%); }
 .nav.nav--scrolled { background: linear-gradient(90deg, rgba(6,5,10,0.98) 0%, rgba(64,61,72,0.92) 100%); }
 @media (max-width: 600px) {
-  .nav { top: 0.75rem; width: calc(100% - 2 * var(--gutter)); padding: 0.7rem 1.25rem; }
+  .nav { top: 0.75rem; padding: 0.7rem 1.25rem; }
 }
 
 .nav__logo {
