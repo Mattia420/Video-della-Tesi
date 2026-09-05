@@ -92,7 +92,7 @@
     </div>
 
     <div class="stack">
-      <a href="#ai-content" class="stack__card" data-cursor="view" data-cursor-label="Vedi" style="--i:0">
+      <a href="#work-carousel" class="stack__card" data-cursor="view" data-cursor-label="Vedi" data-scroll-category="Contenuti AI" style="--i:0">
         <div class="stack__card__inner">
           <span class="stack__label">01</span>
           <div>
@@ -101,7 +101,7 @@
           </div>
         </div>
       </a>
-      <a href="#" class="stack__card" data-cursor="view" data-cursor-label="Vedi" style="--i:1">
+      <a href="#work-carousel" class="stack__card" data-cursor="view" data-cursor-label="Vedi" data-scroll-category="Motion Design" style="--i:1">
         <div class="stack__card__inner">
           <span class="stack__label">02</span>
           <div>
@@ -110,7 +110,7 @@
           </div>
         </div>
       </a>
-      <a href="#" class="stack__card" data-cursor="view" data-cursor-label="Vedi" style="--i:2">
+      <a href="#work-carousel" class="stack__card" data-cursor="view" data-cursor-label="Vedi" data-scroll-category="Graphic Design" style="--i:2">
         <div class="stack__card__inner">
           <span class="stack__label">03</span>
           <div>
@@ -119,7 +119,7 @@
           </div>
         </div>
       </a>
-      <a href="#" class="stack__card" data-cursor="view" data-cursor-label="Vedi" style="--i:3">
+      <a href="#work-carousel" class="stack__card" data-cursor="view" data-cursor-label="Vedi" data-scroll-category="UI/UX Design" style="--i:3">
         <div class="stack__card__inner">
           <span class="stack__label">04</span>
           <div>
@@ -131,47 +131,17 @@
     </div>
   </section>
 
-  <!-- AI CONTENT — scroll-morph gallery -->
-  <section class="ai-morph" id="ai-content">
+  <!-- WORK CAROUSEL — one merged scroll-morph gallery, category label swaps live -->
+  <section class="ai-morph" id="work-carousel">
     <div class="ai-morph__sticky">
-      <div class="ai-morph__intro" id="aiMorphIntro">
-        <h2>Contenuti AI</h2>
+      <div class="ai-morph__intro" id="workCarouselIntro">
+        <h2>Tutti i progetti</h2>
         <p>Scorri per esplorare</p>
       </div>
-      <div class="ai-morph__reveal" id="aiMorphReveal">
-        <h2>Social &amp; pubblicità generati con l'AI</h2>
-        <p>Una selezione di contenuti creati per campagne social e pubblicitarie, con l'intelligenza artificiale come strumento principale.</p>
+      <div class="ai-morph__reveal" id="workCarouselReveal">
+        <h2 id="workCarouselCategory">Contenuti AI</h2>
       </div>
-      <div class="ai-morph__stage" id="aiMorphStage" aria-hidden="true"></div>
-    </div>
-  </section>
-
-  <!-- DEMO A — a second, separate carousel for everything that isn't AI content -->
-  <section class="ai-morph" id="other-work-a">
-    <div class="ai-morph__sticky">
-      <div class="ai-morph__intro" id="otherAIntro">
-        <h2>Demo A — Altri Lavori</h2>
-        <p>Scorri per esplorare</p>
-      </div>
-      <div class="ai-morph__reveal" id="otherAReveal">
-        <h2>Grafiche, video e prototipi</h2>
-        <p>Un secondo cerchio separato da quello dei Contenuti AI, con la stessa dinamica di scroll.</p>
-      </div>
-      <div class="ai-morph__stage" id="otherAStage" aria-hidden="true"></div>
-    </div>
-  </section>
-
-  <!-- DEMO B — one merged carousel (AI + everything else), category label swaps live -->
-  <section class="ai-morph" id="other-work-b">
-    <div class="ai-morph__sticky">
-      <div class="ai-morph__intro" id="otherBIntro">
-        <h2>Demo B — Tutto in un cerchio</h2>
-        <p>Scorri per esplorare</p>
-      </div>
-      <div class="ai-morph__reveal" id="otherBReveal">
-        <h2 id="otherBCategory">Contenuti AI</h2>
-      </div>
-      <div class="ai-morph__stage" id="otherBStage" aria-hidden="true"></div>
+      <div class="ai-morph__stage" id="workCarouselStage" aria-hidden="true"></div>
     </div>
   </section>
 

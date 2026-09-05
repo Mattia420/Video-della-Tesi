@@ -142,6 +142,16 @@
     measure();
     window.addEventListener('resize', measure);
 
+    // Scroll distance scales with item count so every card keeps the same
+    // on-screen dwell time regardless of how many items the section holds
+    // (tuned from the original 10-item carousel: 380vh desktop / 320vh mobile).
+    function applyHeight() {
+      const perItem = window.innerWidth < 640 ? 32 : 38;
+      section.style.height = `${items.length * perItem}vh`;
+    }
+    applyHeight();
+    window.addEventListener('resize', applyHeight);
+
     let morphSmooth = 0;
     let wobbleSmooth = 0;
     let lastCategory = null;
@@ -152,6 +162,44 @@
       if (total <= 0) return 0;
       return clamp(-rect.top / total, 0, 1);
     }
+
+    // Arc geometry shared between the render loop and the click-to-scroll
+    // helper below, so both agree on where each item sits in the window.
+    function computeLayout() {
+      const total = cards.length;
+      const isMobile = stageSize.width < 640;
+      const visibleCount = isMobile ? 4 : 6;
+      const spreadDeg = isMobile ? 68 : 80;
+      const halfSpreadDeg = spreadDeg / 2;
+      const anglePerCard = spreadDeg / Math.max(1, visibleCount - 1);
+      const fadeRangeDeg = anglePerCard;
+      const fadeMarginDeg = anglePerCard * 0.75;
+      const fadeHalfSpreadDeg = halfSpreadDeg + fadeMarginDeg;
+      const maxOffset = Math.max(0, (total - 1) - (visibleCount - 1) / 2 + (fadeHalfSpreadDeg + fadeRangeDeg) / anglePerCard);
+      return { total, isMobile, visibleCount, spreadDeg, halfSpreadDeg, anglePerCard, fadeRangeDeg, fadeMarginDeg, fadeHalfSpreadDeg, maxOffset };
+    }
+
+    function scrollToCategory(category) {
+      const idxs = [];
+      items.forEach((it, i) => { if (it.category === category) idxs.push(i); });
+      if (!idxs.length) return;
+      const centerIdx = idxs[Math.floor(idxs.length / 2)];
+
+      const { visibleCount, maxOffset } = computeLayout();
+      const windowOffset = clamp(centerIdx - (visibleCount - 1) / 2, 0, maxOffset);
+      const wobbleTarget = maxOffset > 0 ? windowOffset / maxOffset : 0;
+      const progress = clamp(0.3 + wobbleTarget * 0.7, 0, 1);
+
+      const scrollRange = section.offsetHeight - window.innerHeight;
+      const targetY = section.offsetTop + progress * scrollRange;
+
+      if (window.lenis && typeof window.lenis.scrollTo === 'function') {
+        window.lenis.scrollTo(targetY, { duration: 1.8 });
+      } else {
+        window.scrollTo({ top: targetY, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+      }
+    }
+    if (categoryEl) section.scrollToCategory = scrollToCategory;
 
     function frame() {
       const progress = scrollProgress();
@@ -170,18 +218,8 @@
         revealEl.style.transform = `translateY(${(1 - revealOpacity) * 16}px)`;
       }
 
-      const total = cards.length;
-      const isMobile = stageSize.width < 640;
       const minDim = Math.min(stageSize.width, stageSize.height) || 1;
-
-      const visibleCount = isMobile ? 4 : 6;
-      const spreadDeg = isMobile ? 68 : 80;
-      const halfSpreadDeg = spreadDeg / 2;
-      const anglePerCard = spreadDeg / Math.max(1, visibleCount - 1);
-      const fadeRangeDeg = anglePerCard;
-      const fadeMarginDeg = anglePerCard * 0.75;
-      const fadeHalfSpreadDeg = halfSpreadDeg + fadeMarginDeg;
-      const maxOffset = Math.max(0, (total - 1) - (visibleCount - 1) / 2 + (fadeHalfSpreadDeg + fadeRangeDeg) / anglePerCard);
+      const { total, isMobile, visibleCount, halfSpreadDeg, anglePerCard, fadeRangeDeg, fadeHalfSpreadDeg, maxOffset } = computeLayout();
       const windowOffset = wobbleSmooth * maxOffset;
 
       cards.forEach((card, i) => {
@@ -300,41 +338,34 @@
   // Placeholder items for work not yet uploaded — swap video/image/figmaUrl
   // in as real files/links come in, same pattern as the AI overrides above.
   const OTHER_ITEMS = [
-    { title: 'Video Animato 01', desc: 'Motion design in arrivo.', type: 'video', category: 'Video Animati', badge: 'VID', video: '', cover: '' },
-    { title: 'Video Animato 02', desc: 'Motion design in arrivo.', type: 'video', category: 'Video Animati', badge: 'VID', video: '', cover: '' },
+    { title: 'Video Animato 01', desc: 'Motion design in arrivo.', type: 'video', category: 'Motion Design', badge: 'VID', video: '', cover: '' },
+    { title: 'Video Animato 02', desc: 'Motion design in arrivo.', type: 'video', category: 'Motion Design', badge: 'VID', video: '', cover: '' },
     { title: 'Flyer 01', desc: 'Grafica in arrivo.', type: 'image', category: 'Graphic Design', badge: 'GD', image: '', cover: '' },
     { title: 'Flyer 02', desc: 'Grafica in arrivo.', type: 'image', category: 'Graphic Design', badge: 'GD', image: '', cover: '' },
     { title: 'Flyer 03', desc: 'Grafica in arrivo.', type: 'image', category: 'Graphic Design', badge: 'GD', image: '', cover: '' },
-    { title: 'Prototipo 01', desc: 'Prototipo Figma in arrivo.', type: 'figma', category: 'Prototipi Figma', badge: 'UX', figmaUrl: '', cover: '' },
-    { title: 'Prototipo 02', desc: 'Prototipo Figma in arrivo.', type: 'figma', category: 'Prototipi Figma', badge: 'UX', figmaUrl: '', cover: '' },
-    { title: 'Prototipo 03', desc: 'Prototipo Figma in arrivo.', type: 'figma', category: 'Prototipi Figma', badge: 'UX', figmaUrl: '', cover: '' },
+    { title: 'Prototipo 01', desc: 'Prototipo Figma in arrivo.', type: 'figma', category: 'UI/UX Design', badge: 'UX', figmaUrl: '', cover: '' },
+    { title: 'Prototipo 02', desc: 'Prototipo Figma in arrivo.', type: 'figma', category: 'UI/UX Design', badge: 'UX', figmaUrl: '', cover: '' },
+    { title: 'Prototipo 03', desc: 'Prototipo Figma in arrivo.', type: 'figma', category: 'UI/UX Design', badge: 'UX', figmaUrl: '', cover: '' },
   ];
 
-  /* ---------- instantiate: existing AI-content carousel ---------- */
+  /* ---------- one merged carousel: AI content + everything else, category label swaps live ---------- */
   createCarousel({
-    section: document.getElementById('ai-content'),
-    stage: document.getElementById('aiMorphStage'),
-    introEl: document.getElementById('aiMorphIntro'),
-    revealEl: document.getElementById('aiMorphReveal'),
-    items: AI_ITEMS,
-  });
-
-  /* ---------- DEMO A: a second, separate circle for everything else ---------- */
-  createCarousel({
-    section: document.getElementById('other-work-a'),
-    stage: document.getElementById('otherAStage'),
-    introEl: document.getElementById('otherAIntro'),
-    revealEl: document.getElementById('otherAReveal'),
-    items: OTHER_ITEMS,
-  });
-
-  /* ---------- DEMO B: one merged circle, category label swaps live ---------- */
-  createCarousel({
-    section: document.getElementById('other-work-b'),
-    stage: document.getElementById('otherBStage'),
-    introEl: document.getElementById('otherBIntro'),
-    revealEl: document.getElementById('otherBReveal'),
-    categoryEl: document.getElementById('otherBCategory'),
+    section: document.getElementById('work-carousel'),
+    stage: document.getElementById('workCarouselStage'),
+    introEl: document.getElementById('workCarouselIntro'),
+    revealEl: document.getElementById('workCarouselReveal'),
+    categoryEl: document.getElementById('workCarouselCategory'),
     items: [...AI_ITEMS, ...OTHER_ITEMS],
+  });
+
+  /* ---------- click-to-scroll: stack cards jump to their category, playing through the arc ---------- */
+  document.querySelectorAll('[data-scroll-category]').forEach((el) => {
+    el.addEventListener('click', (e) => {
+      const section = document.getElementById('work-carousel');
+      if (!section || typeof section.scrollToCategory !== 'function') return;
+      e.preventDefault();
+      e.stopImmediatePropagation(); // pre-empt main.js's generic anchor handler, which would jump straight to the section top
+      section.scrollToCategory(el.getAttribute('data-scroll-category'));
+    });
   });
 })();
