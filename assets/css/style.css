@@ -213,7 +213,8 @@ h1, h2, h3 {
 .hero::before,
 .about::after,
 .skills::after,
-.contact::before {
+.contact::before,
+.footer::before {
   content: '';
   position: absolute;
   z-index: 0;
@@ -226,7 +227,7 @@ h1, h2, h3 {
   50% { transform: translate3d(-2%, 2%, 0) scale(1.06); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero::before, .about::after, .skills::after, .contact::before { animation: none; }
+  .hero::before, .about::after, .skills::after, .contact::before, .footer::before { animation: none; }
 }
 
 .hero::before {
@@ -450,19 +451,6 @@ h1, h2, h3 {
   color: var(--accent-soft);
   letter-spacing: 0.1em;
 }
-.morph-card__badge {
-  position: absolute; top: 6px; left: 6px;
-  padding: 2px 6px;
-  border-radius: 999px;
-  background: rgba(10, 9, 16, 0.55);
-  border: 1px solid rgba(243, 242, 238, 0.22);
-  font-size: 0.5rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: var(--accent-soft);
-  line-height: 1.4;
-  pointer-events: none;
-}
 
 @media (max-width: 760px) {
   .ai-morph { height: 320vh; }
@@ -605,20 +593,21 @@ h1, h2, h3 {
    ========================================================= */
 .contact {
   position: relative;
-  min-height: 90svh;
+  min-height: 87svh;
   display: flex; align-items: center; justify-content: center;
   text-align: center;
   padding: 4rem var(--gutter);
 }
 .contact::before {
-  /* reads as the section's own background wash, then tapers past its
-     bottom edge into the footer below (which has no background of its
-     own to cover it), so the two feel like one continuous close to the page */
-  inset: -10% -10% -45% -10%;
+  /* stays fully contained within .contact's own box (no negative bottom
+     overhang) so it can't inflate the page's scrollable height — the
+     footer below picks up the same wash via its own contained pseudo-
+     element instead, so the two still read as one continuous glow */
+  inset: -10% -10% 0 -10%;
   background:
-    radial-gradient(70% 80% at 50% 55%, rgba(166, 0, 255, 0.30), transparent 72%),
-    radial-gradient(45% 55% at 20% 85%, rgba(122, 18, 217, 0.22), transparent 75%),
-    radial-gradient(45% 55% at 80% 85%, rgba(122, 18, 217, 0.22), transparent 75%);
+    radial-gradient(70% 90% at 50% 68%, rgba(166, 0, 255, 0.30), transparent 72%),
+    radial-gradient(45% 55% at 20% 95%, rgba(122, 18, 217, 0.22), transparent 75%),
+    radial-gradient(45% 55% at 80% 95%, rgba(122, 18, 217, 0.22), transparent 75%);
 }
 .contact__inner { position: relative; z-index: 1; }
 .contact__title { font-size: clamp(2rem, 6vw, 4.5rem); margin-top: 1rem; }
@@ -630,11 +619,20 @@ h1, h2, h3 {
    FOOTER
    ========================================================= */
 .footer {
+  position: relative;
   display: flex; align-items: center; justify-content: space-between;
   flex-wrap: wrap; gap: 0.75rem;
-  padding: 2rem var(--gutter);
+  padding: 1.4rem var(--gutter);
   color: var(--text-dim); font-size: 0.8rem;
 }
+.footer::before {
+  /* fully contained within the footer's own box (inset: 0, no overhang),
+     picking up where .contact's glow leaves off via a gradient anchored
+     above the visible box rather than an element that overflows it */
+  inset: 0;
+  background: radial-gradient(120% 220% at 50% -120%, rgba(166, 0, 255, 0.20), transparent 70%);
+}
+.footer p, .footer__top { position: relative; z-index: 1; }
 .footer__top { color: var(--text); }
 
 /* =========================================================

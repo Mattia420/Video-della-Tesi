@@ -119,15 +119,6 @@
         front.style.background = `linear-gradient(155deg, ${PALETTE[i % PALETTE.length]}, #1c0033)`;
         front.textContent = String(i + 1).padStart(2, '0');
       }
-      // Always-visible category badge, so adjacent cards read as grouped
-      // by category while scrolling through the merged arc, not just on
-      // the hover-flip back face.
-      if (data.badge) {
-        const badge = document.createElement('span');
-        badge.className = 'morph-card__badge';
-        badge.textContent = data.badge;
-        front.appendChild(badge);
-      }
       const back = document.createElement('div');
       back.className = 'morph-card__back';
       back.textContent = data.badge || 'AI';
@@ -145,6 +136,20 @@
       stage.appendChild(card);
       cards.push(card);
     });
+
+    // Extra breathing room between category groups in the arc: each item's
+    // "effective position" is its index plus any gap accumulated so far,
+    // so a category boundary reads as a pause in the arc rather than an
+    // arbitrary cut — the category heading above changes right as that
+    // pause crosses center.
+    const GROUP_GAP = 1.5;
+    const effectivePos = [];
+    let gapAccum = 0;
+    items.forEach((data, i) => {
+      if (i > 0 && data.category !== items[i - 1].category) gapAccum += GROUP_GAP;
+      effectivePos.push(i + gapAccum);
+    });
+    const totalSpan = effectivePos.length ? effectivePos[effectivePos.length - 1] : 0;
 
     let stageSize = { width: 0, height: 0 };
     function measure() { stageSize = { width: stage.clientWidth, height: stage.clientHeight }; }
@@ -184,7 +189,7 @@
       const fadeRangeDeg = anglePerCard;
       const fadeMarginDeg = anglePerCard * 0.75;
       const fadeHalfSpreadDeg = halfSpreadDeg + fadeMarginDeg;
-      const maxOffset = Math.max(0, (total - 1) - (visibleCount - 1) / 2 + (fadeHalfSpreadDeg + fadeRangeDeg) / anglePerCard);
+      const maxOffset = Math.max(0, totalSpan - (visibleCount - 1) / 2 + (fadeHalfSpreadDeg + fadeRangeDeg) / anglePerCard);
       return { total, isMobile, visibleCount, spreadDeg, halfSpreadDeg, anglePerCard, fadeRangeDeg, fadeMarginDeg, fadeHalfSpreadDeg, maxOffset };
     }
 
@@ -195,7 +200,7 @@
       const centerIdx = idxs[Math.floor(idxs.length / 2)];
 
       const { visibleCount, maxOffset } = computeLayout();
-      const windowOffset = clamp(centerIdx - (visibleCount - 1) / 2, 0, maxOffset);
+      const windowOffset = clamp(effectivePos[centerIdx] - (visibleCount - 1) / 2, 0, maxOffset);
       const wobbleTarget = maxOffset > 0 ? windowOffset / maxOffset : 0;
       const progress = clamp(0.3 + wobbleTarget * 0.7, 0, 1);
 
@@ -230,6 +235,20 @@
       const minDim = Math.min(stageSize.width, stageSize.height) || 1;
       const { total, isMobile, visibleCount, halfSpreadDeg, anglePerCard, fadeRangeDeg, fadeHalfSpreadDeg, maxOffset } = computeLayout();
       const windowOffset = wobbleSmooth * maxOffset;
+      const centerIndex = windowOffset + (visibleCount - 1) / 2;
+
+      if (categoryEl) {
+        let nearestIndex = 0, nearestDist = Infinity;
+        for (let k = 0; k < total; k++) {
+          const d = Math.abs(effectivePos[k] - centerIndex);
+          if (d < nearestDist) { nearestDist = d; nearestIndex = k; }
+        }
+        const cat = items[nearestIndex].category || '';
+        if (cat !== lastCategory) {
+          lastCategory = cat;
+          categoryEl.textContent = cat;
+        }
+      }
 
       cards.forEach((card, i) => {
         let x, y, rotation, scale, opacity;
@@ -243,7 +262,7 @@
           rotation: circleAngle + 90,
         };
 
-        const thetaDeg = (i - windowOffset - (visibleCount - 1) / 2) * anglePerCard;
+        const thetaDeg = (effectivePos[i] - windowOffset - (visibleCount - 1) / 2) * anglePerCard;
         const thetaRad = (thetaDeg * Math.PI) / 180;
 
         const fullSpan = stageSize.width * (isMobile ? 0.92 : 0.86);
@@ -266,8 +285,7 @@
         scale = lerp(1, arcScale, morphSmooth);
         opacity = lerp(1, arcVisibility, morphSmooth);
 
-        const centerIndex = windowOffset + (visibleCount - 1) / 2;
-        const baseZ = Math.round(100 - Math.abs(i - centerIndex));
+        const baseZ = Math.round(100 - Math.abs(effectivePos[i] - centerIndex));
         card.__baseZ = String(baseZ);
         if (document.activeElement !== card) card.style.zIndex = card.style.zIndex === '999' ? '999' : String(baseZ);
 
@@ -277,14 +295,6 @@
         card.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg) scale(${scale * card.__hoverSmooth})`;
         card.style.opacity = String(opacity);
         card.style.pointerEvents = opacity < 0.05 ? 'none' : '';
-
-        if (categoryEl && i === Math.round(clamp(centerIndex, 0, total - 1))) {
-          const cat = items[i].category || '';
-          if (cat !== lastCategory) {
-            lastCategory = cat;
-            categoryEl.textContent = cat;
-          }
-        }
       });
 
       requestAnimationFrame(frame);
