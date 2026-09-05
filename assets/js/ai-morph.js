@@ -36,6 +36,24 @@
       video: 'assets/video/lunca-ilvei-cheese.mp4',
       cover: 'assets/img/lunca-ilvei-cover.webp',
     },
+    2: {
+      title: 'Black & White',
+      desc: 'Contenuto visivo generato con l\'intelligenza artificiale.',
+      video: 'assets/video/black-and-white.mp4',
+      cover: 'assets/img/black-and-white-cover.webp',
+    },
+    3: {
+      title: 'Deserto di Sale',
+      desc: 'Contenuto visivo generato con l\'intelligenza artificiale.',
+      video: 'assets/video/deserto-di-sale.mp4',
+      cover: 'assets/img/deserto-di-sale-cover.webp',
+    },
+    4: {
+      title: 'Lunca Ilvei — Raclette',
+      desc: 'Spot pubblicitario generato con l\'intelligenza artificiale.',
+      video: 'assets/video/raclette-cheese.mp4',
+      cover: 'assets/img/raclette-cheese-cover.webp',
+    },
   };
 
   const CONTENT = Array.from({ length: CARD_COUNT }, (_, i) => ({
