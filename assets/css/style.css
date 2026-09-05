@@ -206,28 +206,35 @@ h1, h2, h3 {
   .hero { justify-content: flex-end; padding-bottom: clamp(3rem, 7vh, 5rem); }
 }
 
-/* Trial: soft purple aura behind the hero content, layered above .bg-dots
-   and below everything else. Scoped to .hero only so it's easy to compare
-   against the plain dot-grid or remove. */
-.hero::before {
+/* Purple aura glow: soft blurred radial-gradient blobs, layered above
+   .bg-dots and below section content. Reused in a few spots (hero, the
+   empty right-hand side of text-only sections, behind the contact/footer
+   area) — each just sets its own inset + gradient positions. */
+.hero::before,
+.about::after,
+.skills::after,
+.contact::before {
   content: '';
   position: absolute;
-  inset: -15% -10% 30% -10%;
   z-index: 0;
   pointer-events: none;
-  background:
-    radial-gradient(42% 55% at 20% 22%, rgba(166, 0, 255, 0.38), transparent 70%),
-    radial-gradient(36% 46% at 80% 12%, rgba(122, 18, 217, 0.30), transparent 72%),
-    radial-gradient(50% 42% at 52% 58%, rgba(90, 10, 150, 0.20), transparent 75%);
   filter: blur(70px);
-  animation: heroAuraDrift 20s ease-in-out infinite;
+  animation: auraDrift 20s ease-in-out infinite;
 }
-@keyframes heroAuraDrift {
+@keyframes auraDrift {
   0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
   50% { transform: translate3d(-2%, 2%, 0) scale(1.06); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero::before { animation: none; }
+  .hero::before, .about::after, .skills::after, .contact::before { animation: none; }
+}
+
+.hero::before {
+  inset: -15% -10% 30% -10%;
+  background:
+    radial-gradient(42% 55% at 20% 22%, rgba(166, 0, 255, 0.38), transparent 70%),
+    radial-gradient(36% 46% at 80% 12%, rgba(122, 18, 217, 0.30), transparent 72%),
+    radial-gradient(50% 42% at 52% 58%, rgba(90, 10, 150, 0.20), transparent 75%);
 }
 
 .hero__row {
@@ -324,10 +331,15 @@ h1, h2, h3 {
 /* =========================================================
    ABOUT
    ========================================================= */
-.about { padding: 0 var(--gutter) clamp(4rem, 8vw, 7rem); }
-.about__text {
-  display: flex; flex-direction: column; gap: 1.1em;
+.about { position: relative; padding: 0 var(--gutter) clamp(4rem, 8vw, 7rem); }
+.about::after {
+  inset: -10% -15% -10% 45%;
+  background:
+    radial-gradient(45% 60% at 82% 35%, rgba(166, 0, 255, 0.30), transparent 72%),
+    radial-gradient(34% 44% at 96% 78%, rgba(122, 18, 217, 0.22), transparent 75%);
 }
+.about > .section-head, .about__text { position: relative; z-index: 1; }
+.about__text { display: flex; flex-direction: column; gap: 1.1em; }
 .about__text p {
   font-size: clamp(1.05rem, 1.7vw, 1.25rem);
   line-height: 1.6;
@@ -514,7 +526,14 @@ h1, h2, h3 {
 /* =========================================================
    SKILLS
    ========================================================= */
-.skills { padding: 0 var(--gutter) clamp(4rem, 8vw, 7rem); }
+.skills { position: relative; padding: 0 var(--gutter) clamp(4rem, 8vw, 7rem); }
+.skills::after {
+  inset: -10% -15% -10% 45%;
+  background:
+    radial-gradient(42% 55% at 84% 40%, rgba(166, 0, 255, 0.28), transparent 72%),
+    radial-gradient(32% 42% at 97% 80%, rgba(122, 18, 217, 0.20), transparent 75%);
+}
+.skills > .section-head, .skills__list { position: relative; z-index: 1; }
 .skills__list { border-top: 1px solid var(--line); }
 .skills__list li {
   display: flex; align-items: baseline; gap: 1.5rem;
@@ -572,11 +591,22 @@ h1, h2, h3 {
    CONTACT
    ========================================================= */
 .contact {
+  position: relative;
   min-height: 90svh;
   display: flex; align-items: center; justify-content: center;
   text-align: center;
   padding: 4rem var(--gutter);
 }
+.contact::before {
+  /* bleeds past the section's own bottom edge into the footer below it,
+     since .footer has no background of its own to cover it */
+  inset: -20% -10% -70% -10%;
+  background:
+    radial-gradient(55% 60% at 50% 100%, rgba(166, 0, 255, 0.32), transparent 72%),
+    radial-gradient(38% 45% at 25% 90%, rgba(122, 18, 217, 0.22), transparent 75%),
+    radial-gradient(38% 45% at 75% 90%, rgba(122, 18, 217, 0.22), transparent 75%);
+}
+.contact__inner { position: relative; z-index: 1; }
 .contact__title { font-size: clamp(2rem, 6vw, 4.5rem); margin-top: 1rem; }
 .contact__socials { display: flex; gap: 2rem; justify-content: center; margin-top: 1rem; }
 .contact__socials a { font-size: 0.9rem; color: var(--text-dim); transition: color .3s ease; }

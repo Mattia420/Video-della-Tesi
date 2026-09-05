@@ -294,13 +294,13 @@
   const AI_OVERRIDES = {
     0: {
       title: 'Telemea Solomon — Spot',
-      desc: 'Spot pubblicitario generato con l\'intelligenza artificiale.',
+      desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per Telemea Solomon, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania.',
       video: 'assets/video/telemea-solomon-spot.mp4',
       cover: 'assets/img/telemea-solomon-cover.webp',
     },
     1: {
       title: 'Lunca Ilvei — Spot',
-      desc: 'Spot pubblicitario generato con l\'intelligenza artificiale.',
+      desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per Lunca Ilvei, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania.',
       video: 'assets/video/lunca-ilvei-cheese.mp4',
       cover: 'assets/img/lunca-ilvei-cover.webp',
     },
@@ -318,9 +318,15 @@
     },
     4: {
       title: 'Lunca Ilvei — Raclette',
-      desc: 'Spot pubblicitario generato con l\'intelligenza artificiale.',
+      desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per la linea Raclette di Lunca Ilvei, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania.',
       video: 'assets/video/raclette-cheese.mp4',
       cover: 'assets/img/raclette-cheese-cover.webp',
+    },
+    5: {
+      title: 'Red Bull Green Edition — Spot',
+      desc: 'Concept di spot pubblicitario generato con l\'intelligenza artificiale.',
+      video: 'assets/video/redbull-spot.mp4',
+      cover: 'assets/img/redbull-spot-cover.webp',
     },
   };
 
