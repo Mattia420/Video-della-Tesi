@@ -28,6 +28,7 @@
       title: 'Telemea Solomon — Spot',
       desc: 'Spot pubblicitario generato con l\'intelligenza artificiale.',
       video: 'assets/video/telemea-solomon-spot.mp4',
+      cover: 'assets/img/telemea-solomon-cover.webp',
     },
   };
 
@@ -35,6 +36,7 @@
     title: `Contenuto AI ${String(i + 1).padStart(2, '0')}`,
     desc: DESCS[i % DESCS.length],
     video: '', // set to a real video URL/path when available
+    cover: '', // set to the video's first-frame thumbnail when available
     ...VIDEO_OVERRIDES[i],
   }));
 
@@ -50,8 +52,14 @@
     inner.className = 'morph-card__inner';
     const front = document.createElement('div');
     front.className = 'morph-card__front';
-    front.style.background = `linear-gradient(155deg, ${palette[i % palette.length]}, #1c0033)`;
-    front.textContent = String(i + 1).padStart(2, '0');
+    if (data.cover) {
+      front.style.backgroundImage = `url('${data.cover}')`;
+      front.style.backgroundSize = 'cover';
+      front.style.backgroundPosition = 'center';
+    } else {
+      front.style.background = `linear-gradient(155deg, ${palette[i % palette.length]}, #1c0033)`;
+      front.textContent = String(i + 1).padStart(2, '0');
+    }
     const back = document.createElement('div');
     back.className = 'morph-card__back';
     back.textContent = 'AI';
