@@ -30,6 +30,12 @@
       video: 'assets/video/telemea-solomon-spot.mp4',
       cover: 'assets/img/telemea-solomon-cover.webp',
     },
+    1: {
+      title: 'Lunca Ilvei — Spot',
+      desc: 'Spot pubblicitario generato con l\'intelligenza artificiale.',
+      video: 'assets/video/lunca-ilvei-cheese.mp4',
+      cover: 'assets/img/lunca-ilvei-cover.webp',
+    },
   };
 
   const CONTENT = Array.from({ length: CARD_COUNT }, (_, i) => ({
