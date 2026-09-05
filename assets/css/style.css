@@ -205,7 +205,34 @@ h1, h2, h3 {
 @media (min-width: 761px) {
   .hero { justify-content: flex-end; padding-bottom: clamp(3rem, 7vh, 5rem); }
 }
+
+/* Trial: soft purple aura behind the hero content, layered above .bg-dots
+   and below everything else. Scoped to .hero only so it's easy to compare
+   against the plain dot-grid or remove. */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: -15% -10% 30% -10%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(42% 55% at 20% 22%, rgba(166, 0, 255, 0.38), transparent 70%),
+    radial-gradient(36% 46% at 80% 12%, rgba(122, 18, 217, 0.30), transparent 72%),
+    radial-gradient(50% 42% at 52% 58%, rgba(90, 10, 150, 0.20), transparent 75%);
+  filter: blur(70px);
+  animation: heroAuraDrift 20s ease-in-out infinite;
+}
+@keyframes heroAuraDrift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-2%, 2%, 0) scale(1.06); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero::before { animation: none; }
+}
+
 .hero__row {
+  position: relative;
+  z-index: 1;
   display: flex; align-items: flex-start; justify-content: flex-start;
   gap: clamp(1.5rem, 3vw, 3rem);
   width: 100%;
@@ -241,10 +268,10 @@ h1, h2, h3 {
 }
 .hero__accent { color: var(--accent); }
 
-.hero__cta { display: flex; justify-content: center; width: 100%; }
+.hero__cta { position: relative; z-index: 1; display: flex; justify-content: center; width: 100%; }
 
 .hero__scroll {
-  position: absolute; bottom: 2.5rem; left: var(--gutter);
+  position: absolute; bottom: 2.5rem; left: var(--gutter); z-index: 1;
   display: flex; align-items: center; gap: 0.75rem;
   color: var(--text-dim); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
 }
