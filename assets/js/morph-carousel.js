@@ -119,6 +119,15 @@
         front.style.background = `linear-gradient(155deg, ${PALETTE[i % PALETTE.length]}, #1c0033)`;
         front.textContent = String(i + 1).padStart(2, '0');
       }
+      // Always-visible category badge, so adjacent cards read as grouped
+      // by category while scrolling through the merged arc, not just on
+      // the hover-flip back face.
+      if (data.badge) {
+        const badge = document.createElement('span');
+        badge.className = 'morph-card__badge';
+        badge.textContent = data.badge;
+        front.appendChild(badge);
+      }
       const back = document.createElement('div');
       back.className = 'morph-card__back';
       back.textContent = data.badge || 'AI';

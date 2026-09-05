@@ -450,6 +450,19 @@ h1, h2, h3 {
   color: var(--accent-soft);
   letter-spacing: 0.1em;
 }
+.morph-card__badge {
+  position: absolute; top: 6px; left: 6px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(10, 9, 16, 0.55);
+  border: 1px solid rgba(243, 242, 238, 0.22);
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--accent-soft);
+  line-height: 1.4;
+  pointer-events: none;
+}
 
 @media (max-width: 760px) {
   .ai-morph { height: 320vh; }
@@ -598,13 +611,14 @@ h1, h2, h3 {
   padding: 4rem var(--gutter);
 }
 .contact::before {
-  /* bleeds past the section's own bottom edge into the footer below it,
-     since .footer has no background of its own to cover it */
-  inset: -20% -10% -70% -10%;
+  /* reads as the section's own background wash, then tapers past its
+     bottom edge into the footer below (which has no background of its
+     own to cover it), so the two feel like one continuous close to the page */
+  inset: -10% -10% -45% -10%;
   background:
-    radial-gradient(55% 60% at 50% 100%, rgba(166, 0, 255, 0.32), transparent 72%),
-    radial-gradient(38% 45% at 25% 90%, rgba(122, 18, 217, 0.22), transparent 75%),
-    radial-gradient(38% 45% at 75% 90%, rgba(122, 18, 217, 0.22), transparent 75%);
+    radial-gradient(70% 80% at 50% 55%, rgba(166, 0, 255, 0.30), transparent 72%),
+    radial-gradient(45% 55% at 20% 85%, rgba(122, 18, 217, 0.22), transparent 75%),
+    radial-gradient(45% 55% at 80% 85%, rgba(122, 18, 217, 0.22), transparent 75%);
 }
 .contact__inner { position: relative; z-index: 1; }
 .contact__title { font-size: clamp(2rem, 6vw, 4.5rem); margin-top: 1rem; }
