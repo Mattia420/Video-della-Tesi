@@ -103,6 +103,11 @@
     items.forEach((data, i) => {
       const card = document.createElement('div');
       card.className = 'morph-card';
+      // Posters/flyers come in whatever ratio the design was made at, so
+      // they get a taller box and "contain" fit instead of the video/AI
+      // cards' fixed ratio + cover crop — otherwise most of the artwork
+      // (titles, logos near the edges) gets cut off.
+      if (data.type === 'image') card.classList.add('morph-card--poster');
       card.tabIndex = 0;
       card.setAttribute('role', 'button');
       card.setAttribute('aria-label', data.title);
@@ -113,7 +118,9 @@
       front.className = 'morph-card__front';
       if (data.cover) {
         front.style.backgroundImage = `url('${data.cover}')`;
-        front.style.backgroundSize = 'cover';
+        front.style.backgroundSize = data.type === 'image' ? 'contain' : 'cover';
+        front.style.backgroundColor = data.type === 'image' ? '#15121c' : '';
+        front.style.backgroundRepeat = 'no-repeat';
         front.style.backgroundPosition = 'center';
       } else {
         front.style.background = `linear-gradient(155deg, ${PALETTE[i % PALETTE.length]}, #1c0033)`;
@@ -365,7 +372,15 @@
   const OTHER_ITEMS = [
     { title: 'Video Animato 01', desc: 'Motion design in arrivo.', type: 'video', category: 'Motion Design', badge: 'VID', video: '', cover: '' },
     { title: 'Video Animato 02', desc: 'Motion design in arrivo.', type: 'video', category: 'Motion Design', badge: 'VID', video: '', cover: '' },
-    { title: 'Flyer 01', desc: 'Grafica in arrivo.', type: 'image', category: 'Graphic Design', badge: 'GD', image: '', cover: '' },
+    {
+      title: 'Zoona Vinyl — Open Decks',
+      desc: 'Locandina per una serata open decks in vinile, disegnata su misura per il brand dell\'evento.',
+      type: 'image',
+      category: 'Graphic Design',
+      badge: 'GD',
+      image: 'assets/img/open-decks.webp',
+      cover: 'assets/img/open-decks-cover.webp',
+    },
     { title: 'Flyer 02', desc: 'Grafica in arrivo.', type: 'image', category: 'Graphic Design', badge: 'GD', image: '', cover: '' },
     { title: 'Flyer 03', desc: 'Grafica in arrivo.', type: 'image', category: 'Graphic Design', badge: 'GD', image: '', cover: '' },
     { title: 'Prototipo 01', desc: 'Prototipo Figma in arrivo.', type: 'figma', category: 'UI/UX Design', badge: 'UX', figmaUrl: '', cover: '' },
