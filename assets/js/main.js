@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const preloaderEl = document.getElementById('preloader');
     if (preloaderEl) preloaderEl.style.display = 'none';
     document.body.classList.add('is-loaded');
-    document.querySelectorAll('.reveal-up, .hero__portrait, .hero__scroll').forEach((el) => {
+    document.querySelectorAll('.reveal-up, .hero__portrait').forEach((el) => {
       el.style.opacity = 1;
       el.style.transform = 'none';
     });
@@ -208,10 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
         opacity: 0,
         y: 24,
         duration: 1,
-      }, 0.1)
-      .to('.hero__scroll', { opacity: 1, duration: 0.6 }, '-=0.4');
+      }, 0.1);
   }
-  gsap.set('.hero__scroll', { opacity: 0 });
 
   /* =========================================================
      SCROLL-TRIGGERED REVEALS
