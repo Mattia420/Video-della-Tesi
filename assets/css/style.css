@@ -139,14 +139,15 @@ h1, h2, h3 {
   display: flex; align-items: center; justify-content: space-between;
   padding: 0.85rem 1.75rem;
   border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: linear-gradient(90deg, rgba(6,5,10,0.96) 0%, rgba(52,49,58,0.85) 100%);
+  border: 1px solid var(--line-strong);
+  background: rgba(12, 11, 18, 0.6);
   box-shadow: 0 12px 30px -14px rgba(0,0,0,0.6);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   transition: transform .5s var(--ease), background .4s ease;
 }
 .nav.nav--hidden { transform: translateX(-50%) translateY(-160%); }
-.nav.nav--scrolled { background: linear-gradient(90deg, rgba(6,5,10,0.98) 0%, rgba(64,61,72,0.92) 100%); }
+.nav.nav--scrolled { background: rgba(12, 11, 18, 0.85); }
 @media (max-width: 600px) {
   .nav { top: 0.75rem; padding: 0.7rem 1.25rem; }
 }
