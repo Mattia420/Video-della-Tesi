@@ -24,6 +24,7 @@
       <div class="ai-lightbox__info">
         <h3 id="aiLightboxTitle"></h3>
         <p id="aiLightboxDesc"></p>
+        <div class="ai-lightbox__gallery" id="aiLightboxGallery"></div>
       </div>
     </div>
   `;
@@ -32,6 +33,7 @@
   const mediaEl = lightbox.querySelector('#aiLightboxMedia');
   const titleEl = lightbox.querySelector('#aiLightboxTitle');
   const descEl = lightbox.querySelector('#aiLightboxDesc');
+  const galleryEl = lightbox.querySelector('#aiLightboxGallery');
   const closeBtn = lightbox.querySelector('.ai-lightbox__close');
 
   function openLightbox(data) {
@@ -39,6 +41,7 @@
     descEl.textContent = data.desc;
     mediaEl.innerHTML = '';
     mediaEl.className = 'ai-lightbox__media';
+    galleryEl.innerHTML = '';
     lightbox.classList.toggle('is-wide', data.type === 'figma');
 
     if (data.type === 'figma' && data.figmaUrl) {
@@ -54,6 +57,26 @@
       img.src = data.image;
       img.alt = data.title;
       mediaEl.appendChild(img);
+
+      // Extra views of the same project (e.g. colour variants) — a small
+      // thumbnail strip that swaps the main image in place, so the card
+      // above only has to represent the project once.
+      if (data.gallery && data.gallery.length > 1) {
+        data.gallery.forEach((variant) => {
+          const thumb = document.createElement('button');
+          thumb.type = 'button';
+          thumb.className = 'ai-lightbox__gallery-thumb';
+          thumb.style.backgroundImage = `url('${variant.cover || variant.image}')`;
+          thumb.setAttribute('aria-label', variant.label || data.title);
+          if (variant.image === data.image) thumb.classList.add('is-active');
+          thumb.addEventListener('click', () => {
+            img.src = variant.image;
+            galleryEl.querySelectorAll('.ai-lightbox__gallery-thumb').forEach((t) => t.classList.remove('is-active'));
+            thumb.classList.add('is-active');
+          });
+          galleryEl.appendChild(thumb);
+        });
+      }
     } else if (data.video && data.video.includes('vimeo.com')) {
       const iframe = document.createElement('iframe');
       iframe.src = data.video;
@@ -381,7 +404,15 @@
       image: 'assets/img/open-decks.webp',
       cover: 'assets/img/open-decks-cover.webp',
     },
-    { title: 'Flyer 02', desc: 'Grafica in arrivo.', type: 'image', category: 'Graphic Design', badge: 'GD', image: '', cover: '' },
+    {
+      title: 'Elektronik Summerfest',
+      desc: 'Locandina per un evento tekno con musica live, disegnata su misura per il brand della serata.',
+      type: 'image',
+      category: 'Graphic Design',
+      badge: 'GD',
+      image: 'assets/img/elektronik-summerfest.webp',
+      cover: 'assets/img/elektronik-summerfest-cover.webp',
+    },
     { title: 'Flyer 03', desc: 'Grafica in arrivo.', type: 'image', category: 'Graphic Design', badge: 'GD', image: '', cover: '' },
     { title: 'Prototipo 01', desc: 'Prototipo Figma in arrivo.', type: 'figma', category: 'UI/UX Design', badge: 'UX', figmaUrl: '', cover: '' },
     { title: 'Prototipo 02', desc: 'Prototipo Figma in arrivo.', type: 'figma', category: 'UI/UX Design', badge: 'UX', figmaUrl: '', cover: '' },
