@@ -142,7 +142,7 @@
       if (data.cover) {
         front.style.backgroundImage = `url('${data.cover}')`;
         front.style.backgroundSize = data.type === 'image' ? 'contain' : 'cover';
-        front.style.backgroundColor = data.type === 'image' ? '#15121c' : '';
+        front.style.backgroundColor = data.type === 'image' ? (data.cardBg || '#15121c') : '';
         front.style.backgroundRepeat = 'no-repeat';
         front.style.backgroundPosition = 'center';
       } else {
@@ -428,15 +428,35 @@
       type: 'image',
       category: 'Graphic Design',
       badge: 'GD',
-      image: 'assets/img/energic-swirl-green.webp',
-      cover: 'assets/img/energic-swirl-green-cover.webp',
+      // card background fills the letterboxed space around the round/square
+      // vinyl art with the same black the mockup itself sits on, instead of
+      // the generic dark neutral used for taller poster-shaped covers
+      cardBg: '#000000',
+      image: 'assets/img/energic-swirl-purple.webp',
+      cover: 'assets/img/energic-swirl-purple-cover.webp',
       gallery: [
-        { image: 'assets/img/energic-swirl-green.webp', cover: 'assets/img/energic-swirl-green-cover.webp', label: 'Verde' },
         { image: 'assets/img/energic-swirl-purple.webp', cover: 'assets/img/energic-swirl-purple-cover.webp', label: 'Viola' },
+        { image: 'assets/img/energic-swirl-green.webp', cover: 'assets/img/energic-swirl-green-cover.webp', label: 'Verde' },
       ],
     },
-    { title: 'Prototipo 01', desc: 'Prototipo Figma in arrivo.', type: 'figma', category: 'UI/UX Design', badge: 'UX', figmaUrl: '', cover: '' },
-    { title: 'Prototipo 02', desc: 'Prototipo Figma in arrivo.', type: 'figma', category: 'UI/UX Design', badge: 'UX', figmaUrl: '', cover: '' },
+    {
+      title: 'Smart Home — App Design',
+      desc: 'Prototipo interattivo di un\'app per la gestione della smart home, navigabile schermata per schermata.',
+      type: 'figma',
+      category: 'UI/UX Design',
+      badge: 'UX',
+      figmaUrl: 'https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FqsAKaRUSjtsC116hsVKzkx%2FSmart-Home---Esame-App-Design-colorato-super%3Fnode-id%3D423-1823%26t%3DSZbr9mx5Bmd2BxqS-1%26starting-point-node-id%3D423%253A1823',
+      cover: '',
+    },
+    {
+      title: 'Prototipo 02',
+      desc: 'Prototipo interattivo, navigabile schermata per schermata.',
+      type: 'figma',
+      category: 'UI/UX Design',
+      badge: 'UX',
+      figmaUrl: 'https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2Fx33ltOsDcfo6juWomFtQRL%2FUntitled%3Fnode-id%3D3-452%26p%3Df%26t%3D13H4pYlpdgXzjNJg-0%26scaling%3Dscale-down%26content-scaling%3Dfixed%26page-id%3D0%253A1',
+      cover: '',
+    },
     { title: 'Prototipo 03', desc: 'Prototipo Figma in arrivo.', type: 'figma', category: 'UI/UX Design', badge: 'UX', figmaUrl: '', cover: '' },
   ];
 
