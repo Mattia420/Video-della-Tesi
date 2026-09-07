@@ -413,7 +413,22 @@
       image: 'assets/img/elektronik-summerfest.webp',
       cover: 'assets/img/elektronik-summerfest-cover.webp',
     },
-    { title: 'Flyer 03', desc: 'Grafica in arrivo.', type: 'image', category: 'Graphic Design', badge: 'GD', image: '', cover: '' },
+    {
+      // Waiting on the real files (sent as a PDF, per the image-upload
+      // limitation) — image/cover/gallery entries stay empty (shows the
+      // "Grafica in arrivo" placeholder) until then.
+      title: 'Energic Swirl',
+      desc: 'Copertina vinile in due varianti colore, verde e viola.',
+      type: 'image',
+      category: 'Graphic Design',
+      badge: 'GD',
+      image: '',
+      cover: '',
+      gallery: [
+        { image: '', cover: '', label: 'Verde' },
+        { image: '', cover: '', label: 'Viola' },
+      ],
+    },
     { title: 'Prototipo 01', desc: 'Prototipo Figma in arrivo.', type: 'figma', category: 'UI/UX Design', badge: 'UX', figmaUrl: '', cover: '' },
     { title: 'Prototipo 02', desc: 'Prototipo Figma in arrivo.', type: 'figma', category: 'UI/UX Design', badge: 'UX', figmaUrl: '', cover: '' },
     { title: 'Prototipo 03', desc: 'Prototipo Figma in arrivo.', type: 'figma', category: 'UI/UX Design', badge: 'UX', figmaUrl: '', cover: '' },
