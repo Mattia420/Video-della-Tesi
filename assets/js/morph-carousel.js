@@ -377,6 +377,12 @@
       video: 'assets/video/redbull-spot.mp4',
       cover: 'assets/img/redbull-spot-cover.webp',
     },
+    6: {
+      title: 'Glitch',
+      desc: 'Contenuto visivo generato con l\'intelligenza artificiale.',
+      video: 'assets/video/glitch-2.mp4',
+      cover: 'assets/img/glitch-2-cover.webp',
+    },
   };
 
   const AI_ITEMS = Array.from({ length: 10 }, (_, i) => ({
@@ -422,11 +428,11 @@
       type: 'image',
       category: 'Graphic Design',
       badge: 'GD',
-      image: '',
-      cover: '',
+      image: 'assets/img/energic-swirl-green.webp',
+      cover: 'assets/img/energic-swirl-green-cover.webp',
       gallery: [
-        { image: '', cover: '', label: 'Verde' },
-        { image: '', cover: '', label: 'Viola' },
+        { image: 'assets/img/energic-swirl-green.webp', cover: 'assets/img/energic-swirl-green-cover.webp', label: 'Verde' },
+        { image: 'assets/img/energic-swirl-purple.webp', cover: 'assets/img/energic-swirl-purple-cover.webp', label: 'Viola' },
       ],
     },
     { title: 'Prototipo 01', desc: 'Prototipo Figma in arrivo.', type: 'figma', category: 'UI/UX Design', badge: 'UX', figmaUrl: '', cover: '' },
