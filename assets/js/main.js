@@ -239,3 +239,43 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+/* =========================================================
+   SCROLL POSITION MEMORY (reload/back within the same tab)
+   Browsers' native scroll restoration is unreliable here since the
+   carousel sections' height is computed by JS, so the page isn't at its
+   final height yet when a reload tries to restore. We track it ourselves
+   in sessionStorage instead: cleared when the tab closes, so a genuinely
+   new visit still lands on the hero, but refreshing/reopening the same
+   tab returns to where you were. Kept independent of GSAP/Lenis so it
+   still works if the CDN scripts fail to load.
+   ========================================================= */
+(() => {
+  const KEY = 'scrollY';
+  let saveTimer = null;
+  try {
+    window.addEventListener('scroll', () => {
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => {
+        try { sessionStorage.setItem(KEY, String(window.scrollY)); } catch (e) { /* ignore */ }
+      }, 150);
+    }, { passive: true });
+    window.addEventListener('beforeunload', () => {
+      try { sessionStorage.setItem(KEY, String(window.scrollY)); } catch (e) { /* ignore */ }
+    });
+
+    window.addEventListener('load', () => {
+      const saved = parseInt(sessionStorage.getItem(KEY), 10);
+      if (!saved) return;
+      // Wait a frame for the dynamic carousel heights (set at script-parse
+      // time, before `load`) to have actually painted before jumping.
+      requestAnimationFrame(() => {
+        if (window.lenis && typeof window.lenis.scrollTo === 'function') {
+          window.lenis.scrollTo(saved, { immediate: true });
+        } else {
+          window.scrollTo(0, saved);
+        }
+      });
+    });
+  } catch (e) { /* sessionStorage unavailable (private mode, etc.) — just skip */ }
+})();
