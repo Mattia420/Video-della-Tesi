@@ -457,7 +457,15 @@
       figmaUrl: 'https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2Fx33ltOsDcfo6juWomFtQRL%2FUntitled%3Fnode-id%3D3-452%26p%3Df%26t%3D13H4pYlpdgXzjNJg-0%26scaling%3Dscale-down%26content-scaling%3Dfixed%26page-id%3D0%253A1',
       cover: '',
     },
-    { title: 'Prototipo 03', desc: 'Prototipo Figma in arrivo.', type: 'figma', category: 'UI/UX Design', badge: 'UX', figmaUrl: '', cover: '' },
+    {
+      title: 'Festillu — Website',
+      desc: 'Prototipo interattivo del sito di Festillu, un festival immaginario, navigabile pagina per pagina.',
+      type: 'figma',
+      category: 'UI/UX Design',
+      badge: 'UX',
+      figmaUrl: 'https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FcGf7mdGIqd6ll97oSJkmuT%2FFESTILLU-%257C-Website%3Fnode-id%3D137-37%26t%3DIxPzPNC0p5Gi74ji-0%26scaling%3Dscale-down%26content-scaling%3Dfixed%26page-id%3D69%253A2%26starting-point-node-id%3D69%253A3',
+      cover: '',
+    },
   ];
 
   /* ---------- one merged carousel: AI content + everything else, category label swaps live ---------- */
