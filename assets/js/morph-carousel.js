@@ -445,7 +445,7 @@
       type: 'figma',
       category: 'UI/UX Design',
       badge: 'UX',
-      figmaUrl: 'https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FqsAKaRUSjtsC116hsVKzkx%2FSmart-Home---Esame-App-Design-colorato-super%3Fnode-id%3D423-1823%26t%3DSZbr9mx5Bmd2BxqS-1%26starting-point-node-id%3D423%253A1823',
+      figmaUrl: 'https://embed.figma.com/proto/qsAKaRUSjtsC116hsVKzkx/Smart-Home---Esame-App-Design-colorato-super?node-id=423-1823&t=SZbr9mx5Bmd2BxqS-1&starting-point-node-id=423%3A1823&embed-host=share',
       cover: '',
     },
     {
@@ -454,7 +454,7 @@
       type: 'figma',
       category: 'UI/UX Design',
       badge: 'UX',
-      figmaUrl: 'https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2Fx33ltOsDcfo6juWomFtQRL%2FUntitled%3Fnode-id%3D3-452%26p%3Df%26t%3D13H4pYlpdgXzjNJg-0%26scaling%3Dscale-down%26content-scaling%3Dfixed%26page-id%3D0%253A1',
+      figmaUrl: 'https://embed.figma.com/proto/x33ltOsDcfo6juWomFtQRL/Untitled?node-id=3-452&p=f&t=13H4pYlpdgXzjNJg-0&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&embed-host=share',
       cover: '',
     },
     {
@@ -463,7 +463,7 @@
       type: 'figma',
       category: 'UI/UX Design',
       badge: 'UX',
-      figmaUrl: 'https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FcGf7mdGIqd6ll97oSJkmuT%2FFESTILLU-%257C-Website%3Fnode-id%3D137-37%26t%3DIxPzPNC0p5Gi74ji-0%26scaling%3Dscale-down%26content-scaling%3Dfixed%26page-id%3D69%253A2%26starting-point-node-id%3D69%253A3',
+      figmaUrl: 'https://embed.figma.com/proto/cGf7mdGIqd6ll97oSJkmuT/FESTILLU-%7C-Website?node-id=137-37&p=f&scaling=scale-down&content-scaling=fixed&page-id=69%3A2&starting-point-node-id=137%3A37&show-proto-sidebar=1&embed-host=share',
       cover: '',
     },
   ];
