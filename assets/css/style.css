@@ -429,11 +429,6 @@ h1, h2, h3 {
   transform: scale(0.94); transition: transform .35s var(--ease);
 }
 .ai-lightbox.is-open .ai-lightbox__panel { transform: scale(1); }
-/* presentation decks are landscape, not phone-shaped — stack the panel
-   instead of forcing a wide slide next to a narrow text column */
-.ai-lightbox__panel--wide { flex-direction: column; max-width: 900px; }
-.ai-lightbox__panel--wide .ai-lightbox__info { text-align: center; }
-.ai-lightbox__panel--wide .ai-lightbox__info p { margin: 0 auto; }
 .ai-lightbox__media {
   position: relative;
   flex: 0 0 auto;
@@ -467,8 +462,10 @@ h1, h2, h3 {
 @media (prefers-reduced-motion: reduce) {
   .ai-lightbox__spinner { animation-duration: 1.6s; }
 }
-/* presentation deck: landscape slide, full width of the stacked panel */
-.ai-lightbox__media--deck { aspect-ratio: 16/9; width: 100%; height: auto; }
+/* presentation deck: portrait slides (~A4, 0.707 ratio), same side-by-side
+   template as everything else, just a taller/wider box than the 9:16
+   video/prototype frame */
+.ai-lightbox__media--deck { aspect-ratio: 1920/2716; }
 /* flyers/graphics: no forced 9:16 crop, keep the artwork's own proportions */
 /* Sized to shrink-wrap the artwork itself (whichever of width/height binds
    first) instead of a fixed height — a fixed height with a separate
@@ -516,10 +513,12 @@ h1, h2, h3 {
 
 @media (max-width: 760px) {
   .ai-lightbox__panel { flex-direction: column; gap: 1.5rem; }
-  .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--deck) {
-    max-height: 62vh; width: auto; aspect-ratio: 9/16;
+  .ai-lightbox__media:not(.ai-lightbox__media--image) {
+    max-height: 62vh; width: auto;
   }
-  .ai-lightbox__media--deck { width: 100%; height: auto; aspect-ratio: 16/9; }
+  .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--deck) {
+    aspect-ratio: 9/16;
+  }
   .ai-lightbox__info { text-align: center; }
   .ai-lightbox__info p { margin: 0 auto; }
   .ai-lightbox__loading { justify-content: center; }
