@@ -168,9 +168,14 @@
       const front = document.createElement('div');
       front.className = 'morph-card__front';
       if (data.cover) {
+        // Some figma covers (the UI/UX phone mockups) are much narrower
+        // than the card box — "cover" would crop the phone at top and
+        // bottom, so they opt into the same "contain" + fill-color
+        // treatment used for posters instead.
+        const useContain = data.type === 'image' || data.coverContain;
         front.style.backgroundImage = `url('${data.cover}')`;
-        front.style.backgroundSize = data.type === 'image' ? 'contain' : 'cover';
-        front.style.backgroundColor = data.type === 'image' ? (data.cardBg || '#15121c') : '';
+        front.style.backgroundSize = useContain ? 'contain' : 'cover';
+        front.style.backgroundColor = useContain ? (data.cardBg || '#15121c') : '';
         front.style.backgroundRepeat = 'no-repeat';
         front.style.backgroundPosition = 'center';
         // Cards start tiny (60-96px) and scale up to ~3x in the arc; browsers
@@ -439,6 +444,16 @@
       cover: 'assets/img/elektronik-summerfest-cover.webp',
     },
     {
+      title: 'Touch of Beauty — Presentazione',
+      desc: 'Presentazione del brand Touch of Beauty, navigabile slide per slide.',
+      type: 'figma',
+      category: 'Graphic Design',
+      badge: 'GD',
+      figmaUrl: 'https://embed.figma.com/deck/7g65MmoCigEi0K7Vzhi4ty/Touch-of-Beauty-%7C-Presentation--Copy-?node-id=14-585&t=E8IGtX0PdFVB0FCM-1&embed-host=share',
+      figmaKind: 'deck',
+      cover: 'assets/img/touch-of-beauty-cover.webp',
+    },
+    {
       // Waiting on the real files (sent as a PDF, per the image-upload
       // limitation) — image/cover/gallery entries stay empty (shows the
       // "Grafica in arrivo" placeholder) until then.
@@ -459,22 +474,14 @@
       ],
     },
     {
-      title: 'Touch of Beauty — Presentazione',
-      desc: 'Presentazione del brand Touch of Beauty, navigabile slide per slide.',
-      type: 'figma',
-      category: 'Graphic Design',
-      badge: 'GD',
-      figmaUrl: 'https://embed.figma.com/deck/7g65MmoCigEi0K7Vzhi4ty/Touch-of-Beauty-%7C-Presentation--Copy-?node-id=14-585&t=E8IGtX0PdFVB0FCM-1&embed-host=share',
-      figmaKind: 'deck',
-      cover: 'assets/img/touch-of-beauty-cover.webp',
-    },
-    {
       title: 'Smart Home — App Design',
       desc: 'Prototipo interattivo di un\'app per la gestione della smart home, navigabile schermata per schermata.',
       type: 'figma',
       category: 'UI/UX Design',
       badge: 'UX',
       figmaUrl: 'https://embed.figma.com/proto/qsAKaRUSjtsC116hsVKzkx/Smart-Home---Esame-App-Design-colorato-super?node-id=423-1823&t=SZbr9mx5Bmd2BxqS-1&starting-point-node-id=423%3A1823&embed-host=share&hide-ui=1',
+      coverContain: true,
+      cardBg: '#000000',
       cover: 'assets/img/smart-home-cover.webp',
     },
     {
@@ -484,6 +491,8 @@
       category: 'UI/UX Design',
       badge: 'UX',
       figmaUrl: 'https://embed.figma.com/proto/x33ltOsDcfo6juWomFtQRL/Untitled?node-id=3-452&p=f&t=13H4pYlpdgXzjNJg-0&page-id=0%3A1&embed-host=share&hide-ui=1',
+      coverContain: true,
+      cardBg: '#000000',
       cover: 'assets/img/underground-cover.webp',
     },
     {
@@ -493,6 +502,8 @@
       category: 'UI/UX Design',
       badge: 'UX',
       figmaUrl: 'https://embed.figma.com/proto/cGf7mdGIqd6ll97oSJkmuT/FESTILLU-%7C-Website?node-id=137-37&p=f&page-id=69%3A2&starting-point-node-id=137%3A37&embed-host=share&hide-ui=1',
+      coverContain: true,
+      cardBg: '#000000',
       cover: 'assets/img/festillu-cover.webp',
     },
   ];

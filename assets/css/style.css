@@ -270,13 +270,13 @@ h1, h2, h3 {
      once the title + CTA + portrait stack taller than one screen — anchor
      to the top instead, with enough clearance for the fixed nav, and let
      the page scroll to reveal the rest. */
-  .hero { justify-content: flex-start; padding-top: clamp(6rem, 22vh, 8rem); padding-bottom: 3rem; }
+  .hero { justify-content: flex-start; padding-top: clamp(5rem, 15vh, 6.5rem); padding-bottom: 3rem; }
   .hero__row { flex-direction: column; }
   /* flex-basis: 620px was sized for the desktop row layout, where it
      constrains width; once the row flips to a column here it constrains
      height instead, forcing a huge empty gap below the title. */
   .hero__inner { flex: 0 1 auto; }
-  .hero__portrait { height: min(36vh, 300px); opacity: 0.6 !important; margin: 1.5rem auto 0; }
+  .hero__portrait { height: min(52vh, 460px); opacity: 0.6 !important; margin: 1.5rem auto 0; }
 }
 
 .hero__title {
@@ -365,10 +365,10 @@ h1, h2, h3 {
   transition: opacity .3s ease;
 }
 .ai-morph__intro h2 { font-size: clamp(1.8rem, 4vw, 3rem); margin-bottom: 0.8rem; }
-.ai-morph__intro p { color: var(--text-dim); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.ai-morph__intro p { color: #fff; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; }
 .ai-morph__reveal { top: 14%; transform: translate(-50%, 0); opacity: 0; }
 .ai-morph__reveal h2 { font-size: clamp(1.5rem, 3.2vw, 2.4rem); margin-bottom: 0.8rem; text-wrap: balance; }
-.ai-morph__reveal p { color: var(--text-dim); font-size: 0.95rem; max-width: 46ch; margin: 0 auto; line-height: 1.55; }
+.ai-morph__reveal p { color: #fff; font-size: 0.85rem; max-width: 46ch; margin: 0 auto; line-height: 1.5; opacity: 0.85; }
 
 .ai-morph__stage { position: absolute; inset: 0; z-index: 2; }
 .morph-card {
@@ -617,6 +617,10 @@ h1, h2, h3 {
    solid, before fading out to make room for the next word. The wrapper's
    width is measured and transitioned per word so the trailing "insieme."
    reflows smoothly instead of snapping to the new width. */
+/* nudges the plain text down slightly so its baseline lines up with the
+   handwriting word next to it, rather than raising the word further and
+   crowding the line above */
+.contact__title-line { display: inline-block; transform: translateY(0.15em); }
 .contact__rotator {
   display: inline-block;
   vertical-align: bottom;
