@@ -42,10 +42,8 @@
     mediaEl.innerHTML = '';
     mediaEl.className = 'ai-lightbox__media';
     galleryEl.innerHTML = '';
-    lightbox.classList.toggle('is-wide', data.type === 'figma');
 
     if (data.type === 'figma' && data.figmaUrl) {
-      mediaEl.classList.add('ai-lightbox__media--figma');
       const iframe = document.createElement('iframe');
       iframe.src = data.figmaUrl;
       iframe.setAttribute('allowfullscreen', '');

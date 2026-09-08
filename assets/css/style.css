@@ -466,12 +466,6 @@ h1, h2, h3 {
   transform: scale(0.94); transition: transform .35s var(--ease);
 }
 .ai-lightbox.is-open .ai-lightbox__panel { transform: scale(1); }
-/* Figma prototypes get a wide, stacked layout so the embed has room to
-   actually be clicked around in, instead of squeezed beside the text */
-.ai-lightbox.is-wide .ai-lightbox__panel {
-  flex-direction: column; max-width: 1200px; text-align: center;
-}
-.ai-lightbox.is-wide .ai-lightbox__info p { margin: 0 auto; }
 .ai-lightbox__media {
   flex: 0 0 auto;
   height: min(78vh, 720px); width: auto; aspect-ratio: 9/16;
@@ -488,11 +482,6 @@ h1, h2, h3 {
 /* flyers/graphics: no forced 9:16 crop, keep the artwork's own proportions */
 .ai-lightbox__media--image { aspect-ratio: auto; width: auto; height: min(80vh, 760px); }
 .ai-lightbox__media--image img { width: auto; height: 100%; max-width: 80vw; object-fit: contain; }
-/* Figma prototypes need a big, roomy viewport to click around in — no
-   fixed aspect ratio, since a prototype can be a portrait phone mockup or
-   a landscape website; Figma's own embed player centers/scales whichever
-   it is within whatever box it's given. */
-.ai-lightbox__media--figma { aspect-ratio: auto; width: min(90vw, 1000px); height: min(85vh, 820px); }
 .ai-lightbox__placeholder {
   color: rgba(251,248,255,0.75); font-family: 'Space Grotesk', sans-serif;
   font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase;
@@ -523,10 +512,9 @@ h1, h2, h3 {
 
 @media (max-width: 760px) {
   .ai-lightbox__panel { flex-direction: column; gap: 1.5rem; }
-  .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--figma) {
+  .ai-lightbox__media:not(.ai-lightbox__media--image) {
     max-height: 62vh; width: auto; aspect-ratio: 9/16;
   }
-  .ai-lightbox__media--figma { width: 90vw; }
   .ai-lightbox__info { text-align: center; }
   .ai-lightbox__info p { margin: 0 auto; }
   .ai-lightbox__gallery { justify-content: center; }
