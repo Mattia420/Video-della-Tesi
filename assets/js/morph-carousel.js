@@ -144,6 +144,16 @@
         front.style.backgroundColor = data.type === 'image' ? (data.cardBg || '#15121c') : '';
         front.style.backgroundRepeat = 'no-repeat';
         front.style.backgroundPosition = 'center';
+        // Cards start tiny (60-96px) and scale up to ~3x in the arc; browsers
+        // sometimes decode a background-image at the small on-screen size
+        // first and only sharpen it up later, which reads as "low quality
+        // until you interact with it". Decoding the full-resolution bitmap
+        // off-DOM up front means it's already cached at full quality by the
+        // time the card scales into focus.
+        const warm = new Image();
+        warm.decoding = 'async';
+        warm.src = data.cover;
+        if (warm.decode) warm.decode().catch(() => {});
       } else {
         front.style.background = `linear-gradient(155deg, ${PALETTE[i % PALETTE.length]}, #1c0033)`;
         front.textContent = String(i + 1).padStart(2, '0');
@@ -341,14 +351,14 @@
 
   const AI_OVERRIDES = {
     0: {
-      title: 'Telemea Solomon — Spot',
-      desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per Telemea Solomon, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania.',
+      title: 'Telemea — Solomonescu',
+      desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per il Telemea di Solomonescu, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania.',
       video: 'assets/video/telemea-solomon-spot.mp4',
       cover: 'assets/img/telemea-solomon-cover.webp',
     },
     1: {
-      title: 'Lunca Ilvei — Spot',
-      desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per Lunca Ilvei, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania.',
+      title: 'Lunca Ilvei — Cascaval Dalia',
+      desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per il Cascaval Dalia, formaggio di Lunca Ilvei, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania.',
       video: 'assets/video/lunca-ilvei-cheese.mp4',
       cover: 'assets/img/lunca-ilvei-cover.webp',
     },
