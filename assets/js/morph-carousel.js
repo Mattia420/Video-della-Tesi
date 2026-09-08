@@ -192,29 +192,8 @@
 
       card.__hover = false;
       card.__hoverSmooth = 1;
-      card.__tiltX = 0;
-      card.__tiltY = 0;
-      card.__tiltTargetX = 0;
-      card.__tiltTargetY = 0;
       card.addEventListener('mouseenter', () => { card.style.zIndex = '999'; card.__hover = true; });
-      card.addEventListener('mouseleave', () => {
-        card.__hover = false;
-        card.style.zIndex = ''; card.__baseZ && (card.style.zIndex = card.__baseZ);
-        card.__tiltTargetX = 0;
-        card.__tiltTargetY = 0;
-      });
-      // 3D tilt: the card leans away from wherever the cursor sits over it,
-      // like it's weighted down by the pointer — purely cosmetic, layered
-      // onto the existing arc transform in the render loop below.
-      card.addEventListener('mousemove', (e) => {
-        if (prefersReducedMotion) return;
-        const rect = card.getBoundingClientRect();
-        const px = (e.clientX - rect.left) / rect.width - 0.5;
-        const py = (e.clientY - rect.top) / rect.height - 0.5;
-        const MAX_TILT = 10;
-        card.__tiltTargetX = clamp(-py * MAX_TILT * 2, -MAX_TILT, MAX_TILT);
-        card.__tiltTargetY = clamp(px * MAX_TILT * 2, -MAX_TILT, MAX_TILT);
-      });
+      card.addEventListener('mouseleave', () => { card.__hover = false; card.style.zIndex = ''; card.__baseZ && (card.style.zIndex = card.__baseZ); });
       card.addEventListener('click', () => openLightbox(data));
       card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(data); } });
 
@@ -292,7 +271,10 @@
         introEl.style.opacity = String(introOpacity);
         const revealOpacity = clamp((morphSmooth - 0.75) / 0.25, 0, 1) * clamp(1 - (wobbleSmooth - 0.7) / 0.3, 0, 1);
         revealEl.style.opacity = String(revealOpacity);
-        revealEl.style.transform = `translateY(${(1 - revealOpacity) * 16}px)`;
+        // Keep the CSS class's own -50% horizontal centering — this inline
+        // style otherwise replaces it outright, leaving the label anchored
+        // at its un-shifted left:50% position and overflowing the viewport.
+        revealEl.style.transform = `translate(-50%, ${(1 - revealOpacity) * 16}px)`;
       }
 
       const minDim = Math.min(stageSize.width, stageSize.height) || 1;
@@ -354,10 +336,8 @@
 
         const hoverTarget = card.__hover ? 1.12 : 1;
         card.__hoverSmooth += (hoverTarget - card.__hoverSmooth) * (prefersReducedMotion ? 1 : 0.2);
-        card.__tiltX += (card.__tiltTargetX - card.__tiltX) * (prefersReducedMotion ? 1 : 0.25);
-        card.__tiltY += (card.__tiltTargetY - card.__tiltY) * (prefersReducedMotion ? 1 : 0.25);
 
-        card.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg) scale(${scale * card.__hoverSmooth}) perspective(600px) rotateX(${card.__tiltX}deg) rotateY(${card.__tiltY}deg)`;
+        card.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg) scale(${scale * card.__hoverSmooth})`;
         card.style.opacity = String(opacity);
         card.style.pointerEvents = opacity < 0.05 ? 'none' : '';
       });

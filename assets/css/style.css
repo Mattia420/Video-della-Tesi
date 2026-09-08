@@ -21,14 +21,14 @@
   :root { --gutter: 24px; }
 }
 
-html { scroll-behavior: auto; }
+html { scroll-behavior: auto; overflow-x: clip; }
 
 body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Inter', sans-serif;
   font-weight: 300;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 /* native pointer only hides once the custom cursor has actually
    initialized (see main.js) — if that script never runs (blocked/slow
@@ -42,7 +42,6 @@ body.custom-cursor-active { cursor: none; }
   transition: opacity 0.8s ease;
 }
 .bg-dots.is-ready { opacity: 1; }
-@media (max-width: 860px) { .bg-dots { display: none; } }
 
 @media (prefers-reduced-motion: reduce) {
   .bg-dots { display: none; }
@@ -267,8 +266,17 @@ h1, h2, h3 {
   .hero__portrait { height: min(52vh, 460px); opacity: 0.6 !important; }
 }
 @media (max-width: 760px) {
+  /* Centering (the desktop/tablet default) clips content above the fold
+     once the title + CTA + portrait stack taller than one screen — anchor
+     to the top instead, with enough clearance for the fixed nav, and let
+     the page scroll to reveal the rest. */
+  .hero { justify-content: flex-start; padding-top: clamp(6rem, 22vh, 8rem); padding-bottom: 3rem; }
   .hero__row { flex-direction: column; }
-  .hero__portrait { display: none; }
+  /* flex-basis: 620px was sized for the desktop row layout, where it
+     constrains width; once the row flips to a column here it constrains
+     height instead, forcing a huge empty gap below the title. */
+  .hero__inner { flex: 0 1 auto; }
+  .hero__portrait { height: min(36vh, 300px); opacity: 0.6 !important; margin: 1.5rem auto 0; }
 }
 
 .hero__title {
@@ -367,7 +375,6 @@ h1, h2, h3 {
   position: absolute; top: 50%; left: 50%;
   width: 60px; height: 85px; margin: -42.5px 0 0 -30px;
   perspective: 900px;
-  transform-style: preserve-3d;
   pointer-events: auto;
   cursor: pointer;
   will-change: transform;
@@ -400,8 +407,8 @@ h1, h2, h3 {
 
 @media (max-width: 760px) {
   .ai-morph { height: 320vh; }
-  .morph-card { width: 46px; height: 65px; margin: -32.5px 0 0 -23px; }
-  .morph-card--poster { width: 55px; height: 74px; margin: -37px 0 0 -27.5px; }
+  .morph-card { width: 58px; height: 82px; margin: -41px 0 0 -29px; }
+  .morph-card--poster { width: 69px; height: 93px; margin: -46.5px 0 0 -34.5px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .morph-card { transition: none; }
@@ -601,7 +608,7 @@ h1, h2, h3 {
     radial-gradient(45% 55% at 80% 95%, rgba(122, 18, 217, 0.22), transparent 75%);
 }
 .contact__inner { position: relative; z-index: 1; }
-.contact__title { font-size: clamp(2rem, 6vw, 4.5rem); margin-top: 1rem; }
+.contact__title { font-size: clamp(2rem, 6vw, 4.5rem); line-height: 1.3; margin-top: 1rem; }
 /* Handwriting-style rotating word: an SVG <text> is "drawn" via a
    stroke-dasharray reveal (classic pen-trace technique), then filled
    solid, before fading out to make room for the next word. The wrapper's

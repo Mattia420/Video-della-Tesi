@@ -9,8 +9,7 @@
   if (!canvas) return;
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isTouch = window.matchMedia('(max-width: 860px)').matches;
-  if (prefersReducedMotion || isTouch) return;
+  if (prefersReducedMotion) return;
 
   const ctx = canvas.getContext('2d');
   const SPACING = 34;
