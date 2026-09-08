@@ -251,28 +251,6 @@
       return { total, isMobile, visibleCount, spreadDeg, halfSpreadDeg, anglePerCard, fadeRangeDeg, fadeMarginDeg, fadeHalfSpreadDeg, maxOffset };
     }
 
-    function scrollToCategory(category) {
-      const idxs = [];
-      items.forEach((it, i) => { if (it.category === category) idxs.push(i); });
-      if (!idxs.length) return;
-      const centerIdx = idxs[Math.floor(idxs.length / 2)];
-
-      const { visibleCount, maxOffset } = computeLayout();
-      const windowOffset = clamp(effectivePos[centerIdx] - (visibleCount - 1) / 2, 0, maxOffset);
-      const wobbleTarget = maxOffset > 0 ? windowOffset / maxOffset : 0;
-      const progress = clamp(0.3 + wobbleTarget * 0.7, 0, 1);
-
-      const scrollRange = section.offsetHeight - window.innerHeight;
-      const targetY = section.offsetTop + progress * scrollRange;
-
-      if (window.lenis && typeof window.lenis.scrollTo === 'function') {
-        window.lenis.scrollTo(targetY, { duration: 1.8 });
-      } else {
-        window.scrollTo({ top: targetY, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
-      }
-    }
-    if (categoryEl) section.scrollToCategory = scrollToCategory;
-
     function frame() {
       const progress = scrollProgress();
       const morphTarget = clamp(progress / 0.3, 0, 1);
@@ -504,16 +482,5 @@
     revealEl: document.getElementById('workCarouselReveal'),
     categoryEl: document.getElementById('workCarouselCategory'),
     items: [...AI_ITEMS, ...OTHER_ITEMS],
-  });
-
-  /* ---------- click-to-scroll: stack cards jump to their category, playing through the arc ---------- */
-  document.querySelectorAll('[data-scroll-category]').forEach((el) => {
-    el.addEventListener('click', (e) => {
-      const section = document.getElementById('work-carousel');
-      if (!section || typeof section.scrollToCategory !== 'function') return;
-      e.preventDefault();
-      e.stopImmediatePropagation(); // pre-empt main.js's generic anchor handler, which would jump straight to the section top
-      section.scrollToCategory(el.getAttribute('data-scroll-category'));
-    });
   });
 })();

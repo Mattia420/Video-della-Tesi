@@ -341,51 +341,6 @@ h1, h2, h3 {
    ========================================================= */
 .work { padding: 0 var(--gutter) clamp(5rem, 8vw, 8rem); }
 
-.stack { display: flex; }
-.stack__card {
-  flex: 0 0 250px;
-  min-height: 320px;
-  border-radius: 16px;
-  color: #fbf8ff;
-  position: relative;
-  margin-left: -64px;
-  transform: rotate(calc((var(--i) - 1.5) * 3deg));
-  transition: transform .45s var(--ease), box-shadow .45s var(--ease);
-  box-shadow: 0 20px 40px -20px rgba(0,0,0,0.65);
-  border: 1px solid rgba(251,248,255,0.1);
-}
-.stack__card:first-child { margin-left: 0; }
-.stack__card:nth-child(1) { background: linear-gradient(160deg, var(--accent-soft), var(--accent)); z-index: 1; }
-.stack__card:nth-child(2) { background: linear-gradient(160deg, var(--accent), #6a10c4); z-index: 2; }
-.stack__card:nth-child(3) { background: linear-gradient(160deg, #7a12d9, var(--accent-deep)); z-index: 3; }
-.stack__card:nth-child(4) { background: linear-gradient(160deg, var(--accent-deep), #1c0033); z-index: 4; }
-.stack__card:hover {
-  transform: translateY(-22px) rotate(0deg) scale(1.1);
-  z-index: 10 !important;
-  box-shadow: 0 30px 50px -18px rgba(166,0,255,0.45);
-}
-/* keeps text upright and left-aligned to the same reference no matter how
-   much each card is fanned out, by counter-rotating the exact angle */
-.stack__card__inner {
-  height: 100%; padding: 1.8rem;
-  display: flex; flex-direction: column; justify-content: space-between;
-  transform: rotate(calc((var(--i) - 1.5) * -3deg));
-  transition: transform .45s var(--ease);
-}
-.stack__card:hover .stack__card__inner { transform: rotate(0deg); }
-.stack__label { font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; opacity: 0.75; }
-.stack__card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; max-width: 155px; text-wrap: balance; }
-.stack__card p { font-size: 0.85rem; line-height: 1.5; opacity: 0.88; font-weight: 300; max-width: 150px; }
-.stack__card em { font-style: normal; text-decoration: underline; text-underline-offset: 3px; }
-
-@media (max-width: 760px) {
-  .stack { flex-direction: column; }
-  .stack__card { margin-left: 0 !important; margin-top: -48px; transform: rotate(0deg) !important; }
-  .stack__card:first-child { margin-top: 0; }
-  .stack__card:hover { transform: translateY(-8px) scale(1.06) !important; }
-  .stack__card__inner { transform: rotate(0deg) !important; }
-}
-
 /* =========================================================
    AI CONTENT — scroll-morph gallery
    ========================================================= */
@@ -638,6 +593,13 @@ h1, h2, h3 {
 }
 .contact__inner { position: relative; z-index: 1; }
 .contact__title { font-size: clamp(2rem, 6vw, 4.5rem); margin-top: 1rem; }
+.contact__rotator { display: inline-block; overflow: hidden; vertical-align: bottom; }
+.contact__rotator-word {
+  display: inline-block;
+  color: #fff;
+  transition: opacity .35s var(--ease), transform .35s var(--ease);
+}
+.contact__rotator-word.is-swapping { opacity: 0; transform: translateY(-0.3em); }
 .contact__socials { display: flex; gap: 2rem; justify-content: center; margin-top: 1rem; }
 .contact__socials a { font-size: 0.9rem; color: var(--text-dim); transition: color .3s ease; }
 .contact__socials a:hover { color: var(--accent); }
@@ -678,7 +640,7 @@ h1, h2, h3 {
   .contact { padding: 3rem var(--gutter); }
   .contact__socials { flex-wrap: wrap; row-gap: 0.75rem; }
   .footer { flex-direction: column; text-align: center; }
-  .btn, .nav__toggle, .stack__card, .skills__list li, .nav__links a {
+  .btn, .nav__toggle, .skills__list li, .nav__links a {
     -webkit-tap-highlight-color: transparent;
   }
 }

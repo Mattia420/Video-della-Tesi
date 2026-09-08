@@ -226,18 +226,6 @@ document.addEventListener('DOMContentLoaded', () => {
       },
     });
   });
-
-  // stagger the stacked category cards a touch
-  gsap.utils.toArray('.stack__card').forEach((el, i) => {
-    gsap.from(el, {
-      opacity: 0,
-      y: 30,
-      duration: 0.8,
-      delay: i * 0.05,
-      ease: 'power3.out',
-      scrollTrigger: { trigger: el, start: 'top 92%' },
-    });
-  });
 });
 
 /* =========================================================
@@ -278,4 +266,25 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   } catch (e) { /* sessionStorage unavailable (private mode, etc.) — just skip */ }
+})();
+
+/* =========================================================
+   CONTACT HEADING — rotating word ("...Parliamone e [creiamo/
+   ideiamo/...] insieme.") cycles through a few verbs.
+   ========================================================= */
+(() => {
+  const el = document.getElementById('contactRotatorWord');
+  if (!el) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const words = ['creiamo', 'ideiamo', 'pensiamo', 'organizziamo', 'generiamo'];
+  let i = 0;
+  setInterval(() => {
+    el.classList.add('is-swapping');
+    setTimeout(() => {
+      i = (i + 1) % words.length;
+      el.textContent = words[i];
+      el.classList.remove('is-swapping');
+    }, 350);
+  }, 2200);
 })();
