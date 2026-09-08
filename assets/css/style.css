@@ -367,6 +367,7 @@ h1, h2, h3 {
   position: absolute; top: 50%; left: 50%;
   width: 60px; height: 85px; margin: -42.5px 0 0 -30px;
   perspective: 900px;
+  transform-style: preserve-3d;
   pointer-events: auto;
   cursor: pointer;
   will-change: transform;
@@ -421,6 +422,11 @@ h1, h2, h3 {
   transform: scale(0.94); transition: transform .35s var(--ease);
 }
 .ai-lightbox.is-open .ai-lightbox__panel { transform: scale(1); }
+/* presentation decks are landscape, not phone-shaped — stack the panel
+   instead of forcing a wide slide next to a narrow text column */
+.ai-lightbox__panel--wide { flex-direction: column; max-width: 900px; }
+.ai-lightbox__panel--wide .ai-lightbox__info { text-align: center; }
+.ai-lightbox__panel--wide .ai-lightbox__info p { margin: 0 auto; }
 .ai-lightbox__media {
   position: relative;
   flex: 0 0 auto;
@@ -454,6 +460,8 @@ h1, h2, h3 {
 @media (prefers-reduced-motion: reduce) {
   .ai-lightbox__spinner { animation-duration: 1.6s; }
 }
+/* presentation deck: landscape slide, full width of the stacked panel */
+.ai-lightbox__media--deck { aspect-ratio: 16/9; width: 100%; height: auto; }
 /* flyers/graphics: no forced 9:16 crop, keep the artwork's own proportions */
 .ai-lightbox__media--image { aspect-ratio: auto; width: auto; height: min(80vh, 760px); }
 .ai-lightbox__media--image img { width: auto; height: 100%; max-width: 80vw; object-fit: contain; }
@@ -497,9 +505,10 @@ h1, h2, h3 {
 
 @media (max-width: 760px) {
   .ai-lightbox__panel { flex-direction: column; gap: 1.5rem; }
-  .ai-lightbox__media:not(.ai-lightbox__media--image) {
+  .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--deck) {
     max-height: 62vh; width: auto; aspect-ratio: 9/16;
   }
+  .ai-lightbox__media--deck { width: 100%; height: auto; aspect-ratio: 16/9; }
   .ai-lightbox__info { text-align: center; }
   .ai-lightbox__info p { margin: 0 auto; }
   .ai-lightbox__loading { justify-content: center; }
