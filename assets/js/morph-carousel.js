@@ -110,6 +110,7 @@
       iframe.title = data.title;
       mediaEl.appendChild(iframe);
     } else if (data.video) {
+      if (data.wide) mediaEl.classList.add('ai-lightbox__media--wide-video');
       const video = document.createElement('video');
       video.src = data.video;
       video.autoplay = true;
@@ -159,6 +160,9 @@
       // cards' fixed ratio + cover crop — otherwise most of the artwork
       // (titles, logos near the edges) gets cut off.
       if (data.type === 'image') card.classList.add('morph-card--poster');
+      // Motion design pieces are shot/edited widescreen, so their cards get
+      // a landscape box instead of the default portrait one.
+      if (data.wide) card.classList.add('morph-card--wide');
       card.tabIndex = 0;
       card.setAttribute('role', 'button');
       card.setAttribute('aria-label', data.title);
@@ -369,43 +373,43 @@
       title: 'Telemea — Solomonescu',
       desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per il Telemea di Solomonescu, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania.',
       video: 'assets/video/telemea-solomon-spot.mp4',
-      cover: 'assets/img/telemea-solomon-cover.webp',
+      cover: 'assets/img/telemea-solomon-cover.webp?v=2',
     },
     1: {
       title: 'Lunca Ilvei — Cascaval Dalia',
       desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per il Cascaval Dalia, formaggio di Lunca Ilvei, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania.',
       video: 'assets/video/lunca-ilvei-cheese.mp4',
-      cover: 'assets/img/lunca-ilvei-cover.webp',
+      cover: 'assets/img/lunca-ilvei-cover.webp?v=2',
     },
     2: {
       title: 'Black & White',
       desc: 'Contenuto visivo generato con l\'intelligenza artificiale.',
       video: 'assets/video/black-and-white.mp4',
-      cover: 'assets/img/black-and-white-cover.webp',
+      cover: 'assets/img/black-and-white-cover.webp?v=2',
     },
     3: {
       title: 'Deserto di Sale',
       desc: 'Contenuto visivo generato con l\'intelligenza artificiale.',
       video: 'assets/video/deserto-di-sale.mp4',
-      cover: 'assets/img/deserto-di-sale-cover.webp',
+      cover: 'assets/img/deserto-di-sale-cover.webp?v=2',
     },
     4: {
       title: 'Lunca Ilvei — Raclette',
       desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per la linea Raclette di Lunca Ilvei, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania.',
       video: 'assets/video/raclette-cheese.mp4',
-      cover: 'assets/img/raclette-cheese-cover.webp',
+      cover: 'assets/img/raclette-cheese-cover.webp?v=2',
     },
     5: {
       title: 'Red Bull Green Edition — Spot',
       desc: 'Concept di spot pubblicitario generato con l\'intelligenza artificiale.',
       video: 'assets/video/redbull-spot.mp4',
-      cover: 'assets/img/redbull-spot-cover.webp',
+      cover: 'assets/img/redbull-spot-cover.webp?v=2',
     },
     6: {
       title: 'Glitch',
       desc: 'Contenuto visivo generato con l\'intelligenza artificiale.',
       video: 'assets/video/glitch-2.mp4',
-      cover: 'assets/img/glitch-2-cover.webp',
+      cover: 'assets/img/glitch-2-cover.webp?v=2',
     },
   };
 
@@ -423,7 +427,16 @@
   // Placeholder items for work not yet uploaded — swap video/image/figmaUrl
   // in as real files/links come in, same pattern as the AI overrides above.
   const OTHER_ITEMS = [
-    { title: 'Video Animato 01', desc: 'Motion design in arrivo.', type: 'video', category: 'Motion Design', badge: 'VID', video: '', cover: '' },
+    {
+      title: 'Motion Studio Production',
+      desc: 'Motion design per la promozione di uno studio di produzione video, tra editing, montaggio e sound design.',
+      type: 'video',
+      category: 'Motion Design',
+      badge: 'VID',
+      wide: true,
+      video: 'assets/video/motion-studio-production.mp4',
+      cover: 'assets/img/motion-studio-cover.webp',
+    },
     { title: 'Video Animato 02', desc: 'Motion design in arrivo.', type: 'video', category: 'Motion Design', badge: 'VID', video: '', cover: '' },
     {
       title: 'Zoona Vinyl — Open Decks',
@@ -432,7 +445,7 @@
       category: 'Graphic Design',
       badge: 'GD',
       image: 'assets/img/open-decks.webp',
-      cover: 'assets/img/open-decks-cover.webp',
+      cover: 'assets/img/open-decks-cover.webp?v=2',
     },
     {
       title: 'Elektronik Summerfest',
@@ -441,7 +454,7 @@
       category: 'Graphic Design',
       badge: 'GD',
       image: 'assets/img/elektronik-summerfest.webp',
-      cover: 'assets/img/elektronik-summerfest-cover.webp',
+      cover: 'assets/img/elektronik-summerfest-cover.webp?v=2',
     },
     {
       title: 'Touch of Beauty — Presentazione',
@@ -467,10 +480,10 @@
       // the generic dark neutral used for taller poster-shaped covers
       cardBg: '#000000',
       image: 'assets/img/energic-swirl-purple.webp',
-      cover: 'assets/img/energic-swirl-purple-cover.webp',
+      cover: 'assets/img/energic-swirl-purple-cover.webp?v=2',
       gallery: [
-        { image: 'assets/img/energic-swirl-purple.webp', cover: 'assets/img/energic-swirl-purple-cover.webp', label: 'Viola' },
-        { image: 'assets/img/energic-swirl-green.webp', cover: 'assets/img/energic-swirl-green-cover.webp', label: 'Verde' },
+        { image: 'assets/img/energic-swirl-purple.webp', cover: 'assets/img/energic-swirl-purple-cover.webp?v=2', label: 'Viola' },
+        { image: 'assets/img/energic-swirl-green.webp', cover: 'assets/img/energic-swirl-green-cover.webp?v=2', label: 'Verde' },
       ],
     },
     {

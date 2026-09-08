@@ -382,6 +382,8 @@ h1, h2, h3 {
 /* Posters/flyers: taller box, closer to a real print ratio, so the
    "contain" fit above (set in JS) doesn't have to shrink the art much. */
 .morph-card--poster { width: 72px; height: 96px; margin: -48px 0 0 -36px; }
+/* Motion design: landscape 16:9 box instead of the default portrait one. */
+.morph-card--wide { width: 96px; height: 54px; margin: -27px 0 0 -48px; }
 .morph-card:focus-visible .morph-card__inner { outline: 2px solid var(--accent-soft); outline-offset: 3px; }
 .morph-card__inner {
   position: relative; width: 100%; height: 100%;
@@ -409,6 +411,7 @@ h1, h2, h3 {
   .ai-morph { height: 320vh; }
   .morph-card { width: 76px; height: 107px; margin: -53.5px 0 0 -38px; }
   .morph-card--poster { width: 90px; height: 121px; margin: -60.5px 0 0 -45px; }
+  .morph-card--wide { width: 121px; height: 68px; margin: -34px 0 0 -60.5px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .morph-card { transition: none; }
@@ -473,6 +476,9 @@ h1, h2, h3 {
    letterboxing above/below tall, narrow posters instead of a tight fit. */
 .ai-lightbox__media--image { aspect-ratio: auto; width: auto; height: auto; max-width: 90vw; max-height: 80vh; }
 .ai-lightbox__media--image img { display: block; width: auto; height: auto; max-width: 90vw; max-height: 80vh; object-fit: contain; }
+/* Motion design: widescreen 16:9 footage, sized by width instead of the
+   default 9:16 frame's fixed height, so it doesn't force an oversized panel. */
+.ai-lightbox__media--wide-video { aspect-ratio: 16/9; width: min(56vw, 620px); height: auto; }
 .ai-lightbox__placeholder {
   color: rgba(251,248,255,0.75); font-family: 'Space Grotesk', sans-serif;
   font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase;
@@ -513,12 +519,13 @@ h1, h2, h3 {
 
 @media (max-width: 760px) {
   .ai-lightbox__panel { flex-direction: column; gap: 1.5rem; }
-  .ai-lightbox__media:not(.ai-lightbox__media--image) {
+  .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--wide-video) {
     max-height: 62vh; width: auto;
   }
-  .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--deck) {
+  .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--deck):not(.ai-lightbox__media--wide-video) {
     aspect-ratio: 9/16;
   }
+  .ai-lightbox__media--wide-video { width: 100%; max-height: none; }
   .ai-lightbox__info { text-align: center; }
   .ai-lightbox__info p { margin: 0 auto; }
   .ai-lightbox__loading { justify-content: center; }
