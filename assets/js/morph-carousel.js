@@ -49,16 +49,22 @@
 
     if (data.type === 'figma' && data.figmaUrl) {
       const isDeck = data.figmaKind === 'deck';
+      // Only the interactive UI/UX prototypes get the "loading, may take a
+      // few seconds" indicator — a presentation deck (Graphic Design) just
+      // fades the iframe in without it.
+      const showLoadingUI = data.category === 'UI/UX Design';
       mediaEl.classList.add(isDeck ? 'ai-lightbox__media--deck' : 'ai-lightbox__media--figma');
       if (isDeck) lightboxPanel.classList.add('ai-lightbox__panel--wide');
-      loadingEl.textContent = isDeck
-        ? 'Caricamento della presentazione… può richiedere alcuni secondi.'
-        : 'Caricamento del prototipo… può richiedere alcuni secondi.';
-      loadingEl.hidden = false;
-      const spinner = document.createElement('div');
-      spinner.className = 'ai-lightbox__spinner';
-      spinner.setAttribute('aria-hidden', 'true');
-      mediaEl.appendChild(spinner);
+
+      let spinner = null;
+      if (showLoadingUI) {
+        loadingEl.textContent = 'Caricamento del prototipo… può richiedere alcuni secondi.';
+        loadingEl.hidden = false;
+        spinner = document.createElement('div');
+        spinner.className = 'ai-lightbox__spinner';
+        spinner.setAttribute('aria-hidden', 'true');
+        mediaEl.appendChild(spinner);
+      }
 
       const iframe = document.createElement('iframe');
       iframe.className = 'is-loading';
@@ -67,7 +73,7 @@
       iframe.title = data.title;
       iframe.addEventListener('load', () => {
         iframe.classList.remove('is-loading');
-        spinner.remove();
+        if (spinner) spinner.remove();
         loadingEl.hidden = true;
       });
       mediaEl.appendChild(iframe);

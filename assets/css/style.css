@@ -407,8 +407,8 @@ h1, h2, h3 {
 
 @media (max-width: 760px) {
   .ai-morph { height: 320vh; }
-  .morph-card { width: 58px; height: 82px; margin: -41px 0 0 -29px; }
-  .morph-card--poster { width: 69px; height: 93px; margin: -46.5px 0 0 -34.5px; }
+  .morph-card { width: 76px; height: 107px; margin: -53.5px 0 0 -38px; }
+  .morph-card--poster { width: 90px; height: 121px; margin: -60.5px 0 0 -45px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .morph-card { transition: none; }
@@ -470,8 +470,12 @@ h1, h2, h3 {
 /* presentation deck: landscape slide, full width of the stacked panel */
 .ai-lightbox__media--deck { aspect-ratio: 16/9; width: 100%; height: auto; }
 /* flyers/graphics: no forced 9:16 crop, keep the artwork's own proportions */
-.ai-lightbox__media--image { aspect-ratio: auto; width: auto; height: min(80vh, 760px); }
-.ai-lightbox__media--image img { width: auto; height: 100%; max-width: 80vw; object-fit: contain; }
+/* Sized to shrink-wrap the artwork itself (whichever of width/height binds
+   first) instead of a fixed height — a fixed height with a separate
+   max-width on the img let the two constraints disagree, leaving visible
+   letterboxing above/below tall, narrow posters instead of a tight fit. */
+.ai-lightbox__media--image { aspect-ratio: auto; width: auto; height: auto; max-width: 90vw; max-height: 80vh; }
+.ai-lightbox__media--image img { display: block; width: auto; height: auto; max-width: 90vw; max-height: 80vh; object-fit: contain; }
 .ai-lightbox__placeholder {
   color: rgba(251,248,255,0.75); font-family: 'Space Grotesk', sans-serif;
   font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase;
