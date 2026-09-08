@@ -44,6 +44,7 @@
     galleryEl.innerHTML = '';
 
     if (data.type === 'figma' && data.figmaUrl) {
+      mediaEl.classList.add('ai-lightbox__media--figma');
       const iframe = document.createElement('iframe');
       iframe.src = data.figmaUrl;
       iframe.setAttribute('allowfullscreen', '');
