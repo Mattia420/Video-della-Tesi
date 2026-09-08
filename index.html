@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -132,7 +132,7 @@
       </div>
       <div class="globe-wrap reveal-up">
         <canvas id="globeCanvas" class="globe-canvas"></canvas>
-        <ul class="globe-cities-sr">
+        <ul class="visually-hidden">
           <li>Boston, USA</li>
           <li>Valencia, Spagna</li>
           <li>Oradea, Romania</li>
@@ -148,7 +148,7 @@
   <section class="contact" id="contact">
     <div class="contact__inner">
       <p class="section-tag reveal-up">Contatti</p>
-      <h2 class="contact__title reveal-up">Hai un progetto in mente?<br>Parliamone e <span class="contact__rotator"><span class="contact__rotator-word" id="contactRotatorWord">creiamo</span></span> insieme.</h2>
+      <h2 class="contact__title reveal-up">Hai un progetto in mente?<br>Parliamone e <span class="contact__rotator" id="contactRotator"><svg class="contact__rotator-svg" id="contactRotatorSvg" aria-hidden="true"><text id="contactRotatorText" x="2" y="0.78em">creiamo</text></svg><span class="visually-hidden" id="contactRotatorSr">creiamo</span></span> insieme.</h2>
       <a href="mailto:mattia.pedron2004@gmail.com" class="btn btn--magnetic btn--large reveal-up" data-cursor="view">
         <span>Scrivimi</span>
       </a>

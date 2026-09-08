@@ -565,7 +565,7 @@ h1, h2, h3 {
 }
 /* accessible text alternative for the canvas — visually hidden, city names
    are rendered as labels on the globe itself */
-.globe-cities-sr {
+.visually-hidden {
   position: absolute; width: 1px; height: 1px;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
 }
@@ -593,13 +593,32 @@ h1, h2, h3 {
 }
 .contact__inner { position: relative; z-index: 1; }
 .contact__title { font-size: clamp(2rem, 6vw, 4.5rem); margin-top: 1rem; }
-.contact__rotator { display: inline-block; overflow: hidden; vertical-align: bottom; }
-.contact__rotator-word {
+/* Handwriting-style rotating word: an SVG <text> is "drawn" via a
+   stroke-dasharray reveal (classic pen-trace technique), then filled
+   solid, before fading out to make room for the next word. The wrapper's
+   width is measured and transitioned per word so the trailing "insieme."
+   reflows smoothly instead of snapping to the new width. */
+.contact__rotator {
   display: inline-block;
-  color: #fff;
-  transition: opacity .35s var(--ease), transform .35s var(--ease);
+  vertical-align: bottom;
+  height: 1em;
+  transition: width .45s var(--ease), opacity .25s ease;
+  opacity: 1;
 }
-.contact__rotator-word.is-swapping { opacity: 0; transform: translateY(-0.3em); }
+.contact__rotator.is-hidden { opacity: 0; }
+.contact__rotator-svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.contact__rotator-svg text {
+  font-family: 'Caveat', cursive;
+  font-weight: 700;
+  font-size: 1.5em;
+  fill: transparent;
+  stroke: #fff;
+  stroke-width: 1.6px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: fill .4s ease;
+}
+.contact__rotator-svg text.is-filled { fill: #fff; }
 .contact__socials { display: flex; gap: 2rem; justify-content: center; margin-top: 1rem; }
 .contact__socials a { font-size: 0.9rem; color: var(--text-dim); transition: color .3s ease; }
 .contact__socials a:hover { color: var(--accent); }

@@ -269,22 +269,67 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 
 /* =========================================================
-   CONTACT HEADING — rotating word ("...Parliamone e [creiamo/
-   ideiamo/...] insieme.") cycles through a few verbs.
+   CONTACT HEADING — handwriting-style rotating word ("...Parliamone
+   e [creiamo/ideiamo/...] insieme."). Each word is "drawn" as an SVG
+   stroke (stroke-dasharray reveal), then fills solid white, holds,
+   fades out, and the next word draws in its place. The wrapper's
+   width is measured per word and transitioned so the trailing
+   "insieme." reflows smoothly instead of jumping.
    ========================================================= */
 (() => {
-  const el = document.getElementById('contactRotatorWord');
-  if (!el) return;
+  const wrap = document.getElementById('contactRotator');
+  const svg = document.getElementById('contactRotatorSvg');
+  const textEl = document.getElementById('contactRotatorText');
+  const srEl = document.getElementById('contactRotatorSr');
+  if (!wrap || !svg || !textEl) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const words = ['creiamo', 'ideiamo', 'pensiamo', 'organizziamo', 'generiamo'];
   let i = 0;
+
+  function sizeToText() {
+    const bbox = textEl.getBBox();
+    wrap.style.width = Math.ceil(bbox.x + bbox.width) + 6 + 'px';
+  }
+
+  function draw() {
+    textEl.textContent = words[i];
+    if (srEl) srEl.textContent = words[i];
+    textEl.classList.remove('is-filled');
+    textEl.style.transition = 'none';
+    textEl.style.strokeDasharray = '0';
+    textEl.style.strokeDashoffset = '0';
+    sizeToText();
+
+    // Cursive glyph outlines run noticeably longer than the plain advance
+    // width getComputedTextLength() reports (loops, connecting strokes),
+    // so pad generously to make sure the trace fully covers every letter.
+    const len = (textEl.getComputedTextLength ? textEl.getComputedTextLength() : 200) * 1.6 + 40;
+    textEl.style.strokeDasharray = String(len);
+    textEl.style.strokeDashoffset = String(len);
+    // Force layout so the browser registers the reset above before the
+    // transition below is asked to animate away from it.
+    void textEl.getBoundingClientRect();
+    textEl.style.transition = 'stroke-dashoffset 1.1s ease-out, fill .4s ease .9s';
+    requestAnimationFrame(() => {
+      textEl.style.strokeDashoffset = '0';
+      textEl.classList.add('is-filled');
+    });
+  }
+
+  draw();
   setInterval(() => {
-    el.classList.add('is-swapping');
+    wrap.classList.add('is-hidden');
     setTimeout(() => {
       i = (i + 1) % words.length;
-      el.textContent = words[i];
-      el.classList.remove('is-swapping');
-    }, 350);
-  }, 2200);
+      draw();
+      wrap.classList.remove('is-hidden');
+    }, 250);
+  }, 2900);
+
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(sizeToText, 150);
+  });
 })();
