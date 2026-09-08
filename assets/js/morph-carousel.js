@@ -45,10 +45,20 @@
 
     if (data.type === 'figma' && data.figmaUrl) {
       mediaEl.classList.add('ai-lightbox__media--figma');
+      const spinner = document.createElement('div');
+      spinner.className = 'ai-lightbox__spinner';
+      spinner.setAttribute('aria-hidden', 'true');
+      mediaEl.appendChild(spinner);
+
       const iframe = document.createElement('iframe');
+      iframe.className = 'is-loading';
       iframe.src = data.figmaUrl;
       iframe.setAttribute('allowfullscreen', '');
       iframe.title = data.title;
+      iframe.addEventListener('load', () => {
+        iframe.classList.remove('is-loading');
+        spinner.remove();
+      });
       mediaEl.appendChild(iframe);
     } else if (data.type === 'image' && data.image) {
       mediaEl.classList.add('ai-lightbox__media--image');
@@ -113,8 +123,12 @@
     if (iframe) iframe.src = iframe.src; // stops Vimeo/Figma playback on close
   }
 
+  const lightboxPanel = lightbox.querySelector('.ai-lightbox__panel');
   closeBtn.addEventListener('click', closeLightbox);
-  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+  // Close on any click outside the actual panel — not just an exact hit on
+  // the backdrop element itself, so nothing (e.g. the loading spinner) can
+  // silently swallow the click and make the background feel unresponsive.
+  lightbox.addEventListener('click', (e) => { if (!lightboxPanel.contains(e.target)) closeLightbox(); });
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
 
   /* ---------- one rotating-arc carousel instance ---------- */
