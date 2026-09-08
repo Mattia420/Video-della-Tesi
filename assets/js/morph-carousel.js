@@ -24,6 +24,7 @@
       <div class="ai-lightbox__info">
         <h3 id="aiLightboxTitle"></h3>
         <p id="aiLightboxDesc"></p>
+        <p class="ai-lightbox__loading" id="aiLightboxLoading" hidden>Caricamento del prototipo… può richiedere alcuni secondi.</p>
         <div class="ai-lightbox__gallery" id="aiLightboxGallery"></div>
       </div>
     </div>
@@ -33,6 +34,7 @@
   const mediaEl = lightbox.querySelector('#aiLightboxMedia');
   const titleEl = lightbox.querySelector('#aiLightboxTitle');
   const descEl = lightbox.querySelector('#aiLightboxDesc');
+  const loadingEl = lightbox.querySelector('#aiLightboxLoading');
   const galleryEl = lightbox.querySelector('#aiLightboxGallery');
   const closeBtn = lightbox.querySelector('.ai-lightbox__close');
 
@@ -42,9 +44,11 @@
     mediaEl.innerHTML = '';
     mediaEl.className = 'ai-lightbox__media';
     galleryEl.innerHTML = '';
+    loadingEl.hidden = true;
 
     if (data.type === 'figma' && data.figmaUrl) {
       mediaEl.classList.add('ai-lightbox__media--figma');
+      loadingEl.hidden = false;
       const spinner = document.createElement('div');
       spinner.className = 'ai-lightbox__spinner';
       spinner.setAttribute('aria-hidden', 'true');
@@ -58,6 +62,7 @@
       iframe.addEventListener('load', () => {
         iframe.classList.remove('is-loading');
         spinner.remove();
+        loadingEl.hidden = true;
       });
       mediaEl.appendChild(iframe);
     } else if (data.type === 'image' && data.image) {
