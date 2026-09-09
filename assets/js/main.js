@@ -228,22 +228,22 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* =========================================================
-     CHARACTER SCROLL-CONVERGE REVEAL ("Chi sono" text)
-     Every character starts offset sideways and rotated in 3D, scaled by
-     its distance from the middle of the paragraph — so the two ends fan
-     outward and the centre barely moves — then converges to its resting
-     position as the paragraph scrolls through view. One shared scroll
-     progress drives every character's tween at once; only the distance
-     from centre (set per-character before the tween starts) makes some
-     travel further/rotate more than others.
+     WORD-BY-WORD SCROLL REVEAL (site-wide text)
+     Wraps each word in its own span, then scrubs opacity/blur across the
+     whole run tied directly to scroll position (not time), so the text
+     lights up progressively as it's scrolled through. Applied to every
+     .word-reveal element (section tags/titles, About/globe paragraphs,
+     skills list, contact heading) — not the hero title, which already
+     has its own load-in entrance animation.
      ========================================================= */
-  document.querySelectorAll('.char-reveal p').forEach((p) => {
-    // Split into per-word spans (kept as normal inline-block units so the
-    // browser still wraps lines at real word boundaries), each holding
-    // per-character spans for the actual converge transform. Recurses into
-    // child elements (e.g. <em>) so their words/characters get wrapped too
-    // without disturbing that element's own styling.
-    const splitChars = (node) => {
+  document.querySelectorAll('.word-reveal').forEach((el) => {
+    // Split text nodes into per-word spans, recursing into child elements
+    // (e.g. <em>, the skills list's number spans) so words inside them get
+    // wrapped too without disturbing that element's own styling. Skips SVG
+    // content outright — the contact heading's handwriting-style rotator
+    // word lives in an <svg>, and wrapping HTML spans around its <text>
+    // content wouldn't render.
+    const splitWords = (node) => {
       Array.from(node.childNodes).forEach((child) => {
         if (child.nodeType === Node.TEXT_NODE) {
           const frag = document.createDocumentFragment();
@@ -252,43 +252,34 @@ document.addEventListener('DOMContentLoaded', () => {
             if (/^\s+$/.test(part)) {
               frag.appendChild(document.createTextNode(part));
             } else {
-              const word = document.createElement('span');
-              word.className = 'word';
-              part.split('').forEach((ch) => {
-                const span = document.createElement('span');
-                span.className = 'char';
-                span.textContent = ch;
-                word.appendChild(span);
-              });
-              frag.appendChild(word);
+              const span = document.createElement('span');
+              span.className = 'word';
+              span.textContent = part;
+              frag.appendChild(span);
             }
           });
           node.replaceChild(frag, child);
         } else if (child.nodeType === Node.ELEMENT_NODE) {
-          splitChars(child);
+          if (child instanceof SVGElement) return;
+          splitWords(child);
         }
       });
     };
-    splitChars(p);
+    splitWords(el);
 
-    const chars = p.querySelectorAll('.char');
-    if (!chars.length) return;
-    const centerIndex = (chars.length - 1) / 2;
-    const X_PER_CHAR = 4;
-    const ROTATE_PER_CHAR = 6;
-    chars.forEach((span, i) => {
-      const distance = i - centerIndex;
-      gsap.set(span, { x: distance * X_PER_CHAR, rotateX: distance * ROTATE_PER_CHAR });
-    });
-    gsap.to(chars, {
-      x: 0,
-      rotateX: 0,
+    const words = el.querySelectorAll('.word');
+    if (!words.length) return;
+    gsap.set(words, { opacity: 0.25, filter: 'blur(4px)' });
+    gsap.to(words, {
+      opacity: 1,
+      filter: 'blur(0px)',
+      stagger: 0.05,
       ease: 'none',
       scrollTrigger: {
-        trigger: p,
-        start: 'top 85%',
-        end: 'top 40%',
-        scrub: 0.5,
+        trigger: el,
+        start: 'top 88%',
+        end: 'bottom 60%',
+        scrub: 0.6,
       },
     });
   });

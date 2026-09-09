@@ -164,7 +164,7 @@
       // they get a taller box and "contain" fit instead of the video/AI
       // cards' fixed ratio + cover crop — otherwise most of the artwork
       // (titles, logos near the edges) gets cut off.
-      if (data.type === 'image') card.classList.add('morph-card--poster');
+      if (data.type === 'image' || data.poster) card.classList.add('morph-card--poster');
       // Motion design pieces are shot/edited widescreen, so their cards get
       // a landscape box instead of the default portrait one.
       if (data.wide) card.classList.add('morph-card--wide');
@@ -469,6 +469,9 @@
       type: 'figma',
       category: 'Graphic Design',
       badge: 'GD',
+      // Same card size as the other Graphic Design posters/flyers, even
+      // though this one opens as a figma deck rather than a plain image.
+      poster: true,
       figmaUrl: 'https://embed.figma.com/deck/7g65MmoCigEi0K7Vzhi4ty/Touch-of-Beauty-%7C-Presentation--Copy-?node-id=1-559&t=Qc40Qai1cRm8ujqa-1&embed-host=share',
       figmaKind: 'deck',
       cover: 'assets/img/touch-of-beauty-cover.webp',
