@@ -253,8 +253,9 @@ h1, h2, h3 {
 
 .hero__portrait {
   flex: 0 0 auto;
-  height: min(85vh, 780px);
+  height: min(90vh, 850px);
   margin-left: clamp(0.5rem, 3vw, 2.5rem);
+  transform: translateX(1.5rem);
   opacity: 0;
 }
 .hero__portrait img {
@@ -276,7 +277,7 @@ h1, h2, h3 {
      constrains width; once the row flips to a column here it constrains
      height instead, forcing a huge empty gap below the title. */
   .hero__inner { flex: 0 1 auto; }
-  .hero__portrait { height: min(52vh, 460px); opacity: 0.6 !important; margin: 1.5rem auto 0; }
+  .hero__portrait { height: min(52vh, 460px); opacity: 0.6 !important; margin: 1.5rem auto 0; transform: none; }
 }
 
 .hero__title {
