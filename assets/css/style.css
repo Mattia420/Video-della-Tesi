@@ -466,10 +466,8 @@ h1, h2, h3 {
 @media (prefers-reduced-motion: reduce) {
   .ai-lightbox__spinner { animation-duration: 1.6s; }
 }
-/* presentation deck: portrait slides (~A4, 0.707 ratio), same side-by-side
-   template as everything else, just a taller/wider box than the 9:16
-   video/prototype frame */
-.ai-lightbox__media--deck { aspect-ratio: 1920/2716; }
+/* presentation deck: plays back landscape, sized via .ai-lightbox__media--wide-video
+   (added alongside --deck in JS) instead of its own aspect-ratio rule. */
 /* flyers/graphics: no forced 9:16 crop, keep the artwork's own proportions */
 /* Sized to shrink-wrap the artwork itself (whichever of width/height binds
    first) instead of a fixed height — a fixed height with a separate
@@ -497,6 +495,11 @@ h1, h2, h3 {
   border: 2px solid rgba(217,166,255,0.3); border-top-color: var(--accent-soft);
   border-radius: 50%; animation: ai-lightbox-spin 0.8s linear infinite;
 }
+/* A class selector's `display: flex` above outranks the UA stylesheet's
+   `[hidden] { display: none }` (equal specificity, but author origin wins),
+   so the loading row/spinner stayed visible on every card even when JS set
+   the `hidden` attribute — this puts it back in charge. */
+.ai-lightbox__loading[hidden] { display: none; }
 .ai-lightbox__gallery { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
 .ai-lightbox__gallery:empty { display: none; }
 .ai-lightbox__gallery-thumb {

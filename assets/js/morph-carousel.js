@@ -53,6 +53,8 @@
       // fades the iframe in without it.
       const showLoadingUI = data.category === 'UI/UX Design';
       mediaEl.classList.add(isDeck ? 'ai-lightbox__media--deck' : 'ai-lightbox__media--figma');
+      // Decks play back landscape, like the widescreen video frame.
+      if (isDeck) mediaEl.classList.add('ai-lightbox__media--wide-video');
 
       let spinner = null;
       if (showLoadingUI) {
@@ -139,12 +141,15 @@
     if (iframe) iframe.src = iframe.src; // stops Vimeo/Figma playback on close
   }
 
-  const lightboxPanel = lightbox.querySelector('.ai-lightbox__panel');
   closeBtn.addEventListener('click', closeLightbox);
-  // Close on any click outside the actual panel — not just an exact hit on
-  // the backdrop element itself, so nothing (e.g. the loading spinner) can
-  // silently swallow the click and make the background feel unresponsive.
-  lightbox.addEventListener('click', (e) => { if (!lightboxPanel.contains(e.target)) closeLightbox(); });
+  // Close on any click that isn't on the media itself (video/iframe/image)
+  // or the gallery thumbnails (which swap the image instead of closing) —
+  // clicking the title, description, or anywhere else in/around the panel
+  // goes back, so the X isn't the only way out.
+  lightbox.addEventListener('click', (e) => {
+    if (mediaEl.contains(e.target) || galleryEl.contains(e.target)) return;
+    closeLightbox();
+  });
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
 
   /* ---------- one rotating-arc carousel instance ---------- */
@@ -462,7 +467,7 @@
       type: 'figma',
       category: 'Graphic Design',
       badge: 'GD',
-      figmaUrl: 'https://embed.figma.com/deck/7g65MmoCigEi0K7Vzhi4ty/Touch-of-Beauty-%7C-Presentation--Copy-?node-id=14-585&t=E8IGtX0PdFVB0FCM-1&embed-host=share',
+      figmaUrl: 'https://embed.figma.com/deck/7g65MmoCigEi0K7Vzhi4ty/Touch-of-Beauty-%7C-Presentation--Copy-?node-id=1-559&t=Qc40Qai1cRm8ujqa-1&embed-host=share',
       figmaKind: 'deck',
       cover: 'assets/img/touch-of-beauty-cover.webp',
     },
