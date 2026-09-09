@@ -297,7 +297,14 @@
 
       const minDim = Math.min(stageSize.width, stageSize.height) || 1;
       const { total, isMobile, visibleCount, halfSpreadDeg, anglePerCard, fadeRangeDeg, fadeHalfSpreadDeg, maxOffset } = computeLayout();
-      const windowOffset = wobbleSmooth * maxOffset;
+      // Start the window one card-slot short of centred on the very first
+      // item — otherwise, the instant the arc finishes forming (wobble
+      // still at 0), card 0 already sits right at the fade/viewport edge
+      // with no room to its left, so it's cut off before the user has any
+      // time to click it. Padding only the start (not maxOffset itself)
+      // leaves the end of the scroll — the last cards — unchanged.
+      const startPad = 2;
+      const windowOffset = -startPad + wobbleSmooth * (maxOffset + startPad);
       const centerIndex = windowOffset + (visibleCount - 1) / 2;
 
       if (categoryEl) {
