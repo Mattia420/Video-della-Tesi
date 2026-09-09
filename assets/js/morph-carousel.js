@@ -416,9 +416,15 @@
       video: 'assets/video/glitch-2.mp4',
       cover: 'assets/img/glitch-2-cover.webp?v=2',
     },
+    7: {
+      title: 'Hopy',
+      desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per Hopy, linea cosmetica a base di canapa di Enzima.',
+      video: 'assets/video/hopy-spot.mp4',
+      cover: 'assets/img/hopy-spot-cover.webp',
+    },
   };
 
-  const AI_ITEMS = Array.from({ length: 10 }, (_, i) => ({
+  const AI_ITEMS = Array.from({ length: 8 }, (_, i) => ({
     title: `Contenuto AI ${String(i + 1).padStart(2, '0')}`,
     desc: AI_DESCS[i % AI_DESCS.length],
     video: '',
@@ -442,7 +448,6 @@
       video: 'assets/video/motion-studio-production.mp4',
       cover: 'assets/img/motion-studio-cover.webp',
     },
-    { title: 'Video Animato 02', desc: 'Motion design in arrivo.', type: 'video', category: 'Motion Design', badge: 'VID', video: '', cover: '' },
     {
       title: 'Zoona Vinyl — Open Decks',
       desc: 'Locandina per una serata open decks in vinile, disegnata su misura per il brand dell\'evento.',
