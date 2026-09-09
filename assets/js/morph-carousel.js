@@ -449,6 +449,16 @@
       cover: 'assets/img/motion-studio-cover.webp',
     },
     {
+      title: 'Accademia di Impresa',
+      desc: 'Video animato esplicativo per Accademia di Impresa, su forme giuridiche e scelte societarie.',
+      type: 'video',
+      category: 'Motion Design',
+      badge: 'VID',
+      wide: true,
+      video: 'assets/video/accademia-di-impresa.mp4',
+      cover: 'assets/img/accademia-di-impresa-cover.webp',
+    },
+    {
       title: 'Zoona Vinyl — Open Decks',
       desc: 'Locandina per una serata open decks in vinile, disegnata su misura per il brand dell\'evento.',
       type: 'image',
