@@ -225,10 +225,20 @@
     // arbitrary cut — the category heading above changes right as that
     // pause crosses center.
     const GROUP_GAP = 1.5;
+    // Wide (landscape) cards are noticeably bigger than the default portrait
+    // card box, so two of them back-to-back at the default 1-unit spacing
+    // read as sitting closer together than any other pair — nudge them
+    // apart a bit extra to match. Only needed within the same category:
+    // a wide card next to a category change already gets the bigger
+    // GROUP_GAP above.
+    const WIDE_GAP = 0.45;
     const effectivePos = [];
     let gapAccum = 0;
     items.forEach((data, i) => {
-      if (i > 0 && data.category !== items[i - 1].category) gapAccum += GROUP_GAP;
+      if (i > 0) {
+        if (data.category !== items[i - 1].category) gapAccum += GROUP_GAP;
+        else if (data.wide && items[i - 1].wide) gapAccum += WIDE_GAP;
+      }
       effectivePos.push(i + gapAccum);
     });
     const totalSpan = effectivePos.length ? effectivePos[effectivePos.length - 1] : 0;

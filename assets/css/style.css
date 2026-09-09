@@ -352,7 +352,7 @@ h1, h2, h3 {
 /* =========================================================
    WORK
    ========================================================= */
-.work { padding: 0 var(--gutter) clamp(5rem, 8vw, 8rem); }
+.work { padding: 0 var(--gutter) clamp(2rem, 3vw, 3rem); }
 
 /* =========================================================
    AI CONTENT — scroll-morph gallery
@@ -692,7 +692,7 @@ h1, h2, h3 {
 @media (max-width: 600px) {
   .section-head { padding-top: 3.5rem; padding-bottom: 2rem; }
   .about { padding-bottom: 3rem; }
-  .work { padding-bottom: 3rem; }
+  .work { padding-bottom: 1.5rem; }
   .skills { padding-bottom: 3rem; }
   .contact { padding: 3rem var(--gutter); }
   .contact__socials { flex-wrap: wrap; row-gap: 0.75rem; }
