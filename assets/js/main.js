@@ -226,6 +226,56 @@ document.addEventListener('DOMContentLoaded', () => {
       },
     });
   });
+
+  /* =========================================================
+     WORD-BY-WORD SCROLL REVEAL ("Chi sono" text)
+     Wraps each word in its own span, then scrubs opacity/blur across the
+     whole run tied directly to scroll position (not time), so the text
+     lights up progressively as it's scrolled through.
+     ========================================================= */
+  document.querySelectorAll('.word-reveal').forEach((container) => {
+    // Split text nodes into per-word spans, recursing into child elements
+    // (e.g. <em>) so words inside them get wrapped too without disturbing
+    // that element's own styling.
+    const splitWords = (node) => {
+      Array.from(node.childNodes).forEach((child) => {
+        if (child.nodeType === Node.TEXT_NODE) {
+          const frag = document.createDocumentFragment();
+          child.textContent.split(/(\s+)/).forEach((part) => {
+            if (part === '') return;
+            if (/^\s+$/.test(part)) {
+              frag.appendChild(document.createTextNode(part));
+            } else {
+              const span = document.createElement('span');
+              span.className = 'word';
+              span.textContent = part;
+              frag.appendChild(span);
+            }
+          });
+          node.replaceChild(frag, child);
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
+          splitWords(child);
+        }
+      });
+    };
+    splitWords(container);
+
+    const words = container.querySelectorAll('.word');
+    if (!words.length) return;
+    gsap.set(words, { opacity: 0.25, filter: 'blur(4px)' });
+    gsap.to(words, {
+      opacity: 1,
+      filter: 'blur(0px)',
+      stagger: 0.05,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: container,
+        start: 'top 80%',
+        end: 'bottom 55%',
+        scrub: 0.6,
+      },
+    });
+  });
 });
 
 /* =========================================================

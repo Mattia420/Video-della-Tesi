@@ -446,26 +446,6 @@
   // in as real files/links come in, same pattern as the AI overrides above.
   const OTHER_ITEMS = [
     {
-      title: 'Motion Studio Production',
-      desc: 'Motion design per la promozione di uno studio di produzione video, tra editing, montaggio e sound design.',
-      type: 'video',
-      category: 'Motion Design',
-      badge: 'VID',
-      wide: true,
-      video: 'assets/video/motion-studio-production.mp4',
-      cover: 'assets/img/motion-studio-cover.webp',
-    },
-    {
-      title: 'Accademia di Impresa',
-      desc: 'Video animato esplicativo per Accademia di Impresa, su forme giuridiche e scelte societarie.',
-      type: 'video',
-      category: 'Motion Design',
-      badge: 'VID',
-      wide: true,
-      video: 'assets/video/accademia-di-impresa.mp4',
-      cover: 'assets/img/accademia-di-impresa-cover.webp',
-    },
-    {
       title: 'Zoona Vinyl — Open Decks',
       desc: 'Locandina per una serata open decks in vinile, disegnata su misura per il brand dell\'evento.',
       type: 'image',
@@ -546,6 +526,26 @@
       cardBg: '#000000',
       cover: 'assets/img/festillu-cover.webp',
     },
+    {
+      title: 'Motion Studio Production',
+      desc: 'Motion design per la promozione di uno studio di produzione video, tra editing, montaggio e sound design.',
+      type: 'video',
+      category: 'Motion Design',
+      badge: 'VID',
+      wide: true,
+      video: 'assets/video/motion-studio-production.mp4',
+      cover: 'assets/img/motion-studio-cover.webp',
+    },
+    {
+      title: 'Accademia di Impresa',
+      desc: 'Video animato esplicativo per Accademia di Impresa, su forme giuridiche e scelte societarie.',
+      type: 'video',
+      category: 'Motion Design',
+      badge: 'VID',
+      wide: true,
+      video: 'assets/video/accademia-di-impresa.mp4',
+      cover: 'assets/img/accademia-di-impresa-cover.webp',
+    },
   ];
 
   /* ---------- one merged carousel: AI content + everything else, category label swaps live ---------- */
@@ -555,6 +555,6 @@
     introEl: document.getElementById('workCarouselIntro'),
     revealEl: document.getElementById('workCarouselReveal'),
     categoryEl: document.getElementById('workCarouselCategory'),
-    items: [...AI_ITEMS, ...OTHER_ITEMS],
+    items: [...OTHER_ITEMS, ...AI_ITEMS],
   });
 })();
