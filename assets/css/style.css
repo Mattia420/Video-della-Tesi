@@ -285,7 +285,12 @@ h1, h2, h3 {
      height auto out keeps it proportional no matter what the row does. */
   .hero__portrait {
     flex: none; width: min(88vw, 420px); height: auto;
-    opacity: 0.6 !important; margin: 1.5rem auto 0; transform: none;
+    /* Overrides the tablet breakpoint's opacity:0.6 !important above —
+       mobile falls inside that query too (both are max-width), so without
+       this the photo stayed dimmed here even though it doesn't need to be
+       softened next to the title the way it does in the tablet row layout. */
+    opacity: 1 !important;
+    margin: 1.5rem auto 0; transform: none;
   }
   .hero__portrait img { width: 100%; height: auto; }
 }
