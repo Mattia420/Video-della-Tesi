@@ -396,7 +396,7 @@ h1, h2, h3 {
 }
 /* Posters/flyers: taller box, closer to a real print ratio, so the
    "contain" fit above (set in JS) doesn't have to shrink the art much. */
-.morph-card--poster { width: 72px; height: 96px; margin: -48px 0 0 -36px; }
+.morph-card--poster { width: 68px; height: 96px; margin: -48px 0 0 -34px; }
 /* Motion design: landscape 16:9 box instead of the default portrait one. */
 .morph-card--wide { width: 96px; height: 54px; margin: -27px 0 0 -48px; }
 .morph-card:focus-visible .morph-card__inner { outline: 2px solid var(--accent-soft); outline-offset: 3px; }
@@ -435,7 +435,7 @@ h1, h2, h3 {
      above instead of dead-centre in the viewport. */
   .ai-morph__intro { top: 38%; }
   .morph-card { top: 38%; width: 76px; height: 107px; margin: -53.5px 0 0 -38px; }
-  .morph-card--poster { width: 90px; height: 121px; margin: -60.5px 0 0 -45px; }
+  .morph-card--poster { width: 86px; height: 121px; margin: -60.5px 0 0 -43px; }
   .morph-card--wide { width: 121px; height: 68px; margin: -34px 0 0 -60.5px; }
   .ai-morph__reveal h2 { font-size: clamp(2.1rem, 9vw, 3rem); }
 }
@@ -537,9 +537,14 @@ h1, h2, h3 {
 .ai-lightbox__gallery-thumb:hover { opacity: 0.85; }
 .ai-lightbox__gallery-thumb.is-active { opacity: 1; border-color: var(--accent); }
 .ai-lightbox__close {
-  position: absolute; top: 2rem; right: clamp(1.5rem, 5vw, 3rem); z-index: 1;
+  position: absolute; top: 2rem; right: clamp(1.5rem, 5vw, 3rem); z-index: 2;
   width: 44px; height: 44px; border-radius: 50%;
-  border: 1px solid var(--line); background: transparent; color: var(--text);
+  border: 1px solid var(--line);
+  /* A solid backing, not transparent — on mobile this sits right on top
+     of the artwork itself (little vertical room to keep it clear of the
+     media), and a transparent circle with just a thin border reads as
+     invisible against a busy/dark image. */
+  background: rgba(12,8,16,0.85); color: var(--text);
   font-size: 1.5rem; line-height: 1; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   transition: border-color .3s ease, color .3s ease;
@@ -547,10 +552,15 @@ h1, h2, h3 {
 .ai-lightbox__close:hover { border-color: var(--accent); color: var(--accent-soft); }
 
 @media (max-width: 760px) {
+  /* Reserve clear room above the panel for the close button — without it,
+     tall artwork/media sits flush against the top of the screen with the
+     button pinned right on top of it instead of in clear backdrop space. */
+  .ai-lightbox { padding: 5rem 1.25rem 1.5rem; }
   .ai-lightbox__panel { flex-direction: column; gap: 1.5rem; }
   .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--wide-video) {
     max-height: 62vh; width: auto;
   }
+  .ai-lightbox__media--image, .ai-lightbox__media--image img { max-height: 68vh; }
   .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--deck):not(.ai-lightbox__media--wide-video) {
     aspect-ratio: 9/16;
   }
