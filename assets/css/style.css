@@ -430,7 +430,11 @@ h1, h2, h3 {
 
 @media (max-width: 760px) {
   .ai-morph { height: 320vh; }
-  .morph-card { width: 76px; height: 107px; margin: -53.5px 0 0 -38px; }
+  /* Circle + intro text share the same centre point (top:50%) — shift
+     both up together so the circle sits closer to the section title
+     above instead of dead-centre in the viewport. */
+  .ai-morph__intro { top: 38%; }
+  .morph-card { top: 38%; width: 76px; height: 107px; margin: -53.5px 0 0 -38px; }
   .morph-card--poster { width: 90px; height: 121px; margin: -60.5px 0 0 -45px; }
   .morph-card--wide { width: 121px; height: 68px; margin: -34px 0 0 -60.5px; }
   .ai-morph__reveal h2 { font-size: clamp(2.1rem, 9vw, 3rem); }

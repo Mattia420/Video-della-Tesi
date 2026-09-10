@@ -333,7 +333,10 @@
       cards.forEach((card, i) => {
         let x, y, rotation, scale, opacity;
 
-        const circleRadius = Math.min(minDim * 0.32, 220);
+        // Mobile cards are proportionally bigger relative to the narrow
+        // stage width, so the same 0.32 radius used on desktop leaves them
+        // crowding in over the centred intro text — give them more room.
+        const circleRadius = Math.min(minDim * (isMobile ? 0.44 : 0.32), 220);
         const circleAngle = (i / total) * 360;
         const circleRad = (circleAngle * Math.PI) / 180;
         const circlePos = {
