@@ -270,6 +270,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const words = el.querySelectorAll('.word');
     if (!words.length) return;
     gsap.set(words, { opacity: 0.25, filter: 'blur(4px)' });
+    // On small screens there's much less scroll distance per section, so
+    // a range tuned for desktop leaves text still mid-blur once it's
+    // sitting in a comfortable reading position — start/finish the reveal
+    // earlier (further down the viewport) so it's legible sooner.
+    const isMobileViewport = window.matchMedia('(max-width: 760px)').matches;
     gsap.to(words, {
       opacity: 1,
       filter: 'blur(0px)',
@@ -277,8 +282,8 @@ document.addEventListener('DOMContentLoaded', () => {
       ease: 'none',
       scrollTrigger: {
         trigger: el,
-        start: 'top 88%',
-        end: 'bottom 60%',
+        start: isMobileViewport ? 'top 98%' : 'top 88%',
+        end: isMobileViewport ? 'bottom 82%' : 'bottom 60%',
         scrub: 0.6,
       },
     });

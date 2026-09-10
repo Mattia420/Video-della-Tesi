@@ -568,6 +568,14 @@
     introEl: document.getElementById('workCarouselIntro'),
     revealEl: document.getElementById('workCarouselReveal'),
     categoryEl: document.getElementById('workCarouselCategory'),
-    items: [...OTHER_ITEMS, ...AI_ITEMS],
+    // Category order: Graphic Design, Motion Design, Contenuti AI, UI/UX
+    // Design. OTHER_ITEMS is already Graphic-then-UIUX-then-Motion, so
+    // filtering out UI/UX and appending it after AI reorders without
+    // touching the item data itself.
+    items: [
+      ...OTHER_ITEMS.filter((d) => d.category !== 'UI/UX Design'),
+      ...AI_ITEMS,
+      ...OTHER_ITEMS.filter((d) => d.category === 'UI/UX Design'),
+    ],
   });
 })();

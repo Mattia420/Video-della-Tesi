@@ -186,7 +186,19 @@
   let rotationAtDragStart = 0;
   let autoSpin = 0.0024;
 
+  // The canvas box is bigger than the sphere actually drawn in it (extra
+  // room for the name-tag pills above it), so only start a drag when the
+  // pointer comes down within the visible sphere itself — otherwise a
+  // touch anywhere in that empty padding would "grab" the globe instead of
+  // scrolling the page. touch-action stays pan-y (native vertical scroll)
+  // everywhere on the canvas except this one moment, where we
+  // preventDefault to hand that specific gesture over to the drag.
   canvas.addEventListener('pointerdown', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const px = e.clientX - rect.left - cx;
+    const py = e.clientY - rect.top - cy;
+    if (Math.hypot(px, py) > radius) return;
+    e.preventDefault();
     dragging = true;
     dragStartX = e.clientX;
     rotationAtDragStart = rotation;
@@ -194,6 +206,7 @@
   });
   canvas.addEventListener('pointermove', (e) => {
     if (!dragging) return;
+    e.preventDefault();
     rotation = rotationAtDragStart + (e.clientX - dragStartX) * 0.008;
   });
   canvas.addEventListener('pointerup', () => { dragging = false; });

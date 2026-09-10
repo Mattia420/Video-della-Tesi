@@ -277,7 +277,7 @@ h1, h2, h3 {
      constrains width; once the row flips to a column here it constrains
      height instead, forcing a huge empty gap below the title. */
   .hero__inner { flex: 0 1 auto; }
-  .hero__portrait { height: min(52vh, 460px); opacity: 0.6 !important; margin: 1.5rem auto 0; transform: none; }
+  .hero__portrait { height: min(64vh, 580px); opacity: 0.6 !important; margin: 1.5rem auto 0; transform: none; }
 }
 
 .hero__title {
@@ -310,8 +310,8 @@ h1, h2, h3 {
   transition: transform .45s var(--ease);
   z-index: 0;
 }
-.btn:hover { color: #201e21; border-color: var(--accent); }
-.btn:hover::before { transform: scale(1); }
+.btn:hover, .btn:active { color: #201e21; border-color: var(--accent); }
+.btn:hover::before, .btn:active::before { transform: scale(1); }
 .btn--large { padding: 1.3rem 3rem; font-size: 1rem; margin: 2rem 0; }
 
 /* =========================================================
@@ -396,6 +396,12 @@ h1, h2, h3 {
   transition: transform .5s var(--ease);
 }
 .morph-card:hover .morph-card__inner { transform: rotateY(180deg); }
+/* Touch devices fake :hover on tap, so a finger leaving the card can
+   leave it stuck flipped to its back — the flip is a mouse-hover-only
+   flourish, not meant to trigger on tap at all. */
+@media (hover: none) {
+  .morph-card:hover .morph-card__inner { transform: none; }
+}
 .morph-card__front, .morph-card__back {
   position: absolute; inset: 0; border-radius: 10px;
   backface-visibility: hidden;
@@ -417,6 +423,7 @@ h1, h2, h3 {
   .morph-card { width: 76px; height: 107px; margin: -53.5px 0 0 -38px; }
   .morph-card--poster { width: 90px; height: 121px; margin: -60.5px 0 0 -45px; }
   .morph-card--wide { width: 121px; height: 68px; margin: -34px 0 0 -60.5px; }
+  .ai-morph__reveal h2 { font-size: clamp(2.1rem, 9vw, 3rem); }
 }
 @media (prefers-reduced-motion: reduce) {
   .morph-card { transition: none; }
@@ -591,7 +598,7 @@ h1, h2, h3 {
      through the canvas's transparent (ocean) areas behind the globe */
   background: var(--bg);
   border-radius: 50%;
-  touch-action: none; cursor: grab;
+  touch-action: pan-y; cursor: grab;
 }
 .globe-canvas:active { cursor: grabbing; }
 @media (max-width: 900px) {
