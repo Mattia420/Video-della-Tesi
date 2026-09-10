@@ -72,6 +72,16 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* =========================================================
+     SKILLS ACCORDION — plain JS, no GSAP dependency
+     ========================================================= */
+  document.querySelectorAll('.skill-item__row').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!isOpen));
+    });
+  });
+
+  /* =========================================================
      Everything below depends on GSAP/ScrollTrigger/Lenis having
      loaded from the CDN. Guard it so a blocked/slow CDN degrades
      to a static (but fully usable) layout instead of leaving

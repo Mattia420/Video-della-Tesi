@@ -588,16 +588,55 @@ h1, h2, h3 {
 }
 .skills > .section-head, .skills__list { position: relative; z-index: 1; }
 .skills__list { border-top: 1px solid var(--line); }
-.skills__list li {
+.skill-item { border-bottom: 1px solid var(--line); }
+/* Static rows (no description written yet) keep the exact old markup/look:
+   plain li, number span + label, same hover nudge. */
+.skill-item--static {
   display: flex; align-items: baseline; gap: 1.5rem;
   padding: 1.4rem 0.5rem;
-  border-bottom: 1px solid var(--line);
   font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(1.3rem, 3vw, 2rem);
   transition: padding-left .4s var(--ease), color .4s ease;
 }
-.skills__list li span { color: var(--text-dim); font-size: 0.9rem; font-family: 'Inter', sans-serif; }
-.skills__list li:hover { padding-left: 1.5rem; color: var(--accent); }
+.skill-item--static span { color: var(--text-dim); font-size: 0.9rem; font-family: 'Inter', sans-serif; }
+.skill-item--static:hover { padding-left: 1.5rem; color: var(--accent); }
+/* Expandable rows: a full-width button (keyboard/click-accessible) holding
+   the same number+label layout, plus a collapsible panel below it that
+   animates open/closed via a 0fr->1fr grid-template-rows trick — no fixed
+   height to guess at, and it still animates smoothly. */
+.skill-item__row {
+  display: flex; align-items: baseline; gap: 1.5rem; width: 100%;
+  padding: 1.4rem 0.5rem;
+  background: none; border: 0; cursor: pointer; text-align: left;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.3rem, 3vw, 2rem); color: var(--text);
+  transition: padding-left .4s var(--ease), color .4s ease;
+}
+.skill-item__row:hover { padding-left: 1.5rem; color: var(--accent); }
+.skill-item__num { color: var(--text-dim); font-size: 0.9rem; font-family: 'Inter', sans-serif; }
+.skill-item__label { flex: 1; }
+.skill-item__chevron {
+  flex: 0 0 auto; width: 12px; height: 12px; margin-top: 0.6em;
+  position: relative;
+}
+.skill-item__chevron::before, .skill-item__chevron::after {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  width: 10px; height: 2px; background: currentColor;
+  transform: translate(-50%, -50%);
+  transition: transform .35s var(--ease);
+}
+.skill-item__chevron::after { transform: translate(-50%, -50%) rotate(90deg); }
+.skill-item__row[aria-expanded="true"] .skill-item__chevron::after { transform: translate(-50%, -50%) rotate(0deg); }
+.skill-item__panel {
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows .4s var(--ease);
+}
+.skill-item__panel-inner { overflow: hidden; }
+.skill-item__panel p {
+  color: var(--text-dim); font-size: 1rem; line-height: 1.6;
+  max-width: 60ch; padding: 0 0.5rem 1.4rem;
+}
+.skill-item__row[aria-expanded="true"] + .skill-item__panel { grid-template-rows: 1fr; }
 
 /* =========================================================
    GLOBE — international experience
@@ -702,9 +741,8 @@ h1, h2, h3 {
    ========================================================= */
 .footer {
   position: relative;
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 0.75rem;
-  padding: 1.4rem var(--gutter);
+  display: flex; flex-direction: column; align-items: center; gap: 1rem;
+  padding: 2.5rem var(--gutter) 1.4rem;
   color: var(--text-dim); font-size: 0.8rem;
 }
 .footer::before {
@@ -714,8 +752,18 @@ h1, h2, h3 {
   inset: 0;
   background: radial-gradient(120% 220% at 50% -120%, rgba(166, 0, 255, 0.20), transparent 70%);
 }
-.footer p, .footer__top { position: relative; z-index: 1; }
+.footer p, .footer__top, .footer__socials, .footer__email, .footer__bottom { position: relative; z-index: 1; }
 .footer__top { color: var(--text); }
+.footer__socials { display: flex; gap: 1.4rem; }
+.footer__socials a { color: var(--text); opacity: 0.8; transition: opacity .3s ease, color .3s ease; }
+.footer__socials a:hover { opacity: 1; color: var(--accent-soft); }
+.footer__socials svg { width: 20px; height: 20px; display: block; }
+.footer__email { color: var(--text-dim); transition: color .3s ease; }
+.footer__email:hover { color: var(--accent-soft); }
+.footer__bottom {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 0.75rem; width: 100%;
+}
 
 /* =========================================================
    REVEAL UP (scroll-triggered via JS/GSAP)
@@ -733,7 +781,7 @@ h1, h2, h3 {
   .contact { padding: 3rem var(--gutter); }
   .contact__socials { flex-wrap: wrap; row-gap: 0.75rem; }
   .footer { flex-direction: column; text-align: center; }
-  .btn, .nav__toggle, .skills__list li, .nav__links a {
+  .btn, .nav__toggle, .skill-item__row, .skill-item--static, .nav__links a {
     -webkit-tap-highlight-color: transparent;
   }
 }

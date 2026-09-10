@@ -110,17 +110,50 @@
       <p class="section-tag reveal-up">Competenze</p>
       <h2 class="section-title reveal-up">Di cosa mi occupo.</h2>
     </div>
-    <!-- word-reveal doesn't work here: .skills__list li is a flex row with
-         a `gap`, so splitting its text into word spans turns each word
-         into its own flex item and the gap lands between every word, not
-         just after the number — keep this section on the plain reveal-up. -->
+    <!-- word-reveal doesn't work here: a flex row with a `gap`, so splitting
+         text into word spans turns each word into its own flex item and the
+         gap lands between every word, not just after the number — keep this
+         section on the plain reveal-up. -->
     <ul class="skills__list">
-      <li class="reveal-up"><span>01</span>Graphic Design</li>
-      <li class="reveal-up"><span>02</span>Video Editing + Motion Design</li>
-      <li class="reveal-up"><span>03</span>AI generativa (immagini &amp; video)</li>
-      <li class="reveal-up"><span>04</span>UI/UX Design</li>
-      <li class="reveal-up"><span>05</span>Video Mapping</li>
-      <li class="reveal-up"><span>06</span>Contenuti social &amp; pubblicitari</li>
+      <li class="skill-item reveal-up">
+        <button class="skill-item__row" aria-expanded="false">
+          <span class="skill-item__num">01</span>
+          <span class="skill-item__label">Graphic Design</span>
+          <span class="skill-item__chevron" aria-hidden="true"></span>
+        </button>
+        <div class="skill-item__panel">
+          <div class="skill-item__panel-inner">
+            <p>Creo locandine per eventi, elementi grafici, mockup e grafiche su misura, lavorando principalmente con Illustrator e InDesign — dalla brand identity di una serata al materiale promozionale di un festival.</p>
+          </div>
+        </div>
+      </li>
+      <li class="skill-item reveal-up">
+        <button class="skill-item__row" aria-expanded="false">
+          <span class="skill-item__num">02</span>
+          <span class="skill-item__label">Video Editing + Motion Design</span>
+          <span class="skill-item__chevron" aria-hidden="true"></span>
+        </button>
+        <div class="skill-item__panel">
+          <div class="skill-item__panel-inner">
+            <p>Monto videoclip per ambiti diversi — musicali, documentaristici o semplici interviste — con Premiere Pro, e animo composizioni motion con After Effects.</p>
+          </div>
+        </div>
+      </li>
+      <li class="skill-item reveal-up">
+        <button class="skill-item__row" aria-expanded="false">
+          <span class="skill-item__num">03</span>
+          <span class="skill-item__label">AI generativa (immagini &amp; video)</span>
+          <span class="skill-item__chevron" aria-hidden="true"></span>
+        </button>
+        <div class="skill-item__panel">
+          <div class="skill-item__panel-inner">
+            <p>Uso l'intelligenza artificiale per creare spot pubblicitari per la promozione di prodotti reali, videoclip musicali, oppure per dare un tocco di creatività in più a foto e video già esistenti.</p>
+          </div>
+        </div>
+      </li>
+      <li class="reveal-up skill-item skill-item--static"><span>04</span>UI/UX Design</li>
+      <li class="reveal-up skill-item skill-item--static"><span>05</span>Video Mapping</li>
+      <li class="reveal-up skill-item skill-item--static"><span>06</span>Contenuti social &amp; pubblicitari</li>
     </ul>
   </section>
 
@@ -167,8 +200,25 @@
 </main>
 
 <footer class="footer">
-  <p>&copy; <span id="year"></span> Mattia Pedron. Tutti i diritti riservati.</p>
-  <a href="#top" class="footer__top" data-cursor="link">Torna su ↑</a>
+  <div class="footer__socials">
+    <a href="#" aria-label="LinkedIn" data-cursor="link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="7.5" cy="7.5" r="0.9" fill="currentColor" stroke="none"/><line x1="7.5" y1="10.5" x2="7.5" y2="17"/><path d="M11 17v-4a2.3 2.3 0 0 1 4.6 0v4"/><line x1="11" y1="10.5" x2="11" y2="17"/></svg>
+    </a>
+    <a href="#" aria-label="GitHub" data-cursor="link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.2 9l-2.7 3 2.7 3M14.8 9l2.7 3-2.7 3"/></svg>
+    </a>
+    <a href="https://www.instagram.com/pedron.mattia/" target="_blank" rel="noopener" aria-label="Instagram" data-cursor="link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a href="mailto:mattia.pedron2004@gmail.com" aria-label="Email" data-cursor="link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/></svg>
+    </a>
+  </div>
+  <a href="mailto:mattia.pedron2004@gmail.com" class="footer__email" data-cursor="link">mattia.pedron2004@gmail.com</a>
+  <div class="footer__bottom">
+    <p>&copy; <span id="year"></span> Mattia Pedron. Tutti i diritti riservati.</p>
+    <a href="#top" class="footer__top" data-cursor="link">Torna su ↑</a>
+  </div>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
