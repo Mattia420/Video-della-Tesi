@@ -107,16 +107,20 @@
   <!-- SKILLS -->
   <section class="skills" id="skills">
     <div class="section-head">
-      <p class="section-tag word-reveal">Competenze</p>
-      <h2 class="section-title word-reveal">Di cosa mi occupo.</h2>
+      <p class="section-tag reveal-up">Competenze</p>
+      <h2 class="section-title reveal-up">Di cosa mi occupo.</h2>
     </div>
+    <!-- word-reveal doesn't work here: .skills__list li is a flex row with
+         a `gap`, so splitting its text into word spans turns each word
+         into its own flex item and the gap lands between every word, not
+         just after the number — keep this section on the plain reveal-up. -->
     <ul class="skills__list">
-      <li class="word-reveal"><span>01</span>Graphic Design</li>
-      <li class="word-reveal"><span>02</span>Video Editing + Motion Design</li>
-      <li class="word-reveal"><span>03</span>AI generativa (immagini &amp; video)</li>
-      <li class="word-reveal"><span>04</span>UI/UX Design</li>
-      <li class="word-reveal"><span>05</span>Video Mapping</li>
-      <li class="word-reveal"><span>06</span>Contenuti social &amp; pubblicitari</li>
+      <li class="reveal-up"><span>01</span>Graphic Design</li>
+      <li class="reveal-up"><span>02</span>Video Editing + Motion Design</li>
+      <li class="reveal-up"><span>03</span>AI generativa (immagini &amp; video)</li>
+      <li class="reveal-up"><span>04</span>UI/UX Design</li>
+      <li class="reveal-up"><span>05</span>Video Mapping</li>
+      <li class="reveal-up"><span>06</span>Contenuti social &amp; pubblicitari</li>
     </ul>
   </section>
 

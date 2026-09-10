@@ -277,7 +277,17 @@ h1, h2, h3 {
      constrains width; once the row flips to a column here it constrains
      height instead, forcing a huge empty gap below the title. */
   .hero__inner { flex: 0 1 auto; }
-  .hero__portrait { height: min(64vh, 580px); opacity: 0.6 !important; margin: 1.5rem auto 0; transform: none; }
+  /* Sized by width, not height: .hero__row becomes a column here, and a
+     flex column's default align-items:stretch would otherwise stretch
+     this wrapper to the row's full width while the old height-driven img
+     sizing (height:100%; width:auto) tried to size from height — the two
+     fought and squashed the photo out of its real aspect ratio. Width in,
+     height auto out keeps it proportional no matter what the row does. */
+  .hero__portrait {
+    flex: none; width: min(88vw, 420px); height: auto;
+    opacity: 0.6 !important; margin: 1.5rem auto 0; transform: none;
+  }
+  .hero__portrait img { width: 100%; height: auto; }
 }
 
 .hero__title {
