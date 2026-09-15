@@ -100,22 +100,39 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* =========================================================
-     PRELOADER
+     PRELOADER — deferred until a language is chosen (see i18n.js):
+     first-time visitors see the language picker over a blurred site
+     first, and the preloader/hero-intro sequence only starts once
+     they've picked one. Returning visitors (saved language, <html>
+     already carries .lang-ready before this script even runs) skip
+     straight to starting it.
      ========================================================= */
   const preloader = document.getElementById('preloader');
   const countEl = document.getElementById('preloaderCount');
-  let count = 0;
-  const counter = setInterval(() => {
-    count += Math.ceil(Math.random() * 12);
-    if (count >= 100) {
-      count = 100;
-      clearInterval(counter);
-      countEl.textContent = count;
-      setTimeout(finishPreload, 350);
-    } else {
-      countEl.textContent = count;
-    }
-  }, 90);
+  let preloaderStarted = false;
+
+  function startPreloader() {
+    if (preloaderStarted) return;
+    preloaderStarted = true;
+    let count = 0;
+    const counter = setInterval(() => {
+      count += Math.ceil(Math.random() * 12);
+      if (count >= 100) {
+        count = 100;
+        clearInterval(counter);
+        countEl.textContent = count;
+        setTimeout(finishPreload, 350);
+      } else {
+        countEl.textContent = count;
+      }
+    }, 90);
+  }
+
+  if (document.documentElement.classList.contains('lang-ready')) {
+    startPreloader();
+  } else {
+    document.addEventListener('site:lang-ready', startPreloader, { once: true });
+  }
 
   function finishPreload() {
     gsap.to(preloader, {
@@ -356,7 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!wrap || !svg || !textEl) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  const words = ['creiamo', 'ideiamo', 'pensiamo', 'organizziamo', 'generiamo'];
+  const words = (window.i18n ? window.i18n.t('contact.rotatorWords') : null) || ['creiamo', 'ideiamo', 'pensiamo', 'organizziamo', 'generiamo'];
   let i = 0;
 
   function sizeToText() {
@@ -403,5 +420,16 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(sizeToText, 150);
+  });
+
+  // Swap in the new language's words and restart the rotation from the
+  // first one — mutating the array in place keeps the closures above valid.
+  document.addEventListener('site:lang-changed', () => {
+    const next = window.i18n ? window.i18n.t('contact.rotatorWords') : null;
+    if (!next) return;
+    words.length = 0;
+    next.forEach((w) => words.push(w));
+    i = 0;
+    draw();
   });
 })();

@@ -11,8 +11,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="assets/css/style.css">
+<script>
+// Reads the saved language choice (if any) synchronously, before first
+// paint, so a returning visitor never sees the language picker or a
+// flash of Italian text — see assets/js/i18n.js for the full picker
+// and translation logic that reads this back.
+(function () {
+  var SUPPORTED = ['it', 'en', 'de', 'es', 'fr', 'pt', 'ro', 'nl', 'zh'];
+  var saved = null;
+  try { saved = localStorage.getItem('site-lang'); } catch (e) {}
+  if (saved && SUPPORTED.indexOf(saved) !== -1) {
+    document.documentElement.setAttribute('data-lang', saved);
+    document.documentElement.classList.add('lang-ready');
+  }
+})();
+</script>
 </head>
 <body>
+
+<div id="siteWrap">
 
 <!-- BACKGROUND -->
 <canvas class="bg-dots" id="bgDots" aria-hidden="true"></canvas>
@@ -20,7 +37,7 @@
 <!-- PRELOADER -->
 <div class="preloader" id="preloader">
   <div class="preloader__count"><span id="preloaderCount">0</span></div>
-  <div class="preloader__label">Caricamento portfolio</div>
+  <div class="preloader__label" data-i18n="preloader.label">Caricamento portfolio</div>
 </div>
 
 <!-- CUSTOM CURSOR -->
@@ -31,23 +48,28 @@
 <!-- NAV -->
 <header class="nav" id="nav">
   <a href="#top" class="nav__logo" data-cursor="link">MP<span class="dot">.</span></a>
-  <nav class="nav__links">
-    <a href="#about" data-cursor="link">Chi sono</a>
-    <a href="#work" data-cursor="link">Progetti</a>
-    <a href="#skills" data-cursor="link">Competenze</a>
-    <a href="#contact" data-cursor="link">Contatti</a>
-  </nav>
-  <button class="nav__toggle" id="navToggle" aria-label="Apri menu">
-    <span></span><span></span>
-  </button>
+  <div class="nav__right">
+    <nav class="nav__links">
+      <a href="#about" data-cursor="link" data-i18n="nav.chiSono">Chi sono</a>
+      <a href="#work" data-cursor="link" data-i18n="nav.progetti">Progetti</a>
+      <a href="#skills" data-cursor="link" data-i18n="nav.competenze">Competenze</a>
+      <a href="#contact" data-cursor="link" data-i18n="nav.contatti">Contatti</a>
+    </nav>
+    <button class="lang-switch" id="langSwitchBtn" aria-label="Cambia lingua" data-i18n-aria="langSwitch.ariaLabel" data-cursor="link">
+      <span id="langSwitchFlag">🇮🇹</span>
+    </button>
+    <button class="nav__toggle" id="navToggle" aria-label="Apri menu" data-i18n-aria="nav.toggleAria">
+      <span></span><span></span>
+    </button>
+  </div>
 </header>
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#about">Chi sono</a>
-  <a href="#work">Progetti</a>
-  <a href="#skills">Competenze</a>
-  <a href="#contact">Contatti</a>
+  <a href="#about" data-i18n="nav.chiSono">Chi sono</a>
+  <a href="#work" data-i18n="nav.progetti">Progetti</a>
+  <a href="#skills" data-i18n="nav.competenze">Competenze</a>
+  <a href="#contact" data-i18n="nav.contatti">Contatti</a>
 </div>
 
 <main id="top">
@@ -56,7 +78,7 @@
   <section class="hero">
     <div class="hero__row">
       <div class="hero__inner">
-        <h1 class="hero__title">Ciao, sono Mattia.<br>Vuoi scoprire cosa <span class="hero__accent">creo</span>?</h1>
+        <h1 class="hero__title"><span data-i18n="hero.greeting">Ciao, sono Mattia.</span><br><span data-i18n="hero.titlePrefix">Vuoi scoprire cosa</span> <span class="hero__accent" data-i18n="hero.titleAccent">creo</span><span data-i18n="hero.titleSuffix">?</span></h1>
       </div>
       <div class="hero__portrait" aria-hidden="true">
         <img src="assets/img/mattia-portrait.webp" alt="">
@@ -64,7 +86,7 @@
     </div>
     <div class="hero__cta">
       <a href="#work" class="btn btn--magnetic" data-cursor="view">
-        <span>Guarda i progetti</span>
+        <span data-i18n="hero.cta">Guarda i progetti</span>
       </a>
     </div>
   </section>
@@ -72,20 +94,20 @@
   <!-- ABOUT -->
   <section class="about" id="about">
     <div class="section-head">
-      <p class="section-tag word-reveal">Chi sono</p>
-      <h2 class="section-title word-reveal">Poche righe su di me, ancora più importanti dei miei progetti.</h2>
+      <p class="section-tag word-reveal" data-i18n="about.tag">Chi sono</p>
+      <h2 class="section-title word-reveal" data-i18n="about.title">Poche righe su di me, ancora più importanti dei miei progetti.</h2>
     </div>
     <div class="about__text word-reveal">
-      <p>Mi occupo di comunicazione visiva a 360°: graphic design, animazioni, video editing e video mapping sono le competenze su cui ho costruito il mio percorso, tra studio tecnico e progetti concreti.</p>
-      <p>Negli ultimi anni ho affiancato questi strumenti con l'intelligenza artificiale, che uso per velocizzare il workflow e ampliare le possibilità creative, mantenendo sempre la direzione creativa e il controllo sul risultato finale. <em>Non scelgo tra tecnica e AI: li combino.</em></p>
+      <p data-i18n="about.p1">Mi occupo di comunicazione visiva a 360°: graphic design, animazioni, video editing e video mapping sono le competenze su cui ho costruito il mio percorso, tra studio tecnico e progetti concreti.</p>
+      <p><span data-i18n="about.p2">Negli ultimi anni ho affiancato questi strumenti con l'intelligenza artificiale, che uso per velocizzare il workflow e ampliare le possibilità creative, mantenendo sempre la direzione creativa e il controllo sul risultato finale.</span> <em data-i18n="about.p2Em">Non scelgo tra tecnica e AI: li combino.</em></p>
     </div>
   </section>
 
   <!-- WORK -->
   <section class="work" id="work">
     <div class="section-head">
-      <p class="section-tag word-reveal">Progetti</p>
-      <h2 class="section-title word-reveal">Una selezione di lavori recenti.</h2>
+      <p class="section-tag word-reveal" data-i18n="work.tag">Progetti</p>
+      <h2 class="section-title word-reveal" data-i18n="work.title">Una selezione di lavori recenti.</h2>
     </div>
 
   </section>
@@ -94,11 +116,11 @@
   <section class="ai-morph" id="work-carousel">
     <div class="ai-morph__sticky">
       <div class="ai-morph__intro" id="workCarouselIntro">
-        <p>Scorri per esplorare</p>
+        <p data-i18n="carousel.scorri">Scorri per esplorare</p>
       </div>
       <div class="ai-morph__reveal" id="workCarouselReveal">
         <h2 id="workCarouselCategory">Contenuti AI</h2>
-        <p>Scorri verso il basso per esplorare<br>Clicca un progetto per maggiori informazioni</p>
+        <p><span data-i18n="carousel.revealLine1">Scorri verso il basso per esplorare</span><br><span data-i18n="carousel.revealLine2">Clicca un progetto per maggiori informazioni</span></p>
       </div>
       <div class="ai-morph__stage" id="workCarouselStage" aria-hidden="true"></div>
     </div>
@@ -107,8 +129,8 @@
   <!-- SKILLS -->
   <section class="skills" id="skills">
     <div class="section-head">
-      <p class="section-tag reveal-up">Competenze</p>
-      <h2 class="section-title reveal-up">Di cosa mi occupo.</h2>
+      <p class="section-tag reveal-up" data-i18n="skills.tag">Competenze</p>
+      <h2 class="section-title reveal-up" data-i18n="skills.title">Di cosa mi occupo.</h2>
     </div>
     <!-- word-reveal doesn't work here: a flex row with a `gap`, so splitting
          text into word spans turns each word into its own flex item and the
@@ -118,42 +140,42 @@
       <li class="skill-item reveal-up">
         <button class="skill-item__row" aria-expanded="false">
           <span class="skill-item__num">01</span>
-          <span class="skill-item__label">Graphic Design</span>
+          <span class="skill-item__label" data-i18n="skills.label01">Graphic Design</span>
           <span class="skill-item__chevron" aria-hidden="true"></span>
         </button>
         <div class="skill-item__panel">
           <div class="skill-item__panel-inner">
-            <p>Creo locandine per eventi, elementi grafici, mockup e grafiche su misura, lavorando principalmente con Illustrator e InDesign — dalla brand identity di una serata al materiale promozionale di un festival.</p>
+            <p data-i18n="skills.desc01">Creo locandine per eventi, elementi grafici, mockup e grafiche su misura, lavorando principalmente con Illustrator e InDesign — dalla brand identity di una serata al materiale promozionale di un festival.</p>
           </div>
         </div>
       </li>
       <li class="skill-item reveal-up">
         <button class="skill-item__row" aria-expanded="false">
           <span class="skill-item__num">02</span>
-          <span class="skill-item__label">Video Editing + Motion Design</span>
+          <span class="skill-item__label" data-i18n="skills.label02">Video Editing + Motion Design</span>
           <span class="skill-item__chevron" aria-hidden="true"></span>
         </button>
         <div class="skill-item__panel">
           <div class="skill-item__panel-inner">
-            <p>Monto videoclip per ambiti diversi — musicali, documentaristici o semplici interviste — con Premiere Pro, e animo composizioni motion con After Effects.</p>
+            <p data-i18n="skills.desc02">Monto videoclip per ambiti diversi — musicali, documentaristici o semplici interviste — con Premiere Pro, e animo composizioni motion con After Effects.</p>
           </div>
         </div>
       </li>
       <li class="skill-item reveal-up">
         <button class="skill-item__row" aria-expanded="false">
           <span class="skill-item__num">03</span>
-          <span class="skill-item__label">AI generativa (immagini &amp; video)</span>
+          <span class="skill-item__label" data-i18n="skills.label03">AI generativa (immagini &amp; video)</span>
           <span class="skill-item__chevron" aria-hidden="true"></span>
         </button>
         <div class="skill-item__panel">
           <div class="skill-item__panel-inner">
-            <p>Uso l'intelligenza artificiale per creare spot pubblicitari per la promozione di prodotti reali, videoclip musicali, oppure per dare un tocco di creatività in più a foto e video già esistenti.</p>
+            <p data-i18n="skills.desc03">Uso l'intelligenza artificiale per creare spot pubblicitari per la promozione di prodotti reali, videoclip musicali, oppure per dare un tocco di creatività in più a foto e video già esistenti.</p>
           </div>
         </div>
       </li>
-      <li class="reveal-up skill-item skill-item--static"><span>04</span>UI/UX Design</li>
-      <li class="reveal-up skill-item skill-item--static"><span>05</span>Video Mapping</li>
-      <li class="reveal-up skill-item skill-item--static"><span>06</span>Contenuti social &amp; pubblicitari</li>
+      <li class="reveal-up skill-item skill-item--static"><span>04</span><span data-i18n="skills.label04">UI/UX Design</span></li>
+      <li class="reveal-up skill-item skill-item--static"><span>05</span><span data-i18n="skills.label05">Video Mapping</span></li>
+      <li class="reveal-up skill-item skill-item--static"><span>06</span><span data-i18n="skills.label06">Contenuti social &amp; pubblicitari</span></li>
     </ul>
   </section>
 
@@ -162,20 +184,20 @@
     <div class="globe-content">
       <div class="globe-text">
         <div class="section-head">
-          <p class="section-tag word-reveal">Esperienze all'estero</p>
-          <h2 class="section-title word-reveal">Dove ho lavorato.</h2>
+          <p class="section-tag word-reveal" data-i18n="globe.tag">Esperienze all'estero</p>
+          <h2 class="section-title word-reveal" data-i18n="globe.title">Dove ho lavorato.</h2>
         </div>
-        <p class="globe-intro word-reveal">Penso che le esperienze all'estero siano incredibilmente utili per la crescita personale: trovarsi in un nuovo ambiente porta nuove sfide e nuove possibilità, che aiutano a far crescere e maturare l'individuo, oltre alle sue competenze. Per questo ho scelto di vivere diverse esperienze lavorative fuori dall'Italia.</p>
+        <p class="globe-intro word-reveal" data-i18n="globe.intro">Penso che le esperienze all'estero siano incredibilmente utili per la crescita personale: trovarsi in un nuovo ambiente porta nuove sfide e nuove possibilità, che aiutano a far crescere e maturare l'individuo, oltre alle sue competenze. Per questo ho scelto di vivere diverse esperienze lavorative fuori dall'Italia.</p>
       </div>
       <div class="globe-wrap reveal-up">
         <canvas id="globeCanvas" class="globe-canvas"></canvas>
         <ul class="visually-hidden">
-          <li>Boston, USA</li>
-          <li>Valencia, Spagna</li>
-          <li>Oradea, Romania</li>
-          <li>Tilburg, Paesi Bassi</li>
-          <li>Trento, Italia</li>
-          <li>Bolzano, Italia</li>
+          <li data-i18n="globe.city1">Boston, USA</li>
+          <li data-i18n="globe.city2">Valencia, Spagna</li>
+          <li data-i18n="globe.city3">Oradea, Romania</li>
+          <li data-i18n="globe.city4">Tilburg, Paesi Bassi</li>
+          <li data-i18n="globe.city5">Trento, Italia</li>
+          <li data-i18n="globe.city6">Bolzano, Italia</li>
         </ul>
       </div>
     </div>
@@ -184,10 +206,10 @@
   <!-- CONTACT -->
   <section class="contact" id="contact">
     <div class="contact__inner">
-      <p class="section-tag word-reveal">Contatti</p>
-      <h2 class="contact__title word-reveal">Hai un progetto in mente?<br><span class="contact__title-line">Parliamone e</span> <span class="contact__rotator" id="contactRotator"><svg class="contact__rotator-svg" id="contactRotatorSvg" aria-hidden="true"><text id="contactRotatorText" x="2" y="0.78em">creiamo</text></svg><span class="visually-hidden" id="contactRotatorSr">creiamo</span></span> <span class="contact__title-line">insieme.</span></h2>
+      <p class="section-tag word-reveal" data-i18n="contact.tag">Contatti</p>
+      <h2 class="contact__title word-reveal"><span data-i18n="contact.question">Hai un progetto in mente?</span><br><span class="contact__title-line" data-i18n="contact.line1">Parliamone e</span> <span class="contact__rotator" id="contactRotator"><svg class="contact__rotator-svg" id="contactRotatorSvg" aria-hidden="true"><text id="contactRotatorText" x="2" y="0.78em">creiamo</text></svg><span class="visually-hidden" id="contactRotatorSr">creiamo</span></span> <span class="contact__title-line" data-i18n="contact.line2">insieme.</span></h2>
       <a href="mailto:mattia.pedron2004@gmail.com" class="btn btn--magnetic btn--large reveal-up" data-cursor="view">
-        <span>Scrivimi</span>
+        <span data-i18n="contact.cta">Scrivimi</span>
       </a>
       <div class="contact__socials reveal-up">
         <a href="#" data-cursor="link">LinkedIn</a>
@@ -210,20 +232,31 @@
     <a href="https://www.instagram.com/pedron.mattia/" target="_blank" rel="noopener" aria-label="Instagram" data-cursor="link">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/></svg>
     </a>
-    <a href="mailto:mattia.pedron2004@gmail.com" aria-label="Email" data-cursor="link">
+    <a href="mailto:mattia.pedron2004@gmail.com" aria-label="Email" data-i18n-aria="footer.ariaEmail" data-cursor="link">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/></svg>
     </a>
   </div>
   <a href="mailto:mattia.pedron2004@gmail.com" class="footer__email" data-cursor="link">mattia.pedron2004@gmail.com</a>
   <div class="footer__bottom">
-    <p>&copy; <span id="year"></span> Mattia Pedron. Tutti i diritti riservati.</p>
-    <a href="#top" class="footer__top" data-cursor="link">Torna su ↑</a>
+    <p>&copy; <span id="year"></span> Mattia Pedron. <span data-i18n="footer.rights">Tutti i diritti riservati.</span></p>
+    <a href="#top" class="footer__top" data-cursor="link"><span data-i18n="footer.top">Torna su</span> ↑</a>
   </div>
 </footer>
+
+</div><!-- /#siteWrap -->
+
+<!-- LANGUAGE PICKER — shown on first visit (see i18n.js), blurs #siteWrap behind it -->
+<div class="lang-picker" id="langPicker" role="dialog" aria-modal="true" aria-label="Scegli la lingua / Choose your language">
+  <div class="lang-picker__inner">
+    <p class="lang-picker__eyebrow">Scegli la lingua · Choose your language</p>
+    <div class="lang-picker__grid" id="langPickerGrid"></div>
+  </div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/js/i18n.js"></script>
 <script src="assets/js/bg-dots.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/morph-carousel.js"></script>

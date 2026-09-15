@@ -61,6 +61,67 @@ h1, h2, h3 {
 ::selection { background: var(--accent); color: #201e21; }
 
 /* =========================================================
+   LANGUAGE PICKER (first-visit gate) — see i18n.js
+   ========================================================= */
+#siteWrap { transition: filter .6s var(--ease); }
+html:not(.lang-ready) #siteWrap { filter: blur(18px); pointer-events: none; user-select: none; }
+/* the fake-progress preloader is deferred until a language is chosen
+   (see main.js) — hide it up front so it doesn't flash behind the picker */
+html:not(.lang-ready) #preloader { display: none; }
+
+.lang-picker {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 2rem var(--gutter);
+  background: rgba(10, 9, 16, 0.55);
+  opacity: 1; visibility: visible;
+  transition: opacity .5s var(--ease), visibility .5s var(--ease);
+}
+html.lang-ready .lang-picker { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.lang-picker__inner {
+  width: min(720px, 100%);
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: clamp(1.75rem, 4vw, 3rem);
+  text-align: center;
+  box-shadow: 0 40px 120px rgba(0,0,0,0.55);
+}
+.lang-picker__eyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  margin-bottom: 1.75rem;
+}
+.lang-picker__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+@media (max-width: 560px) {
+  .lang-picker__grid { grid-template-columns: repeat(2, 1fr); }
+}
+.lang-picker__btn {
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  padding: 1.1rem 0.75rem;
+  background: rgba(243,242,238,0.03);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--text);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: border-color .3s ease, background .3s ease, transform .3s var(--ease);
+}
+.lang-picker__btn:hover, .lang-picker__btn:focus-visible {
+  border-color: var(--accent-soft);
+  background: rgba(166, 0, 255, 0.10);
+  transform: translateY(-2px);
+}
+.lang-picker__flag { font-size: 1.8rem; line-height: 1; }
+
+/* =========================================================
    PRELOADER
    ========================================================= */
 .preloader {
@@ -157,6 +218,20 @@ h1, h2, h3 {
   font-size: 1.2rem;
 }
 .nav__logo .dot { color: var(--accent); }
+
+.nav__right { display: flex; align-items: center; gap: 1.5rem; }
+
+.lang-switch {
+  display: flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px;
+  background: rgba(243,242,238,0.06);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem; line-height: 1;
+  transition: border-color .3s ease, background .3s ease, transform .3s var(--ease);
+}
+.lang-switch:hover { border-color: var(--accent-soft); background: rgba(166, 0, 255, 0.12); transform: scale(1.08); }
 
 .nav__links { display: flex; gap: 2.5rem; }
 .nav__links a {

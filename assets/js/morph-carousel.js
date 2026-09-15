@@ -39,6 +39,7 @@
   const closeBtn = lightbox.querySelector('.ai-lightbox__close');
 
   function openLightbox(data) {
+    closeBtn.setAttribute('aria-label', (window.i18n && window.i18n.t('lightbox.close')) || 'Chiudi');
     titleEl.textContent = data.title;
     descEl.textContent = data.desc;
     mediaEl.innerHTML = '';
@@ -58,7 +59,7 @@
 
       let spinner = null;
       if (showLoadingUI) {
-        loadingEl.textContent = 'Caricamento del prototipo… può richiedere alcuni secondi.';
+        loadingEl.textContent = (window.i18n && window.i18n.t('lightbox.loading')) || 'Caricamento del prototipo… può richiedere alcuni secondi.';
         loadingEl.hidden = false;
         spinner = document.createElement('div');
         spinner.className = 'ai-lightbox__spinner';
@@ -124,8 +125,9 @@
     } else {
       const placeholder = document.createElement('div');
       placeholder.className = 'ai-lightbox__placeholder';
+      const i18nKey = data.type === 'figma' ? 'lightbox.placeholderFigma' : data.type === 'image' ? 'lightbox.placeholderImage' : 'lightbox.placeholderVideo';
       const labels = { figma: 'Prototipo in arrivo', image: 'Grafica in arrivo' };
-      placeholder.textContent = labels[data.type] || 'Video in arrivo';
+      placeholder.textContent = (window.i18n && window.i18n.t(i18nKey)) || labels[data.type] || 'Video in arrivo';
       mediaEl.appendChild(placeholder);
     }
     lightbox.classList.add('is-open');
@@ -152,9 +154,40 @@
   });
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
 
+  /* ---------- project text translation, keyed by each item's stable id ---------- */
+  function translateItems(items) {
+    if (!window.i18n) return;
+    items.forEach((data) => {
+      if (data.id) {
+        const tr = window.i18n.project(data.id);
+        if (tr) {
+          data.title = tr.title;
+          data.desc = tr.desc;
+        }
+      }
+      if (data.categoryId) {
+        const cat = window.i18n.category(data.categoryId);
+        if (cat) data.category = cat;
+      }
+      if (data.gallery) {
+        data.gallery.forEach((variant) => {
+          if (!variant.key) return;
+          const label = window.i18n.galleryLabel(data.id, variant.key);
+          if (label) variant.label = label;
+        });
+      }
+    });
+  }
+
   /* ---------- one rotating-arc carousel instance ---------- */
   function createCarousel({ section, stage, introEl, revealEl, categoryEl, items }) {
     if (!section || !stage) return;
+
+    // Translate up front so first paint (including a saved non-Italian
+    // language) and the category-grouping pass below both see the final
+    // text — cards/lightbox read data.title/desc/category live, so this
+    // is the only place a fresh load needs to touch.
+    translateItems(items);
 
     const cards = [];
     items.forEach((data, i) => {
@@ -261,6 +294,16 @@
     let morphSmooth = 0;
     let wobbleSmooth = 0;
     let lastCategory = null;
+
+    // Re-translate already-built items/cards on a language switch. The
+    // arc geometry (effectivePos, grouping) never depends on the text
+    // itself, so this only needs to touch the DOM text and force the
+    // floating category label to repaint on the next animation frame.
+    document.addEventListener('site:lang-changed', () => {
+      translateItems(items);
+      cards.forEach((card, i) => { card.setAttribute('aria-label', items[i].title); });
+      lastCategory = null;
+    });
 
     function scrollProgress() {
       const rect = section.getBoundingClientRect();
@@ -395,48 +438,56 @@
 
   const AI_OVERRIDES = {
     0: {
+      id: 'telemea',
       title: 'Telemea — Solomonescu',
       desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per il Telemea di Solomonescu, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania.',
       video: 'assets/video/telemea-solomon-spot.mp4',
       cover: 'assets/img/telemea-solomon-cover.webp?v=2',
     },
     1: {
+      id: 'lunca-cascaval',
       title: 'Lunca Ilvei — Cascaval Dalia',
       desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per il Cascaval Dalia, formaggio di Lunca Ilvei, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania.',
       video: 'assets/video/lunca-ilvei-cheese.mp4',
       cover: 'assets/img/lunca-ilvei-cover.webp?v=2',
     },
     2: {
+      id: 'black-white',
       title: 'Black & White',
       desc: 'Contenuto visivo generato con l\'intelligenza artificiale.',
       video: 'assets/video/black-and-white.mp4',
       cover: 'assets/img/black-and-white-cover.webp?v=2',
     },
     3: {
+      id: 'deserto-sale',
       title: 'Deserto di Sale',
       desc: 'Contenuto visivo generato con l\'intelligenza artificiale.',
       video: 'assets/video/deserto-di-sale.mp4',
       cover: 'assets/img/deserto-di-sale-cover.webp?v=2',
     },
     4: {
+      id: 'lunca-raclette',
       title: 'Lunca Ilvei — Raclette',
       desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per la linea Raclette di Lunca Ilvei, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania.',
       video: 'assets/video/raclette-cheese.mp4',
       cover: 'assets/img/raclette-cheese-cover.webp?v=2',
     },
     5: {
+      id: 'redbull',
       title: 'Red Bull Green Edition — Spot',
       desc: 'Concept di spot pubblicitario generato con l\'intelligenza artificiale.',
       video: 'assets/video/redbull-spot.mp4',
       cover: 'assets/img/redbull-spot-cover.webp?v=2',
     },
     6: {
+      id: 'glitch',
       title: 'Glitch',
       desc: 'Contenuto visivo generato con l\'intelligenza artificiale.',
       video: 'assets/video/glitch-2.mp4',
       cover: 'assets/img/glitch-2-cover.webp?v=2',
     },
     7: {
+      id: 'hopy',
       title: 'Hopy',
       desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per Hopy, linea cosmetica a base di canapa di Enzima.',
       video: 'assets/video/hopy-spot.mp4',
@@ -451,6 +502,7 @@
     cover: '',
     type: 'video',
     category: 'Contenuti AI',
+    categoryId: 'contenutiAi',
     badge: 'AI',
     ...AI_OVERRIDES[i],
   }));
@@ -459,28 +511,34 @@
   // in as real files/links come in, same pattern as the AI overrides above.
   const OTHER_ITEMS = [
     {
+      id: 'zoona-vinyl',
       title: 'Zoona Vinyl — Open Decks',
       desc: 'Locandina per una serata open decks in vinile, disegnata su misura per il brand dell\'evento.',
       type: 'image',
       category: 'Graphic Design',
+      categoryId: 'graphicDesign',
       badge: 'GD',
       image: 'assets/img/open-decks.webp',
       cover: 'assets/img/open-decks-cover.webp?v=2',
     },
     {
+      id: 'elektronik-summerfest',
       title: 'Elektronik Summerfest',
       desc: 'Locandina per un evento tekno con musica live, disegnata su misura per il brand della serata.',
       type: 'image',
       category: 'Graphic Design',
+      categoryId: 'graphicDesign',
       badge: 'GD',
       image: 'assets/img/elektronik-summerfest.webp',
       cover: 'assets/img/elektronik-summerfest-cover.webp?v=2',
     },
     {
+      id: 'touch-of-beauty',
       title: 'Touch of Beauty — Presentazione',
       desc: 'Presentazione del brand Touch of Beauty, navigabile slide per slide.',
       type: 'figma',
       category: 'Graphic Design',
+      categoryId: 'graphicDesign',
       badge: 'GD',
       // Same card size as the other Graphic Design posters/flyers, even
       // though this one opens as a figma deck rather than a plain image.
@@ -493,10 +551,12 @@
       // Waiting on the real files (sent as a PDF, per the image-upload
       // limitation) — image/cover/gallery entries stay empty (shows the
       // "Grafica in arrivo" placeholder) until then.
+      id: 'energic-swirl',
       title: 'Energic Swirl',
       desc: 'Copertina vinile in due varianti colore, verde e viola.',
       type: 'image',
       category: 'Graphic Design',
+      categoryId: 'graphicDesign',
       badge: 'GD',
       // card background fills the letterboxed space around the round/square
       // vinyl art with the same black the mockup itself sits on, instead of
@@ -505,15 +565,17 @@
       image: 'assets/img/energic-swirl-purple.webp',
       cover: 'assets/img/energic-swirl-purple-cover.webp?v=2',
       gallery: [
-        { image: 'assets/img/energic-swirl-purple.webp', cover: 'assets/img/energic-swirl-purple-cover.webp?v=2', label: 'Viola' },
-        { image: 'assets/img/energic-swirl-green.webp', cover: 'assets/img/energic-swirl-green-cover.webp?v=2', label: 'Verde' },
+        { key: 'viola', image: 'assets/img/energic-swirl-purple.webp', cover: 'assets/img/energic-swirl-purple-cover.webp?v=2', label: 'Viola' },
+        { key: 'verde', image: 'assets/img/energic-swirl-green.webp', cover: 'assets/img/energic-swirl-green-cover.webp?v=2', label: 'Verde' },
       ],
     },
     {
+      id: 'smart-home',
       title: 'Smart Home — App Design',
       desc: 'Prototipo interattivo di un\'app per la gestione della smart home, navigabile schermata per schermata.',
       type: 'figma',
       category: 'UI/UX Design',
+      categoryId: 'uiuxDesign',
       badge: 'UX',
       figmaUrl: 'https://embed.figma.com/proto/qsAKaRUSjtsC116hsVKzkx/Smart-Home---Esame-App-Design-colorato-super?node-id=423-1823&t=SZbr9mx5Bmd2BxqS-1&starting-point-node-id=423%3A1823&embed-host=share&hide-ui=1',
       coverContain: true,
@@ -521,10 +583,12 @@
       cover: 'assets/img/smart-home-cover.webp',
     },
     {
+      id: 'underground',
       title: 'Underground — Website',
       desc: 'Prototipo interattivo, navigabile schermata per schermata.',
       type: 'figma',
       category: 'UI/UX Design',
+      categoryId: 'uiuxDesign',
       badge: 'UX',
       figmaUrl: 'https://embed.figma.com/proto/x33ltOsDcfo6juWomFtQRL/Untitled?node-id=3-452&p=f&t=13H4pYlpdgXzjNJg-0&page-id=0%3A1&embed-host=share&hide-ui=1',
       coverContain: true,
@@ -532,10 +596,12 @@
       cover: 'assets/img/underground-cover.webp',
     },
     {
+      id: 'festillu',
       title: 'Festillu — Website',
       desc: 'Prototipo interattivo del sito di Festillu, un festival immaginario, navigabile pagina per pagina.',
       type: 'figma',
       category: 'UI/UX Design',
+      categoryId: 'uiuxDesign',
       badge: 'UX',
       figmaUrl: 'https://embed.figma.com/proto/cGf7mdGIqd6ll97oSJkmuT/FESTILLU-%7C-Website?node-id=137-37&p=f&page-id=69%3A2&starting-point-node-id=137%3A37&embed-host=share&hide-ui=1',
       coverContain: true,
@@ -543,20 +609,24 @@
       cover: 'assets/img/festillu-cover.webp',
     },
     {
+      id: 'motion-studio',
       title: 'Motion Studio Production',
       desc: 'Motion design per la promozione di uno studio di produzione video, tra editing, montaggio e sound design.',
       type: 'video',
       category: 'Motion Design',
+      categoryId: 'motionDesign',
       badge: 'VID',
       wide: true,
       video: 'assets/video/motion-studio-production.mp4',
       cover: 'assets/img/motion-studio-cover.webp',
     },
     {
+      id: 'accademia-impresa',
       title: 'Accademia di Impresa',
       desc: 'Video animato esplicativo per Accademia di Impresa, su forme giuridiche e scelte societarie.',
       type: 'video',
       category: 'Motion Design',
+      categoryId: 'motionDesign',
       badge: 'VID',
       wide: true,
       video: 'assets/video/accademia-di-impresa.mp4',
