@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mattia Pedron — Portfolio</title>
-<meta name="description" content="Portfolio personale di Mattia Pedron.">
+<meta name="description" content="Personal portfolio of Mattia Pedron.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
 
@@ -20,7 +20,7 @@
 <!-- PRELOADER -->
 <div class="preloader" id="preloader">
   <div class="preloader__count"><span id="preloaderCount">0</span></div>
-  <div class="preloader__label">Caricamento portfolio</div>
+  <div class="preloader__label">Loading portfolio</div>
 </div>
 
 <!-- CUSTOM CURSOR -->
@@ -32,24 +32,24 @@
 <header class="nav" id="nav">
   <a href="#top" class="nav__logo" data-cursor="link">MP<span class="dot">.</span></a>
   <nav class="nav__links">
-    <a href="#about" data-cursor="link">Chi sono</a>
-    <a href="#work" data-cursor="link">Progetti</a>
-    <a href="#skills" data-cursor="link">Competenze</a>
-    <a href="#contact" data-cursor="link">Contatti</a>
-    <a href="en/index.html" data-cursor="link">EN</a>
+    <a href="#about" data-cursor="link">About</a>
+    <a href="#work" data-cursor="link">Work</a>
+    <a href="#skills" data-cursor="link">Skills</a>
+    <a href="#contact" data-cursor="link">Contact</a>
+    <a href="../index.html" data-cursor="link">IT</a>
   </nav>
-  <button class="nav__toggle" id="navToggle" aria-label="Apri menu">
+  <button class="nav__toggle" id="navToggle" aria-label="Open menu">
     <span></span><span></span>
   </button>
 </header>
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#about">Chi sono</a>
-  <a href="#work">Progetti</a>
-  <a href="#skills">Competenze</a>
-  <a href="#contact">Contatti</a>
-  <a href="en/index.html">EN</a>
+  <a href="#about">About</a>
+  <a href="#work">Work</a>
+  <a href="#skills">Skills</a>
+  <a href="#contact">Contact</a>
+  <a href="../index.html">IT</a>
 </div>
 
 <main id="top">
@@ -58,15 +58,15 @@
   <section class="hero">
     <div class="hero__row">
       <div class="hero__inner">
-        <h1 class="hero__title">Ciao, sono Mattia.<br>Vuoi scoprire cosa <span class="hero__accent">creo</span>?</h1>
+        <h1 class="hero__title">Hi, I'm Mattia.<br>Want to see what I <span class="hero__accent">create</span>?</h1>
       </div>
       <div class="hero__portrait" aria-hidden="true">
-        <img src="assets/img/mattia-portrait.webp" alt="">
+        <img src="../assets/img/mattia-portrait.webp" alt="">
       </div>
     </div>
     <div class="hero__cta">
       <a href="#work" class="btn btn--magnetic" data-cursor="view">
-        <span>Guarda i progetti</span>
+        <span>See my work</span>
       </a>
     </div>
   </section>
@@ -74,20 +74,20 @@
   <!-- ABOUT -->
   <section class="about" id="about">
     <div class="section-head">
-      <p class="section-tag word-reveal">Chi sono</p>
-      <h2 class="section-title word-reveal">Poche righe su di me, ancora più importanti dei miei progetti.</h2>
+      <p class="section-tag word-reveal">About me</p>
+      <h2 class="section-title word-reveal">A few lines about me, even more important than my projects.</h2>
     </div>
     <div class="about__text word-reveal">
-      <p>Mi occupo di comunicazione visiva a 360°: graphic design, animazioni, video editing e video mapping sono le competenze su cui ho costruito il mio percorso, tra studio tecnico e progetti concreti.</p>
-      <p>Negli ultimi anni ho affiancato questi strumenti con l'intelligenza artificiale, che uso per velocizzare il workflow e ampliare le possibilità creative, mantenendo sempre la direzione creativa e il controllo sul risultato finale. <em>Non scelgo tra tecnica e AI: li combino.</em></p>
+      <p>I work across the full spectrum of visual communication: graphic design, animation, video editing and video mapping are the skills I've built my path on, between technical study and real-world projects.</p>
+      <p>In recent years I've paired these tools with artificial intelligence, which I use to speed up my workflow and expand creative possibilities, while always keeping creative direction and control over the final result. <em>I don't choose between craft and AI: I combine them.</em></p>
     </div>
   </section>
 
   <!-- WORK -->
   <section class="work" id="work">
     <div class="section-head">
-      <p class="section-tag word-reveal">Progetti</p>
-      <h2 class="section-title word-reveal">Una selezione di lavori recenti.</h2>
+      <p class="section-tag word-reveal">Work</p>
+      <h2 class="section-title word-reveal">A selection of recent work.</h2>
     </div>
 
   </section>
@@ -96,11 +96,11 @@
   <section class="ai-morph" id="work-carousel">
     <div class="ai-morph__sticky">
       <div class="ai-morph__intro" id="workCarouselIntro">
-        <p>Scorri per esplorare</p>
+        <p>Scroll to explore</p>
       </div>
       <div class="ai-morph__reveal" id="workCarouselReveal">
-        <h2 id="workCarouselCategory">Contenuti AI</h2>
-        <p>Scorri verso il basso per esplorare<br>Clicca un progetto per maggiori informazioni</p>
+        <h2 id="workCarouselCategory">AI Content</h2>
+        <p>Scroll down to explore<br>Click a project for more details</p>
       </div>
       <div class="ai-morph__stage" id="workCarouselStage" aria-hidden="true"></div>
     </div>
@@ -109,8 +109,8 @@
   <!-- SKILLS -->
   <section class="skills" id="skills">
     <div class="section-head">
-      <p class="section-tag reveal-up">Competenze</p>
-      <h2 class="section-title reveal-up">Di cosa mi occupo.</h2>
+      <p class="section-tag reveal-up">Skills</p>
+      <h2 class="section-title reveal-up">What I do.</h2>
     </div>
     <!-- word-reveal doesn't work here: a flex row with a `gap`, so splitting
          text into word spans turns each word into its own flex item and the
@@ -125,7 +125,7 @@
         </button>
         <div class="skill-item__panel">
           <div class="skill-item__panel-inner">
-            <p>Creo locandine per eventi, elementi grafici, mockup e grafiche su misura, lavorando principalmente con Illustrator e InDesign — dalla brand identity di una serata al materiale promozionale di un festival.</p>
+            <p>I design event posters, graphic elements, mockups and custom visuals, working mainly with Illustrator and InDesign — from the brand identity of a single night out to the promotional material for a festival.</p>
           </div>
         </div>
       </li>
@@ -137,25 +137,25 @@
         </button>
         <div class="skill-item__panel">
           <div class="skill-item__panel-inner">
-            <p>Monto videoclip per ambiti diversi — musicali, documentaristici o semplici interviste — con Premiere Pro, e animo composizioni motion con After Effects.</p>
+            <p>I edit video clips across different fields — music, documentary or simple interviews — with Premiere Pro, and animate motion compositions with After Effects.</p>
           </div>
         </div>
       </li>
       <li class="skill-item reveal-up">
         <button class="skill-item__row" aria-expanded="false">
           <span class="skill-item__num">03</span>
-          <span class="skill-item__label">AI generativa (immagini &amp; video)</span>
+          <span class="skill-item__label">Generative AI (images &amp; video)</span>
           <span class="skill-item__chevron" aria-hidden="true"></span>
         </button>
         <div class="skill-item__panel">
           <div class="skill-item__panel-inner">
-            <p>Uso l'intelligenza artificiale per creare spot pubblicitari per la promozione di prodotti reali, videoclip musicali, oppure per dare un tocco di creatività in più a foto e video già esistenti.</p>
+            <p>I use artificial intelligence to create advertising spots for real products, music videos, or to add an extra creative touch to existing photos and videos.</p>
           </div>
         </div>
       </li>
       <li class="reveal-up skill-item skill-item--static"><span>04</span>UI/UX Design</li>
       <li class="reveal-up skill-item skill-item--static"><span>05</span>Video Mapping</li>
-      <li class="reveal-up skill-item skill-item--static"><span>06</span>Contenuti social &amp; pubblicitari</li>
+      <li class="reveal-up skill-item skill-item--static"><span>06</span>Social &amp; advertising content</li>
     </ul>
   </section>
 
@@ -164,20 +164,20 @@
     <div class="globe-content">
       <div class="globe-text">
         <div class="section-head">
-          <p class="section-tag word-reveal">Esperienze all'estero</p>
-          <h2 class="section-title word-reveal">Dove ho lavorato.</h2>
+          <p class="section-tag word-reveal">Experience abroad</p>
+          <h2 class="section-title word-reveal">Where I've worked.</h2>
         </div>
-        <p class="globe-intro word-reveal">Penso che le esperienze all'estero siano incredibilmente utili per la crescita personale: trovarsi in un nuovo ambiente porta nuove sfide e nuove possibilità, che aiutano a far crescere e maturare l'individuo, oltre alle sue competenze. Per questo ho scelto di vivere diverse esperienze lavorative fuori dall'Italia.</p>
+        <p class="globe-intro word-reveal">I believe experiences abroad are incredibly valuable for personal growth: being in a new environment brings new challenges and new opportunities, which help a person grow and mature, beyond just their skills. That's why I've chosen to live several work experiences outside Italy.</p>
       </div>
       <div class="globe-wrap reveal-up">
         <canvas id="globeCanvas" class="globe-canvas"></canvas>
         <ul class="visually-hidden">
           <li>Boston, USA</li>
-          <li>Valencia, Spagna</li>
+          <li>Valencia, Spain</li>
           <li>Oradea, Romania</li>
-          <li>Tilburg, Paesi Bassi</li>
-          <li>Trento, Italia</li>
-          <li>Bolzano, Italia</li>
+          <li>Tilburg, Netherlands</li>
+          <li>Trento, Italy</li>
+          <li>Bolzano, Italy</li>
         </ul>
       </div>
     </div>
@@ -186,10 +186,10 @@
   <!-- CONTACT -->
   <section class="contact" id="contact">
     <div class="contact__inner">
-      <p class="section-tag word-reveal">Contatti</p>
-      <h2 class="contact__title word-reveal">Hai un progetto in mente?<br><span class="contact__title-line">Parliamone e</span> <span class="contact__rotator" id="contactRotator"><svg class="contact__rotator-svg" id="contactRotatorSvg" aria-hidden="true"><text id="contactRotatorText" x="2" y="0.78em">creiamo</text></svg><span class="visually-hidden" id="contactRotatorSr">creiamo</span></span> <span class="contact__title-line">insieme.</span></h2>
+      <p class="section-tag word-reveal">Contact</p>
+      <h2 class="contact__title word-reveal">Have a project in mind?<br><span class="contact__title-line">Let's talk and</span> <span class="contact__rotator" id="contactRotator"><svg class="contact__rotator-svg" id="contactRotatorSvg" aria-hidden="true"><text id="contactRotatorText" x="2" y="0.78em">create</text></svg><span class="visually-hidden" id="contactRotatorSr">create</span></span> <span class="contact__title-line">together.</span></h2>
       <a href="mailto:mattia.pedron2004@gmail.com" class="btn btn--magnetic btn--large reveal-up" data-cursor="view">
-        <span>Scrivimi</span>
+        <span>Email me</span>
       </a>
       <div class="contact__socials reveal-up">
         <a href="#" data-cursor="link">LinkedIn</a>
@@ -218,17 +218,17 @@
   </div>
   <a href="mailto:mattia.pedron2004@gmail.com" class="footer__email" data-cursor="link">mattia.pedron2004@gmail.com</a>
   <div class="footer__bottom">
-    <p>&copy; <span id="year"></span> Mattia Pedron. Tutti i diritti riservati.</p>
-    <a href="#top" class="footer__top" data-cursor="link">Torna su ↑</a>
+    <p>&copy; <span id="year"></span> Mattia Pedron. All rights reserved.</p>
+    <a href="#top" class="footer__top" data-cursor="link">Back to top ↑</a>
   </div>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="assets/js/bg-dots.js"></script>
-<script src="assets/js/main.js"></script>
-<script src="assets/js/morph-carousel.js"></script>
-<script src="assets/js/globe.js"></script>
+<script src="../assets/js/bg-dots.js"></script>
+<script src="../assets/js/main.en.js"></script>
+<script src="../assets/js/morph-carousel.en.js"></script>
+<script src="../assets/js/globe.js"></script>
 </body>
 </html>
