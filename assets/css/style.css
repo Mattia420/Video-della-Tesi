@@ -783,6 +783,55 @@ h1, h2, h3 {
 .reveal-up { opacity: 0; transform: translateY(40px); }
 
 /* =========================================================
+   LANGUAGE PROMPT — first-visit IT/EN choice, shown once the
+   preloader finishes (see assets/js/lang-picker.js)
+   ========================================================= */
+.lang-prompt {
+  position: fixed;
+  left: 50%;
+  bottom: 1.5rem;
+  z-index: 998;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem;
+  max-width: calc(100vw - 2rem);
+  padding: 0.9rem 1rem 0.9rem 1.3rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 20px);
+  transition: opacity .4s var(--ease), transform .4s var(--ease);
+}
+.lang-prompt.is-visible { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+.lang-prompt__text { font-size: 0.8rem; color: var(--text-dim); white-space: nowrap; }
+.lang-prompt__actions { display: flex; gap: 0.5rem; }
+.lang-prompt__actions button {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.8rem; font-weight: 600;
+  padding: 0.5rem 1.1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 100px;
+  color: var(--text);
+  background: transparent;
+  cursor: pointer;
+  transition: border-color .25s ease, color .25s ease, background .25s ease;
+}
+.lang-prompt__actions button:hover { border-color: var(--accent); color: #201e21; background: var(--accent); }
+.lang-prompt__close {
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  width: 1.6rem; height: 1.6rem;
+  border: none; background: transparent;
+  color: var(--text-dim); font-size: 1.15rem; line-height: 1;
+  cursor: pointer;
+}
+.lang-prompt__close:hover { color: var(--text); }
+
+/* =========================================================
    MOBILE REFINEMENTS
    ========================================================= */
 @media (max-width: 600px) {
@@ -796,6 +845,18 @@ h1, h2, h3 {
   .btn, .nav__toggle, .skill-item__row, .skill-item--static, .nav__links a {
     -webkit-tap-highlight-color: transparent;
   }
+  .lang-prompt {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    width: calc(100vw - 2rem);
+    border-radius: 20px;
+    bottom: 1rem;
+    padding: 1rem 1.1rem;
+  }
+  .lang-prompt__text { white-space: normal; }
+  .lang-prompt__actions { justify-content: center; }
+  .lang-prompt__close { position: absolute; top: 0.5rem; right: 0.5rem; }
 }
 
 @media (hover: none) and (pointer: coarse) {
