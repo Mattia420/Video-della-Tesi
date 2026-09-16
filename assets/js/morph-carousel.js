@@ -234,11 +234,7 @@
         front.style.background = `linear-gradient(155deg, ${PALETTE[i % PALETTE.length]}, #1c0033)`;
         front.textContent = String(i + 1).padStart(2, '0');
       }
-      const back = document.createElement('div');
-      back.className = 'morph-card__back';
-      back.textContent = data.badge || 'AI';
       inner.appendChild(front);
-      inner.appendChild(back);
       card.appendChild(inner);
 
       card.__hover = false;
@@ -336,6 +332,16 @@
       const smoothing = prefersReducedMotion ? 1 : 0.09;
       morphSmooth += (morphTarget - morphSmooth) * smoothing;
       wobbleSmooth += (wobbleTarget - wobbleSmooth) * smoothing;
+      // Snap fully to the target once the gap is imperceptible — otherwise
+      // this exponential smoothing keeps nudging by fractions of a pixel
+      // forever, which means card.style.transform below never repeats the
+      // exact same string and the card never settles as "not animating".
+      // A GPU compositor caches a lower-res raster for anything it treats
+      // as still in motion (stretching it to size instead of re-drawing
+      // the source bitmap at full resolution), which reads as "blurry
+      // until you interact with it" — settling lets it re-rasterize sharp.
+      if (Math.abs(morphTarget - morphSmooth) < 0.0005) morphSmooth = morphTarget;
+      if (Math.abs(wobbleTarget - wobbleSmooth) < 0.0005) wobbleSmooth = wobbleTarget;
 
       if (introEl && revealEl) {
         const introOpacity = clamp(1 - morphSmooth * 2, 0, 1);
@@ -417,9 +423,21 @@
 
         const hoverTarget = card.__hover ? 1.12 : 1;
         card.__hoverSmooth += (hoverTarget - card.__hoverSmooth) * (prefersReducedMotion ? 1 : 0.2);
+        if (Math.abs(hoverTarget - card.__hoverSmooth) < 0.0005) card.__hoverSmooth = hoverTarget;
 
-        card.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg) scale(${scale * card.__hoverSmooth})`;
-        card.style.opacity = String(opacity);
+        // Skip the DOM write entirely once a card has settled (same string
+        // as last frame) — see the smoothing snap above for why this is
+        // what actually lets the browser rasterize it at full quality.
+        const nextTransform = `translate(${x}px, ${y}px) rotate(${rotation}deg) scale(${scale * card.__hoverSmooth})`;
+        if (nextTransform !== card.__lastTransform) {
+          card.style.transform = nextTransform;
+          card.__lastTransform = nextTransform;
+        }
+        const nextOpacity = String(opacity);
+        if (nextOpacity !== card.__lastOpacity) {
+          card.style.opacity = nextOpacity;
+          card.__lastOpacity = nextOpacity;
+        }
         card.style.pointerEvents = opacity < 0.05 ? 'none' : '';
       });
 
@@ -429,83 +447,52 @@
   }
 
   /* ---------- content data ---------- */
-  const AI_DESCS = [
-    'Post per campagna social generato con l\'AI.',
-    'Creatività per ads a pagamento.',
-    'Contenuto video sviluppato con l\'intelligenza artificiale.',
-    'Visual per il lancio di un prodotto.',
-  ];
-
-  const AI_OVERRIDES = {
-    0: {
+  const AI_ITEMS = [
+    {
       id: 'telemea',
       title: 'Telemea — Solomonescu',
       desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per il Telemea di Solomonescu, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania.',
       video: 'assets/video/telemea-solomon-spot.mp4',
       cover: 'assets/img/telemea-solomon-cover.webp?v=2',
+      type: 'video',
+      category: 'Contenuti AI',
+      categoryId: 'contenutiAi',
+      badge: 'AI',
     },
-    1: {
-      id: 'lunca-cascaval',
-      title: 'Lunca Ilvei — Cascaval Dalia',
-      desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per il Cascaval Dalia, formaggio di Lunca Ilvei, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania.',
-      video: 'assets/video/lunca-ilvei-cheese.mp4',
-      cover: 'assets/img/lunca-ilvei-cover.webp?v=2',
-    },
-    2: {
+    {
       id: 'black-white',
       title: 'Black & White',
       desc: 'Contenuto visivo generato con l\'intelligenza artificiale.',
       video: 'assets/video/black-and-white.mp4',
       cover: 'assets/img/black-and-white-cover.webp?v=2',
+      type: 'video',
+      category: 'Contenuti AI',
+      categoryId: 'contenutiAi',
+      badge: 'AI',
     },
-    3: {
-      id: 'deserto-sale',
-      title: 'Deserto di Sale',
-      desc: 'Contenuto visivo generato con l\'intelligenza artificiale.',
-      video: 'assets/video/deserto-di-sale.mp4',
-      cover: 'assets/img/deserto-di-sale-cover.webp?v=2',
-    },
-    4: {
-      id: 'lunca-raclette',
-      title: 'Lunca Ilvei — Raclette',
-      desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per la linea Raclette di Lunca Ilvei, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania.',
-      video: 'assets/video/raclette-cheese.mp4',
-      cover: 'assets/img/raclette-cheese-cover.webp?v=2',
-    },
-    5: {
+    {
       id: 'redbull',
       title: 'Red Bull Green Edition — Spot',
       desc: 'Concept di spot pubblicitario generato con l\'intelligenza artificiale.',
       video: 'assets/video/redbull-spot.mp4',
       cover: 'assets/img/redbull-spot-cover.webp?v=2',
+      type: 'video',
+      category: 'Contenuti AI',
+      categoryId: 'contenutiAi',
+      badge: 'AI',
     },
-    6: {
-      id: 'glitch',
-      title: 'Glitch',
-      desc: 'Contenuto visivo generato con l\'intelligenza artificiale.',
-      video: 'assets/video/glitch-2.mp4',
-      cover: 'assets/img/glitch-2-cover.webp?v=2',
-    },
-    7: {
+    {
       id: 'hopy',
       title: 'Hopy',
       desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per Hopy, linea cosmetica a base di canapa di Enzima.',
       video: 'assets/video/hopy-spot.mp4',
       cover: 'assets/img/hopy-spot-cover.webp',
+      type: 'video',
+      category: 'Contenuti AI',
+      categoryId: 'contenutiAi',
+      badge: 'AI',
     },
-  };
-
-  const AI_ITEMS = Array.from({ length: 8 }, (_, i) => ({
-    title: `Contenuto AI ${String(i + 1).padStart(2, '0')}`,
-    desc: AI_DESCS[i % AI_DESCS.length],
-    video: '',
-    cover: '',
-    type: 'video',
-    category: 'Contenuti AI',
-    categoryId: 'contenutiAi',
-    badge: 'AI',
-    ...AI_OVERRIDES[i],
-  }));
+  ];
 
   // Placeholder items for work not yet uploaded — swap video/image/figmaUrl
   // in as real files/links come in, same pattern as the AI overrides above.
@@ -546,28 +533,6 @@
       figmaUrl: 'https://embed.figma.com/deck/7g65MmoCigEi0K7Vzhi4ty/Touch-of-Beauty-%7C-Presentation--Copy-?node-id=1-559&t=Qc40Qai1cRm8ujqa-1&embed-host=share',
       figmaKind: 'deck',
       cover: 'assets/img/touch-of-beauty-cover.webp',
-    },
-    {
-      // Waiting on the real files (sent as a PDF, per the image-upload
-      // limitation) — image/cover/gallery entries stay empty (shows the
-      // "Grafica in arrivo" placeholder) until then.
-      id: 'energic-swirl',
-      title: 'Energic Swirl',
-      desc: 'Copertina vinile in due varianti colore, verde e viola.',
-      type: 'image',
-      category: 'Graphic Design',
-      categoryId: 'graphicDesign',
-      badge: 'GD',
-      // card background fills the letterboxed space around the round/square
-      // vinyl art with the same black the mockup itself sits on, instead of
-      // the generic dark neutral used for taller poster-shaped covers
-      cardBg: '#000000',
-      image: 'assets/img/energic-swirl-purple.webp',
-      cover: 'assets/img/energic-swirl-purple-cover.webp?v=2',
-      gallery: [
-        { key: 'viola', image: 'assets/img/energic-swirl-purple.webp', cover: 'assets/img/energic-swirl-purple-cover.webp?v=2', label: 'Viola' },
-        { key: 'verde', image: 'assets/img/energic-swirl-green.webp', cover: 'assets/img/energic-swirl-green-cover.webp?v=2', label: 'Verde' },
-      ],
     },
     {
       id: 'smart-home',

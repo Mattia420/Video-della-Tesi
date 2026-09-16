@@ -486,7 +486,6 @@ html.lang-ready .lang-picker { opacity: 0; visibility: hidden; pointer-events: n
 .morph-card {
   position: absolute; top: 50%; left: 50%;
   width: 60px; height: 85px; margin: -42.5px 0 0 -30px;
-  perspective: 900px;
   pointer-events: auto;
   cursor: pointer;
   will-change: transform;
@@ -497,32 +496,18 @@ html.lang-ready .lang-picker { opacity: 0; visibility: hidden; pointer-events: n
 /* Motion design: landscape 16:9 box instead of the default portrait one. */
 .morph-card--wide { width: 96px; height: 54px; margin: -27px 0 0 -48px; }
 .morph-card:focus-visible .morph-card__inner { outline: 2px solid var(--accent-soft); outline-offset: 3px; }
-.morph-card__inner {
-  position: relative; width: 100%; height: 100%;
-  transform-style: preserve-3d;
-  transition: transform .5s var(--ease);
-}
-.morph-card:hover .morph-card__inner { transform: rotateY(180deg); }
-/* Touch devices fake :hover on tap, so a finger leaving the card can
-   leave it stuck flipped to its back — the flip is a mouse-hover-only
-   flourish, not meant to trigger on tap at all. */
-@media (hover: none) {
-  .morph-card:hover .morph-card__inner { transform: none; }
-}
-.morph-card__front, .morph-card__back {
+.morph-card__inner { position: relative; width: 100%; height: 100%; }
+.morph-card__front {
   position: absolute; inset: 0; border-radius: 10px;
-  backface-visibility: hidden;
+  /* Own compositing layer from the start (not just while its parent's
+     scroll-driven transform is actively changing) so the GPU rasterizes
+     the background-image at full quality up front instead of stretching
+     a lower-res texture until something forces a re-raster. */
+  will-change: transform;
   display: flex; align-items: center; justify-content: center;
   font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; font-weight: 600;
   box-shadow: 0 10px 22px -12px rgba(0,0,0,0.6);
   color: #fbf8ff;
-}
-.morph-card__back {
-  transform: rotateY(180deg);
-  background: var(--bg-alt);
-  border: 1px solid var(--line);
-  color: var(--accent-soft);
-  letter-spacing: 0.1em;
 }
 
 @media (max-width: 760px) {
