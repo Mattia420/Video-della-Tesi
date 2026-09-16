@@ -1,23 +1,20 @@
 /*
- * Site translations + the first-visit language picker.
+ * Site translations + the language picker, shown on every visit (not just
+ * the first — by design the choice is never persisted, so a fresh page
+ * load always starts from the picker rather than remembering a past pick).
  * Plain JS, no build step: one big data object (Italian as the base,
  * per-language "overrides" deep-merged on top of it so project titles
  * and any string a language doesn't override just fall back to Italian)
  * plus the DOM wiring that applies it.
  *
- * Flow:
- *  - A tiny inline script in <head> (see index.html) reads localStorage
- *    synchronously and, if a supported language was already chosen,
- *    stamps `data-lang`/`lang-ready` on <html> before first paint — so
- *    returning visitors never see the picker or a flash of Italian text.
- *  - This script (loaded at the end of body, before main.js) builds the
- *    translations table, applies it immediately if `lang-ready` is
- *    already set, and otherwise renders the picker grid and waits for a
- *    click. Picking a language saves it, applies translations, and
- *    dispatches `site:lang-ready` (once, consumed by main.js to start
- *    the preloader) and `site:lang-changed` (every time, consumed here
- *    and by morph-carousel.js to re-translate already-built project
- *    cards/lightbox without rebuilding the carousel geometry).
+ * Flow: this script (loaded at the end of body, before main.js) builds
+ * the translations table and renders the picker grid, then waits for a
+ * click. Picking a language applies translations and dispatches
+ * `site:lang-ready` (once per page load, consumed by main.js to start
+ * the preloader) and `site:lang-changed` (every time, consumed here and
+ * by morph-carousel.js to re-translate already-built project cards/
+ * lightbox without rebuilding the carousel geometry) — the nav's flag
+ * button re-opens the picker the same way, for switching mid-session.
  */
 (() => {
   const LANGUAGES = [
@@ -624,7 +621,6 @@
     if (SUPPORTED.indexOf(lang) === -1) return;
     const isFirstChoice = !document.documentElement.classList.contains('lang-ready');
     currentLang = lang;
-    try { localStorage.setItem('site-lang', lang); } catch (e) { /* private mode, etc. */ }
     document.documentElement.setAttribute('data-lang', lang);
     document.documentElement.classList.add('lang-ready');
     applyDom(lang);
@@ -635,6 +631,10 @@
 
   window.i18n = { t, project, galleryLabel, category, setLanguage, getLang: () => currentLang, LANGUAGES };
 
+  // Nothing is persisted, and nothing pre-stamps `lang-ready` before this
+  // runs — every page load starts from scratch, so the CSS default state
+  // (picker visible, site blurred behind it) is exactly what's wanted
+  // until a click here calls setLanguage().
   renderPicker();
 
   const langSwitchBtn = document.getElementById('langSwitchBtn');
@@ -642,17 +642,5 @@
     langSwitchBtn.addEventListener('click', () => {
       document.documentElement.classList.remove('lang-ready');
     });
-  }
-
-  // The head script already stamped data-lang + lang-ready on <html> if a
-  // supported language was saved — pick that up and translate immediately,
-  // before anything paints. Otherwise leave the DOM as-authored (Italian)
-  // and wait for a picker click; the CSS default state keeps the picker
-  // visible and the site blurred behind it until then.
-  const preset = document.documentElement.getAttribute('data-lang');
-  if (preset && SUPPORTED.indexOf(preset) !== -1 && document.documentElement.classList.contains('lang-ready')) {
-    currentLang = preset;
-    applyDom(preset);
-    updateLangSwitchButton(preset);
   }
 })();

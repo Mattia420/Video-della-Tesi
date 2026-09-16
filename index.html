@@ -11,21 +11,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="assets/css/style.css">
-<script>
-// Reads the saved language choice (if any) synchronously, before first
-// paint, so a returning visitor never sees the language picker or a
-// flash of Italian text — see assets/js/i18n.js for the full picker
-// and translation logic that reads this back.
-(function () {
-  var SUPPORTED = ['it', 'en', 'de', 'es', 'fr', 'pt', 'ro', 'nl', 'zh'];
-  var saved = null;
-  try { saved = localStorage.getItem('site-lang'); } catch (e) {}
-  if (saved && SUPPORTED.indexOf(saved) !== -1) {
-    document.documentElement.setAttribute('data-lang', saved);
-    document.documentElement.classList.add('lang-ready');
-  }
-})();
-</script>
 </head>
 <body>
 
