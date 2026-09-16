@@ -160,7 +160,10 @@ html.lang-ready .lang-picker { opacity: 0; visibility: hidden; pointer-events: n
      whatever flat color (near-black page, bright accent buttons) sits underneath */
   box-shadow: 0 0 0 1.5px rgba(0,0,0,0.55), 0 0 0 3px rgba(255,255,255,0.8);
   pointer-events: none;
-  z-index: 998;
+  /* above .preloader (999) and .lang-picker (1000) — otherwise the custom
+     dot renders behind both and the cursor reads as "gone" while the
+     language picker (or preloader) is the topmost thing on screen. */
+  z-index: 1001;
   opacity: 0;
   transition: background .3s var(--ease), opacity .25s var(--ease);
   display: flex; align-items: center; justify-content: center;

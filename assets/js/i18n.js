@@ -607,6 +607,7 @@
       btn.type = 'button';
       btn.className = 'lang-picker__btn';
       btn.setAttribute('data-lang-code', code);
+      btn.setAttribute('data-cursor', 'link');
       btn.innerHTML = `<span class="lang-picker__flag" aria-hidden="true">${flag}</span><span>${name}</span>`;
       btn.addEventListener('click', () => setLanguage(code));
       grid.appendChild(btn);
