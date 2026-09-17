@@ -305,12 +305,18 @@ document.addEventListener('DOMContentLoaded', () => {
         el.__wordRevealTween.kill();
         el.__wordRevealTween = null;
       }
-      // Collapse back to plain text first — harmless on the very first
-      // run, and on a re-run undoes the previous .word wrapping (i18n.js
-      // may have already flattened part of this subtree itself, if a
-      // data-i18n element sits inside it; this flattens the rest so
-      // splitWords() below starts from a clean, single-text-node state).
-      el.textContent = el.textContent;
+      // Undo any previous .word wrapping before re-splitting — but only
+      // the spans themselves, not the whole subtree: el.textContent = "
+      // would also flatten real block structure inside el (e.g. the two
+      // <p> children under .about__text, a flex column relying on each
+      // <p> being its own flex item), turning every word into its own
+      // flex item and stacking them one per line. Unwrapping just the
+      // .word spans back to plain text nodes leaves <p>/<em>/etc. intact
+      // for splitWords() to recurse into again below.
+      el.querySelectorAll('.word').forEach((span) => {
+        span.replaceWith(document.createTextNode(span.textContent));
+      });
+      el.normalize();
       splitWords(el);
 
       const words = el.querySelectorAll('.word');

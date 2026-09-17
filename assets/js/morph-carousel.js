@@ -452,17 +452,6 @@
   /* ---------- content data ---------- */
   const AI_ITEMS = [
     {
-      id: 'telemea',
-      title: 'Telemea — Solomonescu',
-      desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per il Telemea di Solomonescu, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania.',
-      video: 'assets/video/telemea-solomon-spot.mp4',
-      cover: 'assets/img/telemea-solomon-cover.webp?v=2',
-      type: 'video',
-      category: 'Contenuti AI',
-      categoryId: 'contenutiAi',
-      badge: 'AI',
-    },
-    {
       id: 'black-white',
       title: 'Black & White',
       desc: 'Contenuto visivo generato con l\'intelligenza artificiale.',
@@ -498,7 +487,7 @@
     {
       id: 'hopy',
       title: 'Hopy',
-      desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per Hopy, linea cosmetica a base di canapa di TiliLab.',
+      desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per Hopy, linea cosmetica a base di canapa di TiliLab, pensato per il pubblico rumeno — da qui la voce fuori campo in rumeno.',
       video: 'assets/video/hopy-spot.mp4',
       cover: 'assets/img/hopy-spot-cover.webp',
       type: 'video',

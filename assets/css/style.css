@@ -830,12 +830,8 @@ html.lang-ready .lang-picker { opacity: 0; visibility: hidden; pointer-events: n
   inset: 0;
   background: radial-gradient(120% 220% at 50% -120%, rgba(166, 0, 255, 0.20), transparent 70%);
 }
-.footer p, .footer__top, .footer__socials, .footer__email, .footer__bottom { position: relative; z-index: 1; }
+.footer p, .footer__top, .footer__email, .footer__bottom { position: relative; z-index: 1; }
 .footer__top { color: var(--text); }
-.footer__socials { display: flex; gap: 1.4rem; }
-.footer__socials a { color: var(--text); opacity: 0.8; transition: opacity .3s ease, color .3s ease; }
-.footer__socials a:hover { opacity: 1; color: var(--accent-soft); }
-.footer__socials svg { width: 20px; height: 20px; display: block; }
 .footer__email { color: var(--text-dim); transition: color .3s ease; }
 .footer__email:hover { color: var(--accent-soft); }
 .footer__bottom {
