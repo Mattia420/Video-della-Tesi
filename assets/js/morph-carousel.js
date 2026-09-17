@@ -471,9 +471,9 @@
       badge: 'AI',
     },
     {
-      id: 'corolla',
-      title: 'Corolla',
-      desc: 'Cortometraggio surreale generato con l\'intelligenza artificiale, tra volti sospesi e corone di fiori.',
+      id: 'genesis',
+      title: 'Installazione Genesis',
+      desc: 'Avatar creato tramite intelligenza artificiale che canta una canzone reale, utilizzato in un\'installazione chiamata Genesis, a Barcellona.',
       video: 'assets/video/corolla.mp4',
       cover: 'assets/img/corolla-cover.webp',
       type: 'video',
@@ -495,7 +495,7 @@
     {
       id: 'hopy',
       title: 'Hopy',
-      desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per Hopy, linea cosmetica a base di canapa di Enzima.',
+      desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per Hopy, linea cosmetica a base di canapa di TiliLab.',
       video: 'assets/video/hopy-spot.mp4',
       cover: 'assets/img/hopy-spot-cover.webp',
       type: 'video',
