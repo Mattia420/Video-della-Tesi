@@ -51,8 +51,11 @@
       const isDeck = data.figmaKind === 'deck';
       // Only the interactive UI/UX prototypes get the "loading, may take a
       // few seconds" indicator — a presentation deck (Graphic Design) just
-      // fades the iframe in without it.
-      const showLoadingUI = data.category === 'UI/UX Design';
+      // fades the iframe in without it. Keyed off categoryId (stable, not
+      // translated) rather than category (the live-translated label) —
+      // comparing against the literal Italian string broke this for every
+      // language whose translated category text differs from it.
+      const showLoadingUI = data.categoryId === 'uiuxDesign';
       mediaEl.classList.add(isDeck ? 'ai-lightbox__media--deck' : 'ai-lightbox__media--figma');
       // Decks play back landscape, like the widescreen video frame.
       if (isDeck) mediaEl.classList.add('ai-lightbox__media--wide-video');

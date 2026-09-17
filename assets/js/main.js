@@ -262,59 +262,82 @@ document.addEventListener('DOMContentLoaded', () => {
      .word-reveal element (section tags/titles, About/globe paragraphs,
      skills list, contact heading) — not the hero title, which already
      has its own load-in entrance animation.
-     ========================================================= */
-  document.querySelectorAll('.word-reveal').forEach((el) => {
-    // Split text nodes into per-word spans, recursing into child elements
-    // (e.g. <em>, the skills list's number spans) so words inside them get
-    // wrapped too without disturbing that element's own styling. Skips SVG
-    // content outright — the contact heading's handwriting-style rotator
-    // word lives in an <svg>, and wrapping HTML spans around its <text>
-    // content wouldn't render.
-    const splitWords = (node) => {
-      Array.from(node.childNodes).forEach((child) => {
-        if (child.nodeType === Node.TEXT_NODE) {
-          const frag = document.createDocumentFragment();
-          child.textContent.split(/(\s+)/).forEach((part) => {
-            if (part === '') return;
-            if (/^\s+$/.test(part)) {
-              frag.appendChild(document.createTextNode(part));
-            } else {
-              const span = document.createElement('span');
-              span.className = 'word';
-              span.textContent = part;
-              frag.appendChild(span);
-            }
-          });
-          node.replaceChild(frag, child);
-        } else if (child.nodeType === Node.ELEMENT_NODE) {
-          if (child instanceof SVGElement) return;
-          splitWords(child);
-        }
-      });
-    };
-    splitWords(el);
 
-    const words = el.querySelectorAll('.word');
-    if (!words.length) return;
-    gsap.set(words, { opacity: 0.25, filter: 'blur(4px)' });
-    // On small screens there's much less scroll distance per section, so
-    // a range tuned for desktop leaves text still mid-blur once it's
-    // sitting in a comfortable reading position — start/finish the reveal
-    // earlier (further down the viewport) so it's legible sooner.
-    const isMobileViewport = window.matchMedia('(max-width: 760px)').matches;
-    gsap.to(words, {
-      opacity: 1,
-      filter: 'blur(0px)',
-      stagger: 0.05,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: el,
-        start: isMobileViewport ? 'top 98%' : 'top 88%',
-        end: isMobileViewport ? 'bottom 82%' : 'bottom 60%',
-        scrub: 0.6,
-      },
+     Re-run on every 'site:lang-changed' (see i18n.js), not just once at
+     load: i18n.js translates by writing el.textContent on data-i18n
+     elements, which for anything under a .word-reveal wipes out the
+     .word spans this effect depends on (and, before this listener
+     existed, nothing ever rebuilt them) — so a language switch silently
+     killed the effect for any text it touched. Re-splitting on every
+     switch, after killing the previous tween/trigger, keeps it working
+     no matter how many times the language changes.
+     ========================================================= */
+  function splitWords(node) {
+    Array.from(node.childNodes).forEach((child) => {
+      if (child.nodeType === Node.TEXT_NODE) {
+        const frag = document.createDocumentFragment();
+        child.textContent.split(/(\s+)/).forEach((part) => {
+          if (part === '') return;
+          if (/^\s+$/.test(part)) {
+            frag.appendChild(document.createTextNode(part));
+          } else {
+            const span = document.createElement('span');
+            span.className = 'word';
+            span.textContent = part;
+            frag.appendChild(span);
+          }
+        });
+        node.replaceChild(frag, child);
+      } else if (child.nodeType === Node.ELEMENT_NODE) {
+        // Skips SVG content outright — the contact heading's handwriting-
+        // style rotator word lives in an <svg>, and wrapping HTML spans
+        // around its <text> content wouldn't render.
+        if (child instanceof SVGElement) return;
+        splitWords(child);
+      }
     });
-  });
+  }
+
+  function setupWordReveal() {
+    document.querySelectorAll('.word-reveal').forEach((el) => {
+      if (el.__wordRevealTween) {
+        el.__wordRevealTween.scrollTrigger && el.__wordRevealTween.scrollTrigger.kill();
+        el.__wordRevealTween.kill();
+        el.__wordRevealTween = null;
+      }
+      // Collapse back to plain text first — harmless on the very first
+      // run, and on a re-run undoes the previous .word wrapping (i18n.js
+      // may have already flattened part of this subtree itself, if a
+      // data-i18n element sits inside it; this flattens the rest so
+      // splitWords() below starts from a clean, single-text-node state).
+      el.textContent = el.textContent;
+      splitWords(el);
+
+      const words = el.querySelectorAll('.word');
+      if (!words.length) return;
+      gsap.set(words, { opacity: 0.25, filter: 'blur(4px)' });
+      // On small screens there's much less scroll distance per section, so
+      // a range tuned for desktop leaves text still mid-blur once it's
+      // sitting in a comfortable reading position — start/finish the reveal
+      // earlier (further down the viewport) so it's legible sooner.
+      const isMobileViewport = window.matchMedia('(max-width: 760px)').matches;
+      el.__wordRevealTween = gsap.to(words, {
+        opacity: 1,
+        filter: 'blur(0px)',
+        stagger: 0.05,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: el,
+          start: isMobileViewport ? 'top 98%' : 'top 88%',
+          end: isMobileViewport ? 'bottom 82%' : 'bottom 60%',
+          scrub: 0.6,
+        },
+      });
+    });
+  }
+
+  setupWordReveal();
+  document.addEventListener('site:lang-changed', setupWordReveal);
 });
 
 /* =========================================================

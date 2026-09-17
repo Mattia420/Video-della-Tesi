@@ -809,9 +809,10 @@ html.lang-ready .lang-picker { opacity: 0; visibility: hidden; pointer-events: n
   transition: fill .4s ease;
 }
 .contact__rotator-svg text.is-filled { fill: #fff; }
-.contact__socials { display: flex; gap: 2rem; justify-content: center; margin-top: 1rem; }
-.contact__socials a { font-size: 0.9rem; color: var(--text-dim); transition: color .3s ease; }
-.contact__socials a:hover { color: var(--accent); }
+.contact__socials { display: flex; gap: 1.75rem; justify-content: center; align-items: center; margin-top: 1.5rem; }
+.contact__socials a { color: var(--text-dim); opacity: 0.85; transition: color .3s ease, opacity .3s ease, transform .3s var(--ease); }
+.contact__socials a:hover { color: var(--accent); opacity: 1; transform: translateY(-2px); }
+.contact__socials svg { width: 32px; height: 32px; display: block; }
 
 /* =========================================================
    FOOTER
