@@ -457,7 +457,7 @@
     {
       id: 'black-white',
       title: 'Black & White',
-      desc: 'Contenuto visivo generato con l\'intelligenza artificiale.',
+      desc: 'Contenuto visivo generato con l\'intelligenza artificiale, creato per pubblicizzare una canzone.',
       video: 'assets/video/black-and-white.mp4',
       cover: 'assets/img/black-and-white-cover.webp?v=2',
       type: 'video',

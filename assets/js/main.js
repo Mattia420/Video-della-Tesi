@@ -101,31 +101,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* =========================================================
      PRELOADER — deferred until a language is chosen (see i18n.js):
-     first-time visitors see the language picker over a blurred site
-     first, and the preloader/hero-intro sequence only starts once
-     they've picked one. Returning visitors (saved language, <html>
-     already carries .lang-ready before this script even runs) skip
-     straight to starting it.
+     the language picker sits over a blurred site first, and once a
+     language is picked the site (hero photo + title included) must
+     appear immediately, with no counting animation or fade-in delay.
      ========================================================= */
   const preloader = document.getElementById('preloader');
-  const countEl = document.getElementById('preloaderCount');
   let preloaderStarted = false;
 
   function startPreloader() {
     if (preloaderStarted) return;
     preloaderStarted = true;
-    let count = 0;
-    const counter = setInterval(() => {
-      count += Math.ceil(Math.random() * 12);
-      if (count >= 100) {
-        count = 100;
-        clearInterval(counter);
-        countEl.textContent = count;
-        setTimeout(finishPreload, 350);
-      } else {
-        countEl.textContent = count;
-      }
-    }, 90);
+    finishPreload();
   }
 
   if (document.documentElement.classList.contains('lang-ready')) {
@@ -135,16 +121,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function finishPreload() {
-    gsap.to(preloader, {
-      yPercent: -100,
-      duration: 0.9,
-      ease: 'power4.inOut',
-      onComplete: () => {
-        preloader.style.display = 'none';
-        document.body.classList.add('is-loaded');
-        playHeroIntro();
-      }
-    });
+    preloader.style.display = 'none';
+    document.body.classList.add('is-loaded');
+    playHeroIntro();
   }
 
   /* =========================================================
@@ -226,16 +205,10 @@ document.addEventListener('DOMContentLoaded', () => {
      HERO INTRO ANIMATION (fires after preloader)
      ========================================================= */
   function playHeroIntro() {
-    // .from() sets the hidden starting state via JS only once this runs, so
-    // if GSAP ever fails to fire the hero text is never stuck invisible —
-    // it just sits at its normal, visible CSS state instead.
-    gsap.timeline({ defaults: { ease: 'power4.out' } })
-      .to('.hero__portrait', { opacity: 1, duration: 1.4, ease: 'power2.out' }, 0)
-      .from('.hero__title', {
-        opacity: 0,
-        y: 24,
-        duration: 1,
-      }, 0.1);
+    // Set directly to the final visible state — no fade/slide delay, the
+    // portrait and title must be there the instant a language is picked.
+    gsap.set('.hero__portrait', { opacity: 1 });
+    gsap.set('.hero__title', { opacity: 1, y: 0 });
   }
 
   /* =========================================================

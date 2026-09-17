@@ -73,7 +73,8 @@
     globe: {
       tag: "Esperienze all'estero",
       title: "Dove ho lavorato.",
-      intro: "Penso che le esperienze all'estero siano incredibilmente utili per la crescita personale: trovarsi in un nuovo ambiente porta nuove sfide e nuove possibilità, che aiutano a far crescere e maturare l'individuo, oltre alle sue competenze. Per questo ho scelto di vivere diverse esperienze lavorative fuori dall'Italia.",
+      introPart1: "Penso che le esperienze all'estero siano incredibilmente utili per la crescita personale: trovarsi in un nuovo ambiente porta nuove sfide e nuove possibilità, che aiutano a far crescere e maturare l'individuo, oltre alle sue competenze.",
+      introPart2: "Per questo ho scelto di vivere diverse esperienze lavorative fuori dall'Italia.",
       city1: "Boston, USA", city2: "Valencia, Spagna", city3: "Oradea, Romania",
       city4: "Tilburg, Paesi Bassi", city5: "Trento, Italia", city6: "Bolzano, Italia",
     },
@@ -102,7 +103,7 @@
     projects: {
       telemea: { title: "Telemea — Solomonescu", desc: "Spot pubblicitario generato con l'intelligenza artificiale per il Telemea di Solomonescu, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania." },
       "lunca-cascaval": { title: "Lunca Ilvei — Cascaval Dalia", desc: "Spot pubblicitario generato con l'intelligenza artificiale per il Cascaval Dalia, formaggio di Lunca Ilvei, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania." },
-      "black-white": { title: "Black & White", desc: "Contenuto visivo generato con l'intelligenza artificiale." },
+      "black-white": { title: "Black & White", desc: "Contenuto visivo generato con l'intelligenza artificiale, creato per pubblicizzare una canzone." },
       genesis: { title: "Installazione Genesis", desc: "Avatar creato tramite intelligenza artificiale che canta una canzone reale, utilizzato in un'installazione chiamata Genesis, a Barcellona." },
       "deserto-sale": { title: "Deserto di Sale", desc: "Contenuto visivo generato con l'intelligenza artificiale." },
       "lunca-raclette": { title: "Lunca Ilvei — Raclette", desc: "Spot pubblicitario generato con l'intelligenza artificiale per la linea Raclette di Lunca Ilvei, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania." },
@@ -146,7 +147,8 @@
       },
       globe: {
         tag: "Experience abroad", title: "Where I've worked.",
-        intro: "I think experiences abroad are incredibly useful for personal growth: being in a new environment brings new challenges and new possibilities, which help you grow and mature as an individual, as well as your skills. That's why I've chosen to live several work experiences outside Italy.",
+        introPart1: "I think experiences abroad are incredibly useful for personal growth: being in a new environment brings new challenges and new possibilities, which help you grow and mature as an individual, as well as your skills.",
+        introPart2: "That's why I've chosen to live several work experiences outside Italy.",
         city1: "Boston, USA", city2: "Valencia, Spain", city3: "Oradea, Romania", city4: "Tilburg, Netherlands", city5: "Trento, Italy", city6: "Bolzano, Italy",
       },
       contact: {
@@ -160,7 +162,7 @@
       projects: {
         telemea: { desc: "AI-generated ad for Solomonescu's Telemea, a Romanian dairy company, made during a work period in Romania." },
         "lunca-cascaval": { desc: "AI-generated ad for Cascaval Dalia, a Lunca Ilvei cheese, Romanian dairy company, made during a work period in Romania." },
-        "black-white": { desc: "Visual content generated with artificial intelligence." },
+        "black-white": { desc: "Visual content generated with artificial intelligence, created to advertise a song." },
         genesis: { desc: "AI-created avatar singing a real song, used in an installation called Genesis, in Barcelona." },
         "deserto-sale": { desc: "Visual content generated with artificial intelligence." },
         "lunca-raclette": { desc: "AI-generated ad for the Raclette line by Lunca Ilvei, a Romanian dairy company, made during a work period in Romania." },
@@ -202,7 +204,8 @@
       },
       globe: {
         tag: "Auslandserfahrungen", title: "Wo ich gearbeitet habe.",
-        intro: "Ich finde, Auslandserfahrungen sind unglaublich wertvoll für die persönliche Entwicklung: In einer neuen Umgebung zu sein bringt neue Herausforderungen und neue Möglichkeiten mit sich, die einem helfen, als Mensch und in den eigenen Kompetenzen zu wachsen und zu reifen. Deshalb habe ich mich entschieden, mehrere Arbeitserfahrungen außerhalb Italiens zu sammeln.",
+        introPart1: "Ich finde, Auslandserfahrungen sind unglaublich wertvoll für die persönliche Entwicklung: In einer neuen Umgebung zu sein bringt neue Herausforderungen und neue Möglichkeiten mit sich, die einem helfen, als Mensch und in den eigenen Kompetenzen zu wachsen und zu reifen.",
+        introPart2: "Deshalb habe ich mich entschieden, mehrere Arbeitserfahrungen außerhalb Italiens zu sammeln.",
         city1: "Boston, USA", city2: "Valencia, Spanien", city3: "Oradea, Rumänien", city4: "Tilburg, Niederlande", city5: "Trient, Italien", city6: "Bozen, Italien",
       },
       contact: {
@@ -216,7 +219,7 @@
       projects: {
         telemea: { desc: "KI-generierter Werbespot für den Telemea von Solomonescu, einem rumänischen Molkereiunternehmen, entstanden während einer Arbeitsphase in Rumänien." },
         "lunca-cascaval": { desc: "KI-generierter Werbespot für den Cascaval Dalia, einen Käse von Lunca Ilvei, rumänisches Molkereiunternehmen, entstanden während einer Arbeitsphase in Rumänien." },
-        "black-white": { desc: "Mit künstlicher Intelligenz erzeugter visueller Inhalt." },
+        "black-white": { desc: "Mit künstlicher Intelligenz erzeugter visueller Inhalt, erstellt zur Bewerbung eines Songs." },
         genesis: { desc: "Mit künstlicher Intelligenz erschaffener Avatar, der einen echten Song singt, verwendet in einer Installation namens Genesis, in Barcelona." },
         "deserto-sale": { desc: "Mit künstlicher Intelligenz erzeugter visueller Inhalt." },
         "lunca-raclette": { desc: "KI-generierter Werbespot für die Raclette-Linie von Lunca Ilvei, rumänisches Molkereiunternehmen, entstanden während einer Arbeitsphase in Rumänien." },
@@ -258,7 +261,8 @@
       },
       globe: {
         tag: "Experiencias en el extranjero", title: "Dónde he trabajado.",
-        intro: "Creo que las experiencias en el extranjero son increíblemente útiles para el crecimiento personal: estar en un entorno nuevo trae nuevos retos y nuevas posibilidades, que ayudan a crecer y madurar como persona, además de en las propias habilidades. Por eso he elegido vivir varias experiencias laborales fuera de Italia.",
+        introPart1: "Creo que las experiencias en el extranjero son increíblemente útiles para el crecimiento personal: estar en un entorno nuevo trae nuevos retos y nuevas posibilidades, que ayudan a crecer y madurar como persona, además de en las propias habilidades.",
+        introPart2: "Por eso he elegido vivir varias experiencias laborales fuera de Italia.",
         city1: "Boston, EE. UU.", city2: "Valencia, España", city3: "Oradea, Rumanía", city4: "Tilburg, Países Bajos", city5: "Trento, Italia", city6: "Bolzano, Italia",
       },
       contact: {
@@ -272,7 +276,7 @@
       projects: {
         telemea: { desc: "Spot publicitario generado con inteligencia artificial para el Telemea de Solomonescu, empresa láctea rumana, realizado durante un periodo de trabajo en Rumanía." },
         "lunca-cascaval": { desc: "Spot publicitario generado con inteligencia artificial para el Cascaval Dalia, queso de Lunca Ilvei, empresa láctea rumana, realizado durante un periodo de trabajo en Rumanía." },
-        "black-white": { desc: "Contenido visual generado con inteligencia artificial." },
+        "black-white": { desc: "Contenido visual generado con inteligencia artificial, creado para promocionar una canción." },
         genesis: { desc: "Avatar creado con inteligencia artificial que canta una canción real, utilizado en una instalación llamada Genesis, en Barcelona." },
         "deserto-sale": { desc: "Contenido visual generado con inteligencia artificial." },
         "lunca-raclette": { desc: "Spot publicitario generado con inteligencia artificial para la línea Raclette de Lunca Ilvei, empresa láctea rumana, realizado durante un periodo de trabajo en Rumanía." },
@@ -314,7 +318,8 @@
       },
       globe: {
         tag: "Expériences à l'étranger", title: "Où j'ai travaillé.",
-        intro: "Je pense que les expériences à l'étranger sont incroyablement utiles pour l'épanouissement personnel : se retrouver dans un nouvel environnement apporte de nouveaux défis et de nouvelles possibilités, qui aident à grandir et à mûrir en tant qu'individu, ainsi que ses compétences. C'est pourquoi j'ai choisi de vivre plusieurs expériences professionnelles hors d'Italie.",
+        introPart1: "Je pense que les expériences à l'étranger sont incroyablement utiles pour l'épanouissement personnel : se retrouver dans un nouvel environnement apporte de nouveaux défis et de nouvelles possibilités, qui aident à grandir et à mûrir en tant qu'individu, ainsi que ses compétences.",
+        introPart2: "C'est pourquoi j'ai choisi de vivre plusieurs expériences professionnelles hors d'Italie.",
         city1: "Boston, États-Unis", city2: "Valence, Espagne", city3: "Oradea, Roumanie", city4: "Tilburg, Pays-Bas", city5: "Trente, Italie", city6: "Bolzano, Italie",
       },
       contact: {
@@ -328,7 +333,7 @@
       projects: {
         telemea: { desc: "Spot publicitaire généré par intelligence artificielle pour le Telemea de Solomonescu, entreprise laitière roumaine, réalisé lors d'une période de travail en Roumanie." },
         "lunca-cascaval": { desc: "Spot publicitaire généré par intelligence artificielle pour le Cascaval Dalia, fromage de Lunca Ilvei, entreprise laitière roumaine, réalisé lors d'une période de travail en Roumanie." },
-        "black-white": { desc: "Contenu visuel généré par intelligence artificielle." },
+        "black-white": { desc: "Contenu visuel généré par intelligence artificielle, créé pour promouvoir une chanson." },
         genesis: { desc: "Avatar créé par intelligence artificielle chantant une chanson réelle, utilisé dans une installation appelée Genesis, à Barcelone." },
         "deserto-sale": { desc: "Contenu visuel généré par intelligence artificielle." },
         "lunca-raclette": { desc: "Spot publicitaire généré par intelligence artificielle pour la gamme Raclette de Lunca Ilvei, entreprise laitière roumaine, réalisé lors d'une période de travail en Roumanie." },
@@ -370,7 +375,8 @@
       },
       globe: {
         tag: "Experiências no estrangeiro", title: "Onde trabalhei.",
-        intro: "Penso que as experiências no estrangeiro são incrivelmente úteis para o crescimento pessoal: estar num ambiente novo traz novos desafios e novas possibilidades, que ajudam a crescer e amadurecer como pessoa, além das próprias competências. Por isso escolhi viver várias experiências profissionais fora de Itália.",
+        introPart1: "Penso que as experiências no estrangeiro são incrivelmente úteis para o crescimento pessoal: estar num ambiente novo traz novos desafios e novas possibilidades, que ajudam a crescer e amadurecer como pessoa, além das próprias competências.",
+        introPart2: "Por isso escolhi viver várias experiências profissionais fora de Itália.",
         city1: "Boston, EUA", city2: "Valência, Espanha", city3: "Oradea, Roménia", city4: "Tilburg, Países Baixos", city5: "Trento, Itália", city6: "Bolzano, Itália",
       },
       contact: {
@@ -384,7 +390,7 @@
       projects: {
         telemea: { desc: "Anúncio gerado com inteligência artificial para o Telemea da Solomonescu, empresa láctea romena, realizado durante um período de trabalho na Roménia." },
         "lunca-cascaval": { desc: "Anúncio gerado com inteligência artificial para o Cascaval Dalia, queijo da Lunca Ilvei, empresa láctea romena, realizado durante um período de trabalho na Roménia." },
-        "black-white": { desc: "Conteúdo visual gerado com inteligência artificial." },
+        "black-white": { desc: "Conteúdo visual gerado com inteligência artificial, criado para promover uma música." },
         genesis: { desc: "Avatar criado com inteligência artificial que canta uma música real, utilizado numa instalação chamada Genesis, em Barcelona." },
         "deserto-sale": { desc: "Conteúdo visual gerado com inteligência artificial." },
         "lunca-raclette": { desc: "Anúncio gerado com inteligência artificial para a linha Raclette da Lunca Ilvei, empresa láctea romena, realizado durante um período de trabalho na Roménia." },
@@ -426,7 +432,8 @@
       },
       globe: {
         tag: "Experiențe în străinătate", title: "Unde am lucrat.",
-        intro: "Cred că experiențele în străinătate sunt extrem de utile pentru dezvoltarea personală: aflarea într-un mediu nou aduce noi provocări și noi posibilități, care ajută la creșterea și maturizarea individului, precum și a competențelor sale. De aceea am ales să trăiesc mai multe experiențe de lucru în afara Italiei.",
+        introPart1: "Cred că experiențele în străinătate sunt extrem de utile pentru dezvoltarea personală: aflarea într-un mediu nou aduce noi provocări și noi posibilități, care ajută la creșterea și maturizarea individului, precum și a competențelor sale.",
+        introPart2: "De aceea am ales să trăiesc mai multe experiențe de lucru în afara Italiei.",
         city1: "Boston, SUA", city2: "Valencia, Spania", city3: "Oradea, România", city4: "Tilburg, Țările de Jos", city5: "Trento, Italia", city6: "Bolzano, Italia",
       },
       contact: {
@@ -440,7 +447,7 @@
       projects: {
         telemea: { desc: "Reclamă generată cu inteligență artificială pentru Telemea Solomonescu, companie românească de lactate, realizată în timpul unei perioade de lucru în România." },
         "lunca-cascaval": { desc: "Reclamă generată cu inteligență artificială pentru Cașcaval Dalia, brânză de la Lunca Ilvei, companie românească de lactate, realizată în timpul unei perioade de lucru în România." },
-        "black-white": { desc: "Conținut vizual generat cu inteligență artificială." },
+        "black-white": { desc: "Conținut vizual generat cu inteligență artificială, creat pentru a promova o melodie." },
         genesis: { desc: "Avatar creat cu inteligență artificială care cântă o melodie reală, folosit într-o instalație numită Genesis, la Barcelona." },
         "deserto-sale": { desc: "Conținut vizual generat cu inteligență artificială." },
         "lunca-raclette": { desc: "Reclamă generată cu inteligență artificială pentru linia Raclette de la Lunca Ilvei, companie românească de lactate, realizată în timpul unei perioade de lucru în România." },
@@ -482,7 +489,8 @@
       },
       globe: {
         tag: "Ervaringen in het buitenland", title: "Waar ik heb gewerkt.",
-        intro: "Ik denk dat ervaringen in het buitenland ongelooflijk nuttig zijn voor persoonlijke groei: in een nieuwe omgeving zitten brengt nieuwe uitdagingen en nieuwe mogelijkheden met zich mee, die helpen om als individu te groeien en te rijpen, naast je vaardigheden. Daarom heb ik ervoor gekozen om meerdere werkervaringen buiten Italië op te doen.",
+        introPart1: "Ik denk dat ervaringen in het buitenland ongelooflijk nuttig zijn voor persoonlijke groei: in een nieuwe omgeving zitten brengt nieuwe uitdagingen en nieuwe mogelijkheden met zich mee, die helpen om als individu te groeien en te rijpen, naast je vaardigheden.",
+        introPart2: "Daarom heb ik ervoor gekozen om meerdere werkervaringen buiten Italië op te doen.",
         city1: "Boston, VS", city2: "Valencia, Spanje", city3: "Oradea, Roemenië", city4: "Tilburg, Nederland", city5: "Trento, Italië", city6: "Bolzano, Italië",
       },
       contact: {
@@ -496,7 +504,7 @@
       projects: {
         telemea: { desc: "AI-gegenereerde reclame voor de Telemea van Solomonescu, een Roemeens zuivelbedrijf, gemaakt tijdens een werkperiode in Roemenië." },
         "lunca-cascaval": { desc: "AI-gegenereerde reclame voor de Cascaval Dalia, een kaas van Lunca Ilvei, Roemeens zuivelbedrijf, gemaakt tijdens een werkperiode in Roemenië." },
-        "black-white": { desc: "Visuele content gegenereerd met kunstmatige intelligentie." },
+        "black-white": { desc: "Visuele content gegenereerd met kunstmatige intelligentie, gemaakt om een nummer te promoten." },
         genesis: { desc: "Met kunstmatige intelligentie gecreëerde avatar die een echt nummer zingt, gebruikt in een installatie genaamd Genesis, in Barcelona." },
         "deserto-sale": { desc: "Visuele content gegenereerd met kunstmatige intelligentie." },
         "lunca-raclette": { desc: "AI-gegenereerde reclame voor de Raclette-lijn van Lunca Ilvei, Roemeens zuivelbedrijf, gemaakt tijdens een werkperiode in Roemenië." },
@@ -538,7 +546,8 @@
       },
       globe: {
         tag: "海外经历", title: "我曾工作过的地方。",
-        intro: "我认为海外经历对个人成长非常有帮助：置身于全新的环境会带来新的挑战和新的可能性，这有助于个人的成长与成熟，也能提升自身技能。因此，我选择了在意大利以外积累多段工作经历。",
+        introPart1: "我认为海外经历对个人成长非常有帮助：置身于全新的环境会带来新的挑战和新的可能性，这有助于个人的成长与成熟，也能提升自身技能。",
+        introPart2: "因此，我选择了在意大利以外积累多段工作经历。",
         city1: "波士顿，美国", city2: "瓦伦西亚，西班牙", city3: "奥拉迪亚，罗马尼亚", city4: "蒂尔堡，荷兰", city5: "特伦托，意大利", city6: "博尔扎诺，意大利",
       },
       contact: {
@@ -552,7 +561,7 @@
       projects: {
         telemea: { desc: "为罗马尼亚乳制品公司 Solomonescu 的 Telemea 奶酪制作的 AI 生成广告，创作于在罗马尼亚工作期间。" },
         "lunca-cascaval": { desc: "为罗马尼亚乳制品公司 Lunca Ilvei 的 Cascaval Dalia 奶酪制作的 AI 生成广告，创作于在罗马尼亚工作期间。" },
-        "black-white": { desc: "由人工智能生成的视觉内容。" },
+        "black-white": { desc: "由人工智能生成的视觉内容，用于宣传一首歌曲。" },
         genesis: { desc: "由人工智能创建的虚拟形象演唱一首真实歌曲，用于巴塞罗那一场名为 Genesis 的装置艺术展。" },
         "deserto-sale": { desc: "由人工智能生成的视觉内容。" },
         "lunca-raclette": { desc: "为罗马尼亚乳制品公司 Lunca Ilvei 的 Raclette 系列制作的 AI 生成广告，创作于在罗马尼亚工作期间。" },
