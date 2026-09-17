@@ -417,7 +417,10 @@
         x = lerp(circlePos.x, arcPos.x, morphSmooth);
         y = lerp(circlePos.y, arcPos.y, morphSmooth);
         rotation = lerp(circlePos.rotation, arcPos.rotation, morphSmooth);
-        scale = lerp(1, arcScale, morphSmooth);
+        // Per-item size multiplier (e.g. Genesis at 1.1) — applied on top of
+        // the shared circle/arc scale so one card can read larger than the
+        // rest without a whole separate size system.
+        scale = lerp(1, arcScale, morphSmooth) * (items[i].scale || 1);
         opacity = lerp(1, arcVisibility, morphSmooth);
 
         const baseZ = Math.round(100 - Math.abs(effectivePos[i] - centerIndex));
@@ -463,17 +466,6 @@
       badge: 'AI',
     },
     {
-      id: 'genesis',
-      title: 'Installazione Genesis',
-      desc: 'Avatar creato tramite intelligenza artificiale che canta una canzone reale, utilizzato in un\'installazione chiamata Genesis, a Barcellona.',
-      video: 'assets/video/corolla.mp4',
-      cover: 'assets/img/corolla-cover.webp',
-      type: 'video',
-      category: 'Contenuti AI',
-      categoryId: 'contenutiAi',
-      badge: 'AI',
-    },
-    {
       id: 'redbull',
       title: 'Red Bull Green Edition — Spot',
       desc: 'Concept di spot pubblicitario generato con l\'intelligenza artificiale.',
@@ -483,6 +475,19 @@
       category: 'Contenuti AI',
       categoryId: 'contenutiAi',
       badge: 'AI',
+    },
+    {
+      id: 'genesis',
+      title: 'Installazione Genesis',
+      desc: 'Avatar creato tramite intelligenza artificiale che canta una canzone reale, utilizzato in un\'installazione chiamata Genesis, a Barcellona.',
+      video: 'assets/video/corolla.mp4',
+      cover: 'assets/img/corolla-cover.webp',
+      type: 'video',
+      category: 'Contenuti AI',
+      categoryId: 'contenutiAi',
+      badge: 'AI',
+      // Bumped up 10% relative to every other card, at the user's request.
+      scale: 1.1,
     },
     {
       id: 'hopy',

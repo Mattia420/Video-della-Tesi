@@ -708,10 +708,19 @@ html.lang-ready .lang-picker { opacity: 0; visibility: hidden; pointer-events: n
   display: grid; grid-template-rows: 0fr;
   transition: grid-template-rows .4s var(--ease);
 }
-.skill-item__panel-inner { overflow: hidden; }
+/* The description's left edge is made to match the label's (not the
+   number's) by giving the panel the row's own gap/padding plus an
+   invisible copy of the number — same text, same font — so its
+   rendered width lines up exactly with the real one above, at any
+   viewport size, without hardcoding a guessed offset. */
+.skill-item__panel-inner { overflow: hidden; display: flex; align-items: flex-start; gap: 1.5rem; padding-left: 0.5rem; }
+.skill-item__num-spacer {
+  flex: 0 0 auto; visibility: hidden;
+  color: var(--text-dim); font-size: 0.9rem; font-family: 'Inter', sans-serif;
+}
 .skill-item__panel p {
   color: var(--text-dim); font-size: 1rem; line-height: 1.6;
-  max-width: 60ch; padding: 0 0.5rem 1.4rem;
+  max-width: 60ch; padding: 0 0.5rem 1.4rem 0;
 }
 .skill-item__row[aria-expanded="true"] + .skill-item__panel { grid-template-rows: 1fr; }
 

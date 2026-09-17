@@ -14,6 +14,16 @@
 </head>
 <body>
 
+<!-- CUSTOM CURSOR — deliberately outside #siteWrap: that element gets a
+     CSS `filter: blur()` while the language picker is up, and per spec a
+     `filter` on an ancestor becomes the containing block for any
+     position:fixed descendant. Left inside, the cursor got blurred along
+     with everything else (reading as "gone") and repositioned against
+     the wrong box instead of the viewport. -->
+<div class="cursor" id="cursor">
+  <span class="cursor__label" id="cursorLabel"></span>
+</div>
+
 <div id="siteWrap">
 
 <!-- BACKGROUND -->
@@ -23,11 +33,6 @@
 <div class="preloader" id="preloader">
   <div class="preloader__count"><span id="preloaderCount">0</span></div>
   <div class="preloader__label" data-i18n="preloader.label">Caricamento portfolio</div>
-</div>
-
-<!-- CUSTOM CURSOR -->
-<div class="cursor" id="cursor">
-  <span class="cursor__label" id="cursorLabel"></span>
 </div>
 
 <!-- NAV -->
@@ -114,22 +119,19 @@
   <!-- SKILLS -->
   <section class="skills" id="skills">
     <div class="section-head">
-      <p class="section-tag reveal-up" data-i18n="skills.tag">Competenze</p>
-      <h2 class="section-title reveal-up" data-i18n="skills.title">Di cosa mi occupo.</h2>
+      <p class="section-tag word-reveal" data-i18n="skills.tag">Competenze</p>
+      <h2 class="section-title word-reveal" data-i18n="skills.title">Di cosa mi occupo.</h2>
     </div>
-    <!-- word-reveal doesn't work here: a flex row with a `gap`, so splitting
-         text into word spans turns each word into its own flex item and the
-         gap lands between every word, not just after the number — keep this
-         section on the plain reveal-up. -->
     <ul class="skills__list">
       <li class="skill-item reveal-up">
         <button class="skill-item__row" aria-expanded="false">
           <span class="skill-item__num">01</span>
-          <span class="skill-item__label" data-i18n="skills.label01">Graphic Design</span>
+          <span class="skill-item__label word-reveal" data-i18n="skills.label01">Graphic Design</span>
           <span class="skill-item__chevron" aria-hidden="true"></span>
         </button>
         <div class="skill-item__panel">
           <div class="skill-item__panel-inner">
+            <span class="skill-item__num-spacer" aria-hidden="true">01</span>
             <p data-i18n="skills.desc01">Creo locandine per eventi, elementi grafici, mockup e grafiche su misura, lavorando principalmente con Illustrator e InDesign — dalla brand identity di una serata al materiale promozionale di un festival.</p>
           </div>
         </div>
@@ -137,11 +139,12 @@
       <li class="skill-item reveal-up">
         <button class="skill-item__row" aria-expanded="false">
           <span class="skill-item__num">02</span>
-          <span class="skill-item__label" data-i18n="skills.label02">Video Editing + Motion Design</span>
+          <span class="skill-item__label word-reveal" data-i18n="skills.label02">Video Editing + Motion Design</span>
           <span class="skill-item__chevron" aria-hidden="true"></span>
         </button>
         <div class="skill-item__panel">
           <div class="skill-item__panel-inner">
+            <span class="skill-item__num-spacer" aria-hidden="true">02</span>
             <p data-i18n="skills.desc02">Monto videoclip per ambiti diversi — musicali, documentaristici o semplici interviste — con Premiere Pro, e animo composizioni motion con After Effects.</p>
           </div>
         </div>
@@ -149,11 +152,12 @@
       <li class="skill-item reveal-up">
         <button class="skill-item__row" aria-expanded="false">
           <span class="skill-item__num">03</span>
-          <span class="skill-item__label" data-i18n="skills.label03">AI generativa (immagini &amp; video)</span>
+          <span class="skill-item__label word-reveal" data-i18n="skills.label03">AI generativa (immagini &amp; video)</span>
           <span class="skill-item__chevron" aria-hidden="true"></span>
         </button>
         <div class="skill-item__panel">
           <div class="skill-item__panel-inner">
+            <span class="skill-item__num-spacer" aria-hidden="true">03</span>
             <p data-i18n="skills.desc03">Uso l'intelligenza artificiale per creare spot pubblicitari per la promozione di prodotti reali, videoclip musicali, oppure per dare un tocco di creatività in più a foto e video già esistenti.</p>
           </div>
         </div>
@@ -161,11 +165,12 @@
       <li class="skill-item reveal-up">
         <button class="skill-item__row" aria-expanded="false">
           <span class="skill-item__num">04</span>
-          <span class="skill-item__label" data-i18n="skills.label04">UI/UX Design</span>
+          <span class="skill-item__label word-reveal" data-i18n="skills.label04">UI/UX Design</span>
           <span class="skill-item__chevron" aria-hidden="true"></span>
         </button>
         <div class="skill-item__panel">
           <div class="skill-item__panel-inner">
+            <span class="skill-item__num-spacer" aria-hidden="true">04</span>
             <p data-i18n="skills.desc04">Progetto prototipi interattivi di app e siti web, dall'architettura delle informazioni ai flussi utente, lavorando principalmente con Figma — da una singola schermata di un'app alla navigazione completa di un sito.</p>
           </div>
         </div>
@@ -173,11 +178,12 @@
       <li class="skill-item reveal-up">
         <button class="skill-item__row" aria-expanded="false">
           <span class="skill-item__num">05</span>
-          <span class="skill-item__label" data-i18n="skills.label05">Video Mapping</span>
+          <span class="skill-item__label word-reveal" data-i18n="skills.label05">Video Mapping</span>
           <span class="skill-item__chevron" aria-hidden="true"></span>
         </button>
         <div class="skill-item__panel">
           <div class="skill-item__panel-inner">
+            <span class="skill-item__num-spacer" aria-hidden="true">05</span>
             <p data-i18n="skills.desc05">Realizzo proiezioni video mapping su superfici ed edifici per eventi e installazioni, sincronizzando immagini e animazioni con lo spazio fisico per creare esperienze visive immersive.</p>
           </div>
         </div>
@@ -185,11 +191,12 @@
       <li class="skill-item reveal-up">
         <button class="skill-item__row" aria-expanded="false">
           <span class="skill-item__num">06</span>
-          <span class="skill-item__label" data-i18n="skills.label06">Contenuti social &amp; pubblicitari</span>
+          <span class="skill-item__label word-reveal" data-i18n="skills.label06">Contenuti social &amp; pubblicitari</span>
           <span class="skill-item__chevron" aria-hidden="true"></span>
         </button>
         <div class="skill-item__panel">
           <div class="skill-item__panel-inner">
+            <span class="skill-item__num-spacer" aria-hidden="true">06</span>
             <p data-i18n="skills.desc06">Creo contenuti per social media e campagne pubblicitarie — post, grafiche e video pensati per comunicare in modo efficace su ogni piattaforma.</p>
           </div>
         </div>
