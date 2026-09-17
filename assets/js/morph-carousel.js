@@ -471,6 +471,17 @@
       badge: 'AI',
     },
     {
+      id: 'corolla',
+      title: 'Corolla',
+      desc: 'Cortometraggio surreale generato con l\'intelligenza artificiale, tra volti sospesi e corone di fiori.',
+      video: 'assets/video/corolla.mp4',
+      cover: 'assets/img/corolla-cover.webp',
+      type: 'video',
+      category: 'Contenuti AI',
+      categoryId: 'contenutiAi',
+      badge: 'AI',
+    },
+    {
       id: 'redbull',
       title: 'Red Bull Green Edition — Spot',
       desc: 'Concept di spot pubblicitario generato con l\'intelligenza artificiale.',
