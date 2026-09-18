@@ -300,18 +300,41 @@ document.addEventListener('DOMContentLoaded', () => {
       // sitting in a comfortable reading position — start/finish the reveal
       // earlier (further down the viewport) so it's legible sooner.
       const isMobileViewport = window.matchMedia('(max-width: 760px)').matches;
-      el.__wordRevealTween = gsap.to(words, {
-        opacity: 1,
-        filter: 'blur(0px)',
-        stagger: 0.05,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: el,
-          start: isMobileViewport ? 'top 98%' : 'top 88%',
-          end: isMobileViewport ? 'bottom 82%' : 'bottom 60%',
-          scrub: 0.6,
-        },
-      });
+      // The contact title sits inside an ~87svh closing section with almost
+      // nothing scrollable below it (just a short footer) — there simply
+      // isn't enough leftover page height for a scroll-scrubbed reveal (tied
+      // to a start/end viewport range) to ever finish; it stayed stuck
+      // mid-blur all the way to the bottom. Play it as a one-shot timed
+      // tween instead, so it fully resolves shortly after the section comes
+      // into view regardless of how much scroll room is left after it.
+      const isContactTitle = el.classList.contains('contact__title');
+      if (isContactTitle) {
+        el.__wordRevealTween = gsap.to(words, {
+          opacity: 1,
+          filter: 'blur(0px)',
+          duration: 1,
+          stagger: 0.04,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: el,
+            start: isMobileViewport ? 'top 95%' : 'top 85%',
+            toggleActions: 'play none none reverse',
+          },
+        });
+      } else {
+        el.__wordRevealTween = gsap.to(words, {
+          opacity: 1,
+          filter: 'blur(0px)',
+          stagger: 0.05,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: el,
+            start: isMobileViewport ? 'top 98%' : 'top 88%',
+            end: isMobileViewport ? 'bottom 82%' : 'bottom 60%',
+            scrub: 0.6,
+          },
+        });
+      }
     });
   }
 

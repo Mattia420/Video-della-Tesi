@@ -752,32 +752,39 @@ html.lang-ready .lang-picker { opacity: 0; visibility: hidden; pointer-events: n
 .software { padding: 0 var(--gutter) clamp(4rem, 8vw, 7rem); }
 .software__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(1rem, 2.5vw, 2rem);
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem 1.5rem;
 }
 .software-item {
-  display: flex; flex-direction: column; align-items: center; gap: 1rem;
+  display: flex; align-items: center; gap: 1rem;
+  padding: 0.9rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  transition: border-color .4s var(--ease), transform .4s var(--ease), background .4s var(--ease);
 }
-.software-item__badge {
-  width: 100%; aspect-ratio: 1 / 1; max-width: 96px;
+.software-item:hover { border-color: var(--accent); transform: translateX(4px); background: var(--bg-alt); }
+.software-item__icon {
+  flex: 0 0 auto; width: 48px; height: 48px;
   display: flex; align-items: center; justify-content: center;
-  border-radius: 18px;
-  background: linear-gradient(145deg, var(--accent-deep), var(--accent) 70%, var(--accent-soft));
-  box-shadow: 0 8px 24px -8px rgba(166, 0, 255, 0.45);
-  color: var(--text);
+  border-radius: 12px;
+  color: #fff;
   font-family: 'Space Grotesk', sans-serif;
-  font-weight: 600; font-size: clamp(1.2rem, 2.4vw, 1.5rem); letter-spacing: -0.02em;
-  transition: transform .4s var(--ease), box-shadow .4s var(--ease);
+  font-weight: 700; font-size: 1.05rem; letter-spacing: -0.02em;
 }
-.software-item:hover .software-item__badge {
-  transform: translateY(-4px) scale(1.04);
-  box-shadow: 0 14px 32px -10px rgba(166, 0, 255, 0.6);
-}
+.software-item__icon svg { width: 24px; height: 24px; }
+.software-item__icon--ai { background: #ff9a00; }
+.software-item__icon--id { background: #ff3366; }
+.software-item__icon--ps { background: #31a8ff; }
+.software-item__icon--ae { background: #00005b; color: #9999ff; }
+.software-item__icon--pr { background: linear-gradient(160deg, #4b0082, #9932cc); }
+.software-item__icon--figma { background: #1e1e1e; }
+.software-item__icon--resolume { background: linear-gradient(160deg, #1a0000, #3d0000); }
+.software-item__icon--flow { background: linear-gradient(135deg, #4285f4, #34a853); }
 .software-item__name {
-  font-size: 0.85rem; color: var(--text-dim); text-align: center;
+  font-size: 1rem; color: var(--text); font-family: 'Inter', sans-serif;
 }
 @media (max-width: 760px) {
-  .software__grid { grid-template-columns: repeat(2, 1fr); }
+  .software__grid { grid-template-columns: 1fr; }
 }
 
 /* =========================================================
