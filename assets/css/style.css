@@ -752,38 +752,38 @@ html.lang-ready .lang-picker { opacity: 0; visibility: hidden; pointer-events: n
 .software { padding: 0 var(--gutter) clamp(4rem, 8vw, 7rem); }
 .software__grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem 1.5rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
 }
 .software-item {
-  display: flex; align-items: center; gap: 1rem;
-  padding: 0.9rem 1.2rem;
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.8rem 1rem;
   border: 1px solid var(--line);
   border-radius: 14px;
   transition: border-color .4s var(--ease), transform .4s var(--ease), background .4s var(--ease);
 }
 .software-item:hover { border-color: var(--accent); transform: translateX(4px); background: var(--bg-alt); }
 .software-item__icon {
-  flex: 0 0 auto; width: 48px; height: 48px;
+  flex: 0 0 auto; width: 44px; height: 44px;
   display: flex; align-items: center; justify-content: center;
-  border-radius: 12px;
+  border-radius: 11px;
+  overflow: hidden;
   color: #fff;
   font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700; font-size: 1.05rem; letter-spacing: -0.02em;
+  font-weight: 700; font-size: 1rem; letter-spacing: -0.02em;
 }
-.software-item__icon svg { width: 24px; height: 24px; }
-.software-item__icon--ai { background: #ff9a00; }
-.software-item__icon--id { background: #ff3366; }
-.software-item__icon--ps { background: #31a8ff; }
-.software-item__icon--ae { background: #00005b; color: #9999ff; }
-.software-item__icon--pr { background: linear-gradient(160deg, #4b0082, #9932cc); }
+.software-item__icon img { width: 100%; height: 100%; object-fit: cover; }
+.software-item__icon svg { width: 22px; height: 22px; }
 .software-item__icon--figma { background: #1e1e1e; }
 .software-item__icon--resolume { background: linear-gradient(160deg, #1a0000, #3d0000); }
 .software-item__icon--flow { background: linear-gradient(135deg, #4285f4, #34a853); }
 .software-item__name {
-  font-size: 1rem; color: var(--text); font-family: 'Inter', sans-serif;
+  font-size: 0.95rem; color: var(--text); font-family: 'Inter', sans-serif;
 }
-@media (max-width: 760px) {
+@media (max-width: 900px) {
+  .software__grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 500px) {
   .software__grid { grid-template-columns: 1fr; }
 }
 
