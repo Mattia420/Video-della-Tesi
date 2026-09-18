@@ -375,7 +375,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!wrap || !svg || !textEl) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  const words = (window.i18n ? window.i18n.t('contact.rotatorWords') : null) || ['creiamo', 'ideiamo', 'pensiamo', 'organizziamo', 'generiamo'];
+  // .slice() — t() for Italian returns the live IT source array (not a
+  // copy), so mutating `words` in place below would corrupt it permanently
+  // the moment Italian is (re-)selected.
+  const words = ((window.i18n ? window.i18n.t('contact.rotatorWords') : null) || ['creiamo', 'ideiamo', 'pensiamo', 'organizziamo', 'generiamo']).slice();
   let i = 0;
 
   function sizeToText() {
