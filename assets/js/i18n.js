@@ -32,7 +32,7 @@
 
   /* ---------- Italian source (also the fallback for missing keys) ---------- */
   const IT = {
-    nav: { chiSono: "Chi sono", progetti: "Progetti", competenze: "Competenze", contatti: "Contatti", toggleAria: "Apri menu" },
+    nav: { chiSono: "Chi sono", percorso: "Percorso", progetti: "Progetti", competenze: "Competenze", software: "Software", contatti: "Contatti", toggleAria: "Apri menu" },
     preloader: { label: "Caricamento portfolio" },
     hero: {
       greeting: "Ciao, sono Mattia.",
@@ -47,6 +47,12 @@
       p1: "Mi occupo di comunicazione visiva a 360°: graphic design, animazioni, video editing e video mapping sono le competenze su cui ho costruito il mio percorso, tra studio tecnico e progetti concreti.",
       p2: "Negli ultimi anni ho affiancato questi strumenti con l'intelligenza artificiale, che uso per velocizzare il workflow e ampliare le possibilità creative, mantenendo sempre la direzione creativa e il controllo sul risultato finale.",
       p2Em: "Non scelgo tra tecnica e AI: li combino.",
+    },
+    education: {
+      tag: "Percorso di studi",
+      title: "Da dove parto.",
+      school1Detail: "Indirizzo Informatico — Bolzano",
+      school2Detail: "Corso di Grafica Multicanale",
     },
     work: { tag: "Progetti", title: "Una selezione di lavori recenti." },
     carousel: {
@@ -69,6 +75,10 @@
       desc05: "Realizzo proiezioni video mapping su superfici ed edifici per eventi e installazioni, sincronizzando immagini e animazioni con lo spazio fisico per creare esperienze visive immersive.",
       label06: "Contenuti social & pubblicitari",
       desc06: "Creo contenuti per social media e campagne pubblicitarie — post, grafiche e video pensati per comunicare in modo efficace su ogni piattaforma.",
+    },
+    software: {
+      tag: "Software",
+      title: "Gli strumenti che uso ogni giorno.",
     },
     globe: {
       tag: "Esperienze all'estero",
@@ -125,7 +135,7 @@
   /* ---------- overrides for every other language (titles omitted = same as Italian) ---------- */
   const OVERRIDES = {
     en: {
-      nav: { chiSono: "About", progetti: "Work", competenze: "Skills", contatti: "Contact", toggleAria: "Open menu" },
+      nav: { chiSono: "About", percorso: "Education", progetti: "Work", competenze: "Skills", software: "Software", contatti: "Contact", toggleAria: "Open menu" },
       preloader: { label: "Loading portfolio" },
       hero: { greeting: "Hi, I'm Mattia.", titlePrefix: "Want to see what I", titleAccent: "create", titleSuffix: "?", cta: "See the projects" },
       about: {
@@ -133,6 +143,12 @@
         p1: "I work in visual communication across the board: graphic design, animation, video editing and video mapping are the skills I've built my path on, between technical study and real projects.",
         p2: "In recent years I've paired these tools with artificial intelligence, which I use to speed up the workflow and expand creative possibilities, always keeping creative direction and control over the final result.",
         p2Em: "I don't choose between craft and AI: I combine them.",
+      },
+      education: {
+        tag: "Education",
+        title: "Where I started.",
+        school1Detail: "IT specialization — Bolzano",
+        school2Detail: "Multichannel Graphic Design course",
       },
       work: { tag: "Work", title: "A selection of recent work." },
       carousel: { scorri: "Scroll to explore", revealLine1: "Scroll down to explore", revealLine2: "Click a project for more info" },
@@ -145,6 +161,7 @@
         label05: "Video Mapping", desc05: "I create video mapping projections onto surfaces and buildings for events and installations, syncing visuals and animation with physical space to build immersive experiences.",
         label06: "Social & Advertising Content", desc06: "I create content for social media and advertising campaigns — posts, graphics and videos designed to communicate effectively on every platform.",
       },
+      software: { tag: "Software", title: "The tools I use every day." },
       globe: {
         tag: "Experience abroad", title: "Where I've worked.",
         introPart1: "I think experiences abroad are incredibly useful for personal growth: being in a new environment brings new challenges and new possibilities, which help you grow and mature as an individual, as well as your skills.",
@@ -182,7 +199,7 @@
     },
 
     de: {
-      nav: { chiSono: "Über mich", progetti: "Projekte", competenze: "Kompetenzen", contatti: "Kontakt", toggleAria: "Menü öffnen" },
+      nav: { chiSono: "Über mich", percorso: "Ausbildung", progetti: "Projekte", competenze: "Kompetenzen", software: "Software", contatti: "Kontakt", toggleAria: "Menü öffnen" },
       preloader: { label: "Portfolio wird geladen" },
       hero: { greeting: "Hallo, ich bin Mattia.", titlePrefix: "Willst du sehen, was ich", titleAccent: "erschaffe", titleSuffix: "?", cta: "Projekte ansehen" },
       about: {
@@ -190,6 +207,12 @@
         p1: "Ich beschäftige mich mit visueller Kommunikation in ihrer ganzen Bandbreite: Grafikdesign, Animation, Videoschnitt und Video Mapping sind die Kompetenzen, auf denen ich meinen Weg aufgebaut habe, zwischen technischem Studium und konkreten Projekten.",
         p2: "In den letzten Jahren habe ich diese Werkzeuge mit künstlicher Intelligenz kombiniert, die ich nutze, um den Workflow zu beschleunigen und die kreativen Möglichkeiten zu erweitern — die kreative Leitung und die Kontrolle über das Endergebnis behalte ich dabei immer.",
         p2Em: "Ich entscheide mich nicht zwischen Technik und KI: Ich verbinde beides.",
+      },
+      education: {
+        tag: "Ausbildung",
+        title: "Wo ich angefangen habe.",
+        school1Detail: "Fachrichtung Informatik — Bozen",
+        school2Detail: "Studiengang Multichannel-Grafikdesign",
       },
       work: { tag: "Projekte", title: "Eine Auswahl aktueller Arbeiten." },
       carousel: { scorri: "Scrollen zum Entdecken", revealLine1: "Nach unten scrollen zum Entdecken", revealLine2: "Für mehr Infos auf ein Projekt klicken" },
@@ -202,6 +225,7 @@
         label05: "Video Mapping", desc05: "Ich realisiere Video-Mapping-Projektionen auf Oberflächen und Gebäuden für Events und Installationen und synchronisiere Bilder und Animation mit dem physischen Raum, um immersive Erlebnisse zu schaffen.",
         label06: "Social- & Werbeinhalte", desc06: "Ich erstelle Inhalte für Social Media und Werbekampagnen — Posts, Grafiken und Videos, die auf jeder Plattform wirkungsvoll kommunizieren.",
       },
+      software: { tag: "Software", title: "Die Werkzeuge, die ich täglich nutze." },
       globe: {
         tag: "Auslandserfahrungen", title: "Wo ich gearbeitet habe.",
         introPart1: "Ich finde, Auslandserfahrungen sind unglaublich wertvoll für die persönliche Entwicklung: In einer neuen Umgebung zu sein bringt neue Herausforderungen und neue Möglichkeiten mit sich, die einem helfen, als Mensch und in den eigenen Kompetenzen zu wachsen und zu reifen.",
@@ -239,7 +263,7 @@
     },
 
     es: {
-      nav: { chiSono: "Sobre mí", progetti: "Proyectos", competenze: "Habilidades", contatti: "Contacto", toggleAria: "Abrir menú" },
+      nav: { chiSono: "Sobre mí", percorso: "Formación", progetti: "Proyectos", competenze: "Habilidades", software: "Software", contatti: "Contacto", toggleAria: "Abrir menú" },
       preloader: { label: "Cargando portfolio" },
       hero: { greeting: "Hola, soy Mattia.", titlePrefix: "¿Quieres descubrir qué", titleAccent: "creo", titleSuffix: "?", cta: "Ver los proyectos" },
       about: {
@@ -247,6 +271,12 @@
         p1: "Me dedico a la comunicación visual en todos sus aspectos: diseño gráfico, animación, edición de vídeo y video mapping son las habilidades sobre las que he construido mi trayectoria, entre estudio técnico y proyectos concretos.",
         p2: "En los últimos años he combinado estas herramientas con la inteligencia artificial, que uso para acelerar el flujo de trabajo y ampliar las posibilidades creativas, manteniendo siempre la dirección creativa y el control sobre el resultado final.",
         p2Em: "No elijo entre técnica e IA: las combino.",
+      },
+      education: {
+        tag: "Formación",
+        title: "De dónde parto.",
+        school1Detail: "Especialidad en Informática — Bolzano",
+        school2Detail: "Curso de Diseño Gráfico Multicanal",
       },
       work: { tag: "Proyectos", title: "Una selección de trabajos recientes." },
       carousel: { scorri: "Desliza para explorar", revealLine1: "Desliza hacia abajo para explorar", revealLine2: "Haz clic en un proyecto para más información" },
@@ -259,6 +289,7 @@
         label05: "Video Mapping", desc05: "Realizo proyecciones de video mapping sobre superficies y edificios para eventos e instalaciones, sincronizando imágenes y animación con el espacio físico para crear experiencias visuales inmersivas.",
         label06: "Contenidos sociales y publicitarios", desc06: "Creo contenidos para redes sociales y campañas publicitarias — publicaciones, gráficas y vídeos pensados para comunicar de forma eficaz en cada plataforma.",
       },
+      software: { tag: "Software", title: "Las herramientas que uso cada día." },
       globe: {
         tag: "Experiencias en el extranjero", title: "Dónde he trabajado.",
         introPart1: "Creo que las experiencias en el extranjero son increíblemente útiles para el crecimiento personal: estar en un entorno nuevo trae nuevos retos y nuevas posibilidades, que ayudan a crecer y madurar como persona, además de en las propias habilidades.",
@@ -296,7 +327,7 @@
     },
 
     fr: {
-      nav: { chiSono: "À propos", progetti: "Projets", competenze: "Compétences", contatti: "Contact", toggleAria: "Ouvrir le menu" },
+      nav: { chiSono: "À propos", percorso: "Formation", progetti: "Projets", competenze: "Compétences", software: "Logiciels", contatti: "Contact", toggleAria: "Ouvrir le menu" },
       preloader: { label: "Chargement du portfolio" },
       hero: { greeting: "Salut, je suis Mattia.", titlePrefix: "Envie de découvrir ce que je", titleAccent: "crée", titleSuffix: " ?", cta: "Voir les projets" },
       about: {
@@ -304,6 +335,12 @@
         p1: "Je m'occupe de communication visuelle à 360° : graphisme, animation, montage vidéo et video mapping sont les compétences sur lesquelles j'ai construit mon parcours, entre études techniques et projets concrets.",
         p2: "Ces dernières années, j'ai associé ces outils à l'intelligence artificielle, que j'utilise pour accélérer le flux de travail et élargir les possibilités créatives, tout en gardant toujours la direction créative et le contrôle sur le résultat final.",
         p2Em: "Je ne choisis pas entre technique et IA : je les combine.",
+      },
+      education: {
+        tag: "Formation",
+        title: "D'où je pars.",
+        school1Detail: "Filière Informatique — Bolzano",
+        school2Detail: "Formation en Design Graphique Multicanal",
       },
       work: { tag: "Projets", title: "Une sélection de travaux récents." },
       carousel: { scorri: "Faites défiler pour explorer", revealLine1: "Faites défiler vers le bas pour explorer", revealLine2: "Cliquez sur un projet pour en savoir plus" },
@@ -316,6 +353,7 @@
         label05: "Video Mapping", desc05: "Je réalise des projections de video mapping sur des surfaces et des bâtiments pour des événements et des installations, en synchronisant images et animation avec l'espace physique pour créer des expériences visuelles immersives.",
         label06: "Contenus social & publicitaires", desc06: "Je crée des contenus pour les réseaux sociaux et les campagnes publicitaires — posts, visuels et vidéos pensés pour communiquer efficacement sur chaque plateforme.",
       },
+      software: { tag: "Logiciels", title: "Les outils que j'utilise au quotidien." },
       globe: {
         tag: "Expériences à l'étranger", title: "Où j'ai travaillé.",
         introPart1: "Je pense que les expériences à l'étranger sont incroyablement utiles pour l'épanouissement personnel : se retrouver dans un nouvel environnement apporte de nouveaux défis et de nouvelles possibilités, qui aident à grandir et à mûrir en tant qu'individu, ainsi que ses compétences.",
@@ -353,7 +391,7 @@
     },
 
     pt: {
-      nav: { chiSono: "Sobre mim", progetti: "Projetos", competenze: "Competências", contatti: "Contacto", toggleAria: "Abrir menu" },
+      nav: { chiSono: "Sobre mim", percorso: "Formação", progetti: "Projetos", competenze: "Competências", software: "Software", contatti: "Contacto", toggleAria: "Abrir menu" },
       preloader: { label: "A carregar portfólio" },
       hero: { greeting: "Olá, sou o Mattia.", titlePrefix: "Queres descobrir o que", titleAccent: "crio", titleSuffix: "?", cta: "Ver os projetos" },
       about: {
@@ -361,6 +399,12 @@
         p1: "Dedico-me à comunicação visual a 360°: design gráfico, animação, edição de vídeo e video mapping são as competências sobre as quais construí o meu percurso, entre estudo técnico e projetos concretos.",
         p2: "Nos últimos anos tenho aliado estas ferramentas à inteligência artificial, que uso para acelerar o fluxo de trabalho e ampliar as possibilidades criativas, mantendo sempre a direção criativa e o controlo sobre o resultado final.",
         p2Em: "Não escolho entre técnica e IA: combino as duas.",
+      },
+      education: {
+        tag: "Formação",
+        title: "De onde parto.",
+        school1Detail: "Especialização em Informática — Bolzano",
+        school2Detail: "Curso de Design Gráfico Multicanal",
       },
       work: { tag: "Projetos", title: "Uma seleção de trabalhos recentes." },
       carousel: { scorri: "Desliza para explorar", revealLine1: "Desliza para baixo para explorar", revealLine2: "Clica num projeto para mais informações" },
@@ -373,6 +417,7 @@
         label05: "Video Mapping", desc05: "Realizo projeções de video mapping em superfícies e edifícios para eventos e instalações, sincronizando imagens e animação com o espaço físico para criar experiências visuais imersivas.",
         label06: "Conteúdos sociais e publicitários", desc06: "Crio conteúdos para redes sociais e campanhas publicitárias — publicações, grafismos e vídeos pensados para comunicar de forma eficaz em cada plataforma.",
       },
+      software: { tag: "Software", title: "As ferramentas que uso todos os dias." },
       globe: {
         tag: "Experiências no estrangeiro", title: "Onde trabalhei.",
         introPart1: "Penso que as experiências no estrangeiro são incrivelmente úteis para o crescimento pessoal: estar num ambiente novo traz novos desafios e novas possibilidades, que ajudam a crescer e amadurecer como pessoa, além das próprias competências.",
@@ -410,7 +455,7 @@
     },
 
     ro: {
-      nav: { chiSono: "Despre mine", progetti: "Proiecte", competenze: "Competențe", contatti: "Contact", toggleAria: "Deschide meniul" },
+      nav: { chiSono: "Despre mine", percorso: "Studii", progetti: "Proiecte", competenze: "Competențe", software: "Software", contatti: "Contact", toggleAria: "Deschide meniul" },
       preloader: { label: "Se încarcă portofoliul" },
       hero: { greeting: "Salut, sunt Mattia.", titlePrefix: "Vrei să descoperi ce", titleAccent: "creez", titleSuffix: "?", cta: "Vezi proiectele" },
       about: {
@@ -418,6 +463,12 @@
         p1: "Mă ocup de comunicare vizuală în toate formele ei: design grafic, animație, montaj video și video mapping sunt competențele pe care mi-am construit parcursul, între studiu tehnic și proiecte concrete.",
         p2: "În ultimii ani am combinat aceste instrumente cu inteligența artificială, pe care o folosesc pentru a accelera fluxul de lucru și a extinde posibilitățile creative, păstrând mereu direcția creativă și controlul asupra rezultatului final.",
         p2Em: "Nu aleg între tehnică și AI: le combin.",
+      },
+      education: {
+        tag: "Studii",
+        title: "De unde am pornit.",
+        school1Detail: "Specializare Informatică — Bolzano",
+        school2Detail: "Curs de Design Grafic Multicanal",
       },
       work: { tag: "Proiecte", title: "O selecție de lucrări recente." },
       carousel: { scorri: "Derulează pentru a explora", revealLine1: "Derulează în jos pentru a explora", revealLine2: "Dă clic pe un proiect pentru mai multe informații" },
@@ -430,6 +481,7 @@
         label05: "Video Mapping", desc05: "Realizez proiecții video mapping pe suprafețe și clădiri pentru evenimente și instalații, sincronizând imaginile și animația cu spațiul fizic pentru a crea experiențe vizuale captivante.",
         label06: "Conținut social și publicitar", desc06: "Creez conținut pentru rețelele sociale și campanii publicitare — postări, materiale grafice și video gândite să comunice eficient pe fiecare platformă.",
       },
+      software: { tag: "Software", title: "Instrumentele pe care le folosesc zilnic." },
       globe: {
         tag: "Experiențe în străinătate", title: "Unde am lucrat.",
         introPart1: "Cred că experiențele în străinătate sunt extrem de utile pentru dezvoltarea personală: aflarea într-un mediu nou aduce noi provocări și noi posibilități, care ajută la creșterea și maturizarea individului, precum și a competențelor sale.",
@@ -467,7 +519,7 @@
     },
 
     nl: {
-      nav: { chiSono: "Over mij", progetti: "Projecten", competenze: "Vaardigheden", contatti: "Contact", toggleAria: "Menu openen" },
+      nav: { chiSono: "Over mij", percorso: "Opleiding", progetti: "Projecten", competenze: "Vaardigheden", software: "Software", contatti: "Contact", toggleAria: "Menu openen" },
       preloader: { label: "Portfolio wordt geladen" },
       hero: { greeting: "Hoi, ik ben Mattia.", titlePrefix: "Wil je ontdekken wat ik", titleAccent: "creëer", titleSuffix: "?", cta: "Bekijk de projecten" },
       about: {
@@ -475,6 +527,12 @@
         p1: "Ik houd me bezig met visuele communicatie in de volle breedte: grafisch ontwerp, animatie, video-editing en video mapping zijn de vaardigheden waarop ik mijn pad heb gebouwd, tussen technische studie en concrete projecten.",
         p2: "De afgelopen jaren heb ik deze tools gecombineerd met kunstmatige intelligentie, die ik gebruik om de workflow te versnellen en de creatieve mogelijkheden te vergroten, waarbij ik altijd de creatieve regie en controle over het eindresultaat behoud.",
         p2Em: "Ik kies niet tussen vakmanschap en AI: ik combineer ze.",
+      },
+      education: {
+        tag: "Opleiding",
+        title: "Waar ik begonnen ben.",
+        school1Detail: "Richting Informatica — Bolzano",
+        school2Detail: "Opleiding Multichannel Grafisch Ontwerp",
       },
       work: { tag: "Projecten", title: "Een selectie van recent werk." },
       carousel: { scorri: "Scroll om te ontdekken", revealLine1: "Scroll naar beneden om te ontdekken", revealLine2: "Klik op een project voor meer info" },
@@ -487,6 +545,7 @@
         label05: "Video Mapping", desc05: "Ik maak video mapping-projecties op oppervlakken en gebouwen voor evenementen en installaties, waarbij ik beeld en animatie synchroniseer met de fysieke ruimte om meeslepende ervaringen te creëren.",
         label06: "Social & reclame-content", desc06: "Ik maak content voor social media en reclamecampagnes — posts, grafisch materiaal en video's die op elk platform effectief communiceren.",
       },
+      software: { tag: "Software", title: "De tools die ik dagelijks gebruik." },
       globe: {
         tag: "Ervaringen in het buitenland", title: "Waar ik heb gewerkt.",
         introPart1: "Ik denk dat ervaringen in het buitenland ongelooflijk nuttig zijn voor persoonlijke groei: in een nieuwe omgeving zitten brengt nieuwe uitdagingen en nieuwe mogelijkheden met zich mee, die helpen om als individu te groeien en te rijpen, naast je vaardigheden.",
@@ -524,7 +583,7 @@
     },
 
     zh: {
-      nav: { chiSono: "关于我", progetti: "项目", competenze: "技能", contatti: "联系方式", toggleAria: "打开菜单" },
+      nav: { chiSono: "关于我", percorso: "教育背景", progetti: "项目", competenze: "技能", software: "软件", contatti: "联系方式", toggleAria: "打开菜单" },
       preloader: { label: "作品集加载中" },
       hero: { greeting: "你好，我是 Mattia。", titlePrefix: "想知道我", titleAccent: "创造", titleSuffix: "了什么吗？", cta: "查看项目" },
       about: {
@@ -532,6 +591,12 @@
         p1: "我从事全方位的视觉传达工作：平面设计、动画、视频剪辑和投影映射（video mapping）是我一路走来所积累的技能，兼顾技术学习与实际项目。",
         p2: "近年来，我将这些工具与人工智能结合使用，用它来加快工作流程、拓展创意可能性，同时始终保持创意主导权和对最终成果的把控。",
         p2Em: "我不在技术和 AI 之间做选择：我把两者结合起来。",
+      },
+      education: {
+        tag: "教育背景",
+        title: "我的起点。",
+        school1Detail: "信息技术专业 — 博尔扎诺",
+        school2Detail: "多渠道平面设计课程",
       },
       work: { tag: "项目", title: "近期作品精选。" },
       carousel: { scorri: "向下滚动探索", revealLine1: "向下滚动探索", revealLine2: "点击项目查看更多信息" },
@@ -544,6 +609,7 @@
         label05: "投影映射（Video Mapping）", desc05: "我为活动和装置艺术制作投影映射，将画面与动画同步到实体空间中，营造沉浸式视觉体验。",
         label06: "社交与广告内容", desc06: "我为社交媒体和广告活动制作内容——帖子、图形和视频，力求在每个平台上都能有效传达信息。",
       },
+      software: { tag: "软件", title: "我每天使用的工具。" },
       globe: {
         tag: "海外经历", title: "我曾工作过的地方。",
         introPart1: "我认为海外经历对个人成长非常有帮助：置身于全新的环境会带来新的挑战和新的可能性，这有助于个人的成长与成熟，也能提升自身技能。",

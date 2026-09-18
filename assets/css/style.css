@@ -457,6 +457,28 @@ html.lang-ready .lang-picker { opacity: 0; visibility: hidden; pointer-events: n
 .word-reveal .word { display: inline-block; will-change: opacity, filter; }
 
 /* =========================================================
+   EDUCATION
+   ========================================================= */
+.education { padding: 0 var(--gutter) clamp(3rem, 6vw, 5rem); }
+.education__list { border-top: 1px solid var(--line); }
+.education-item {
+  border-bottom: 1px solid var(--line);
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 1rem 1.5rem;
+  padding: 1.6rem 0.5rem;
+}
+.education-item__years {
+  flex: 0 0 auto; min-width: 110px;
+  color: var(--text-dim); font-size: 0.9rem; font-family: 'Inter', sans-serif;
+}
+.education-item__body { flex: 1 1 240px; }
+.education-item__school {
+  font-family: 'Space Grotesk', sans-serif; font-weight: 500;
+  font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+  margin-bottom: 0.3rem;
+}
+.education-item__detail { color: var(--text-dim); font-size: 0.95rem; }
+
+/* =========================================================
    WORK
    ========================================================= */
 .work { padding: 0 var(--gutter) clamp(2rem, 3vw, 3rem); }
@@ -725,6 +747,36 @@ html.lang-ready .lang-picker { opacity: 0; visibility: hidden; pointer-events: n
 .skill-item__row[aria-expanded="true"] + .skill-item__panel { grid-template-rows: 1fr; }
 
 /* =========================================================
+   SOFTWARE
+   ========================================================= */
+.software { padding: 0 var(--gutter) clamp(4rem, 8vw, 7rem); }
+.software__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 1.2rem;
+}
+.software-item {
+  display: flex; flex-direction: column; align-items: center; gap: 0.8rem;
+  padding: 1.6rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  transition: border-color .4s var(--ease), transform .4s var(--ease);
+}
+.software-item:hover { border-color: var(--accent); transform: translateY(-4px); }
+.software-item__badge {
+  width: 46px; height: 46px; flex: 0 0 auto;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 10px;
+  background: var(--bg-alt);
+  color: var(--accent-soft);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600; font-size: 1.05rem; letter-spacing: -0.02em;
+}
+.software-item__name {
+  font-size: 0.85rem; color: var(--text-dim); text-align: center;
+}
+
+/* =========================================================
    GLOBE — international experience
    ========================================================= */
 .globe-section { padding: clamp(5rem, 10vw, 8rem) var(--gutter) clamp(4rem, 8vw, 7rem); }
@@ -861,6 +913,8 @@ html.lang-ready .lang-picker { opacity: 0; visibility: hidden; pointer-events: n
   .about { padding-bottom: 3rem; }
   .work { padding-bottom: 1.5rem; }
   .skills { padding-bottom: 3rem; }
+  .education { padding-bottom: 2rem; }
+  .software { padding-bottom: 3rem; }
   .contact { padding: 3rem var(--gutter); }
   .contact__socials { flex-wrap: wrap; row-gap: 0.75rem; }
   .footer { flex-direction: column; text-align: center; }
