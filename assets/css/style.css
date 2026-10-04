@@ -103,6 +103,9 @@ html.lang-ready .lang-picker { opacity: 0; visibility: hidden; pointer-events: n
 }
 @media (max-width: 560px) {
   .lang-picker__grid { grid-template-columns: repeat(2, 1fr); }
+  /* keeps the mobile picker to a clean 2x4 grid instead of a lone 9th
+     button on its own row — Chinese stays available on desktop */
+  .lang-picker__btn[data-lang-code="zh"] { display: none; }
 }
 .lang-picker__btn {
   display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
@@ -272,6 +275,8 @@ html.lang-ready .lang-picker { opacity: 0; visibility: hidden; pointer-events: n
 }
 .mobile-menu.is-open { transform: translateY(0); }
 .mobile-menu a { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; }
+/* stop the page scrolling behind the full-screen mobile menu while it's open */
+body.menu-open { overflow: hidden; }
 
 /* =========================================================
    HERO
@@ -488,7 +493,7 @@ html.lang-ready .lang-picker { opacity: 0; visibility: hidden; pointer-events: n
    ========================================================= */
 .ai-morph { position: relative; height: 380vh; }
 .ai-morph__sticky {
-  position: sticky; top: 0; height: 100vh; overflow: hidden;
+  position: sticky; top: 0; height: 100svh; overflow: hidden;
   display: flex; align-items: center; justify-content: center;
 }
 .ai-morph__intro, .ai-morph__reveal {
@@ -662,9 +667,9 @@ html.lang-ready .lang-picker { opacity: 0; visibility: hidden; pointer-events: n
   .ai-lightbox { padding: 5rem 1.25rem 1.5rem; }
   .ai-lightbox__panel { flex-direction: column; gap: 1.5rem; }
   .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--wide-video) {
-    max-height: 62vh; width: auto;
+    max-height: 62svh; width: auto;
   }
-  .ai-lightbox__media--image, .ai-lightbox__media--image img { max-height: 68vh; }
+  .ai-lightbox__media--image, .ai-lightbox__media--image img { max-height: 68svh; }
   .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--deck):not(.ai-lightbox__media--wide-video) {
     aspect-ratio: 9/16;
   }
@@ -932,4 +937,17 @@ html.lang-ready .lang-picker { opacity: 0; visibility: hidden; pointer-events: n
 
 @media (hover: none) and (pointer: coarse) {
   .btn, a, button { touch-action: manipulation; }
+  /* Bump up tap targets that were sized for a precise mouse pointer —
+     invisible padding + a matching negative margin keeps each element's
+     footprint in the surrounding flex/flow layout unchanged, so nothing
+     shifts, while the actual hit area grows toward the ~44px minimum. */
+  .nav__toggle { padding: 17px 9px; margin: -17px -9px; }
+  .footer__top, .footer__email { display: inline-block; padding: 10px 2px; margin: -10px -2px; }
+  .contact__socials a { padding: 6px; margin: -6px; }
+  /* .lang-switch has a fixed 30x30 box (box-sizing: border-box), so
+     padding would just squeeze its content instead of growing the hit
+     area — an absolutely-positioned pseudo-element extends the tappable
+     region without touching the visible circle's size. */
+  .lang-switch { position: relative; }
+  .lang-switch::after { content: ''; position: absolute; inset: -7px; }
 }

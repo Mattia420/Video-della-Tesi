@@ -66,9 +66,18 @@ document.addEventListener('DOMContentLoaded', () => {
   function closeMobileMenu() {
     mobileMenu.classList.remove('is-open');
     navToggle.classList.remove('is-active');
+    document.body.classList.remove('menu-open');
+    // Lenis intercepts wheel/touch scrolling itself, so overflow:hidden
+    // on <body> alone doesn't stop it — pause it too while the full-
+    // screen menu covers the page, or the page keeps scrolling behind it.
+    if (window.lenis && typeof window.lenis.start === 'function') window.lenis.start();
   }
   navToggle.addEventListener('click', () => {
-    mobileMenu.classList.toggle('is-open');
+    const isOpen = mobileMenu.classList.toggle('is-open');
+    document.body.classList.toggle('menu-open', isOpen);
+    if (window.lenis && typeof window.lenis.stop === 'function' && typeof window.lenis.start === 'function') {
+      if (isOpen) window.lenis.stop(); else window.lenis.start();
+    }
   });
 
   /* =========================================================
