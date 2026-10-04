@@ -399,7 +399,16 @@ body.menu-open { overflow: hidden; }
 }
 .hero__accent { color: var(--accent); }
 
-.hero__cta { position: relative; z-index: 1; display: flex; justify-content: center; width: 100%; }
+.hero__cta { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; gap: 1.75rem; flex-wrap: wrap; width: 100%; }
+.hero__cv-link {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  color: var(--text-dim); font-size: 0.9rem;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+  transition: color .3s ease, border-color .3s ease;
+}
+.hero__cv-link svg { width: 16px; height: 16px; flex: 0 0 auto; }
+.hero__cv-link:hover { color: var(--text); border-color: var(--text-dim); }
 
 
 /* =========================================================
@@ -505,6 +514,21 @@ body.menu-open { overflow: hidden; }
 }
 .ai-morph__intro h2 { font-size: clamp(1.8rem, 4vw, 3rem); margin-bottom: 0.8rem; }
 .ai-morph__intro p { color: #fff; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; }
+/* A static hint reads as decoration once the fan of cards is already on
+   screen looking "finished" — people reach straight for a card instead of
+   scrolling first. A bouncing arrow is the one piece of motion that still
+   reads instantly as "there's more, scroll" even past the text. */
+.ai-morph__scroll-hint {
+  width: 22px; height: 22px; margin: 0.9rem auto 0;
+  stroke: var(--accent-soft); fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+  animation: aiMorphScrollHint 1.6s ease-in-out infinite;
+}
+@keyframes aiMorphScrollHint {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50% { transform: translateY(8px); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .ai-morph__scroll-hint { animation: none; opacity: 0.8; } }
 .ai-morph__reveal { top: 14%; transform: translate(-50%, 0); opacity: 0; }
 .ai-morph__reveal h2 { font-size: clamp(1.5rem, 3.2vw, 2.4rem); margin-bottom: 0.8rem; text-wrap: balance; }
 .ai-morph__reveal p { color: #fff; font-size: 0.85rem; max-width: 46ch; margin: 0 auto; line-height: 1.5; opacity: 0.85; }
@@ -776,15 +800,20 @@ body.menu-open { overflow: hidden; }
   overflow: hidden;
 }
 .software-item__icon img { width: 100%; height: 100%; object-fit: cover; }
+.software-item__icon svg { width: 60%; height: 60%; }
 .software-item__icon--resolume { background: linear-gradient(160deg, #1a0000, #3d0000); }
+.software-item__icon--claude { background: #cc785c; }
 .software-item__name {
   font-size: 0.95rem; color: var(--text);
   font-family: 'Space Grotesk', sans-serif; font-weight: 500;
 }
 @media (max-width: 900px) {
-  .software__grid { grid-template-columns: repeat(2, 1fr); }
+  .software__grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+  .software-item { padding: 1rem 0.85rem; gap: 0.7rem; }
+  .software-item__icon { width: 40px; height: 40px; }
+  .software-item__name { font-size: 0.85rem; }
 }
-@media (max-width: 500px) {
+@media (max-width: 340px) {
   .software__grid { grid-template-columns: 1fr; }
 }
 

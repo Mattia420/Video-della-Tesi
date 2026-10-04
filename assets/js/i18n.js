@@ -40,6 +40,7 @@
       titleAccent: "creo",
       titleSuffix: "?",
       cta: "Guarda i progetti",
+      cvCta: "Scarica CV",
     },
     about: {
       tag: "Chi sono",
@@ -137,7 +138,7 @@
     en: {
       nav: { chiSono: "About", percorso: "Education", progetti: "Work", competenze: "Skills", software: "Software", contatti: "Contact", toggleAria: "Open menu" },
       preloader: { label: "Loading portfolio" },
-      hero: { greeting: "Hi, I'm Mattia.", titlePrefix: "Want to see what I", titleAccent: "create", titleSuffix: "?", cta: "See the projects" },
+      hero: { greeting: "Hi, I'm Mattia.", titlePrefix: "Want to see what I", titleAccent: "create", titleSuffix: "?", cta: "See the projects", cvCta: "Download CV" },
       about: {
         tag: "About", title: "A few lines about me, still more important than my projects.",
         p1: "I work in visual communication across the board: graphic design, animation, video editing and video mapping are the skills I've built my path on, between technical study and real projects.",
@@ -201,7 +202,7 @@
     de: {
       nav: { chiSono: "Über mich", percorso: "Ausbildung", progetti: "Projekte", competenze: "Kompetenzen", software: "Software", contatti: "Kontakt", toggleAria: "Menü öffnen" },
       preloader: { label: "Portfolio wird geladen" },
-      hero: { greeting: "Hallo, ich bin Mattia.", titlePrefix: "Willst du sehen, was ich", titleAccent: "erschaffe", titleSuffix: "?", cta: "Projekte ansehen" },
+      hero: { greeting: "Hallo, ich bin Mattia.", titlePrefix: "Willst du sehen, was ich", titleAccent: "erschaffe", titleSuffix: "?", cta: "Projekte ansehen", cvCta: "Lebenslauf herunterladen" },
       about: {
         tag: "Über mich", title: "Ein paar Zeilen über mich, noch wichtiger als meine Projekte.",
         p1: "Ich beschäftige mich mit visueller Kommunikation in ihrer ganzen Bandbreite: Grafikdesign, Animation, Videoschnitt und Video Mapping sind die Kompetenzen, auf denen ich meinen Weg aufgebaut habe, zwischen technischem Studium und konkreten Projekten.",
@@ -265,7 +266,7 @@
     es: {
       nav: { chiSono: "Sobre mí", percorso: "Formación", progetti: "Proyectos", competenze: "Habilidades", software: "Software", contatti: "Contacto", toggleAria: "Abrir menú" },
       preloader: { label: "Cargando portfolio" },
-      hero: { greeting: "Hola, soy Mattia.", titlePrefix: "¿Quieres descubrir qué", titleAccent: "creo", titleSuffix: "?", cta: "Ver los proyectos" },
+      hero: { greeting: "Hola, soy Mattia.", titlePrefix: "¿Quieres descubrir qué", titleAccent: "creo", titleSuffix: "?", cta: "Ver los proyectos", cvCta: "Descargar CV" },
       about: {
         tag: "Sobre mí", title: "Unas pocas líneas sobre mí, aún más importantes que mis proyectos.",
         p1: "Me dedico a la comunicación visual en todos sus aspectos: diseño gráfico, animación, edición de vídeo y video mapping son las habilidades sobre las que he construido mi trayectoria, entre estudio técnico y proyectos concretos.",
@@ -329,7 +330,7 @@
     fr: {
       nav: { chiSono: "À propos", percorso: "Formation", progetti: "Projets", competenze: "Compétences", software: "Logiciels", contatti: "Contact", toggleAria: "Ouvrir le menu" },
       preloader: { label: "Chargement du portfolio" },
-      hero: { greeting: "Salut, je suis Mattia.", titlePrefix: "Envie de découvrir ce que je", titleAccent: "crée", titleSuffix: " ?", cta: "Voir les projets" },
+      hero: { greeting: "Salut, je suis Mattia.", titlePrefix: "Envie de découvrir ce que je", titleAccent: "crée", titleSuffix: " ?", cta: "Voir les projets", cvCta: "Télécharger le CV" },
       about: {
         tag: "À propos", title: "Quelques lignes sur moi, encore plus importantes que mes projets.",
         p1: "Je m'occupe de communication visuelle à 360° : graphisme, animation, montage vidéo et video mapping sont les compétences sur lesquelles j'ai construit mon parcours, entre études techniques et projets concrets.",
@@ -393,7 +394,7 @@
     pt: {
       nav: { chiSono: "Sobre mim", percorso: "Formação", progetti: "Projetos", competenze: "Competências", software: "Software", contatti: "Contacto", toggleAria: "Abrir menu" },
       preloader: { label: "A carregar portfólio" },
-      hero: { greeting: "Olá, sou o Mattia.", titlePrefix: "Queres descobrir o que", titleAccent: "crio", titleSuffix: "?", cta: "Ver os projetos" },
+      hero: { greeting: "Olá, sou o Mattia.", titlePrefix: "Queres descobrir o que", titleAccent: "crio", titleSuffix: "?", cta: "Ver os projetos", cvCta: "Descarregar CV" },
       about: {
         tag: "Sobre mim", title: "Umas linhas sobre mim, ainda mais importantes do que os meus projetos.",
         p1: "Dedico-me à comunicação visual a 360°: design gráfico, animação, edição de vídeo e video mapping são as competências sobre as quais construí o meu percurso, entre estudo técnico e projetos concretos.",
@@ -457,7 +458,7 @@
     ro: {
       nav: { chiSono: "Despre mine", percorso: "Studii", progetti: "Proiecte", competenze: "Competențe", software: "Software", contatti: "Contact", toggleAria: "Deschide meniul" },
       preloader: { label: "Se încarcă portofoliul" },
-      hero: { greeting: "Salut, sunt Mattia.", titlePrefix: "Vrei să descoperi ce", titleAccent: "creez", titleSuffix: "?", cta: "Vezi proiectele" },
+      hero: { greeting: "Salut, sunt Mattia.", titlePrefix: "Vrei să descoperi ce", titleAccent: "creez", titleSuffix: "?", cta: "Vezi proiectele", cvCta: "Descarcă CV" },
       about: {
         tag: "Despre mine", title: "Câteva rânduri despre mine, mai importante chiar decât proiectele mele.",
         p1: "Mă ocup de comunicare vizuală în toate formele ei: design grafic, animație, montaj video și video mapping sunt competențele pe care mi-am construit parcursul, între studiu tehnic și proiecte concrete.",
@@ -521,7 +522,7 @@
     nl: {
       nav: { chiSono: "Over mij", percorso: "Opleiding", progetti: "Projecten", competenze: "Vaardigheden", software: "Software", contatti: "Contact", toggleAria: "Menu openen" },
       preloader: { label: "Portfolio wordt geladen" },
-      hero: { greeting: "Hoi, ik ben Mattia.", titlePrefix: "Wil je ontdekken wat ik", titleAccent: "creëer", titleSuffix: "?", cta: "Bekijk de projecten" },
+      hero: { greeting: "Hoi, ik ben Mattia.", titlePrefix: "Wil je ontdekken wat ik", titleAccent: "creëer", titleSuffix: "?", cta: "Bekijk de projecten", cvCta: "Download CV" },
       about: {
         tag: "Over mij", title: "Een paar regels over mij, nog belangrijker dan mijn projecten.",
         p1: "Ik houd me bezig met visuele communicatie in de volle breedte: grafisch ontwerp, animatie, video-editing en video mapping zijn de vaardigheden waarop ik mijn pad heb gebouwd, tussen technische studie en concrete projecten.",
@@ -585,7 +586,7 @@
     zh: {
       nav: { chiSono: "关于我", percorso: "教育背景", progetti: "项目", competenze: "技能", software: "软件", contatti: "联系方式", toggleAria: "打开菜单" },
       preloader: { label: "作品集加载中" },
-      hero: { greeting: "你好，我是 Mattia。", titlePrefix: "想知道我", titleAccent: "创造", titleSuffix: "了什么吗？", cta: "查看项目" },
+      hero: { greeting: "你好，我是 Mattia。", titlePrefix: "想知道我", titleAccent: "创造", titleSuffix: "了什么吗？", cta: "查看项目", cvCta: "下载简历" },
       about: {
         tag: "关于我", title: "关于我的几行字，甚至比我的项目更重要。",
         p1: "我从事全方位的视觉传达工作：平面设计、动画、视频剪辑和投影映射（video mapping）是我一路走来所积累的技能，兼顾技术学习与实际项目。",
