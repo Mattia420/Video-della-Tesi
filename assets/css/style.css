@@ -356,8 +356,8 @@ body.menu-open { overflow: hidden; }
      once the title + CTA + portrait stack taller than one screen — anchor
      to the top instead, with enough clearance for the fixed nav, and let
      the page scroll to reveal the rest. */
-  .hero { justify-content: flex-start; padding-top: clamp(5rem, 15vh, 6.5rem); padding-bottom: 3rem; }
-  .hero__row { flex-direction: column; }
+  .hero { justify-content: flex-start; padding-top: clamp(4rem, 11vh, 5.5rem); padding-bottom: 3rem; }
+  .hero__row { flex-direction: column; gap: 0.75rem; }
   /* flex-basis: 620px was sized for the desktop row layout, where it
      constrains width; once the row flips to a column here it constrains
      height instead, forcing a huge empty gap below the title. */
@@ -375,7 +375,7 @@ body.menu-open { overflow: hidden; }
        this the photo stayed dimmed here even though it doesn't need to be
        softened next to the title the way it does in the tablet row layout. */
     opacity: 1 !important;
-    margin-top: 1.5rem;
+    margin-top: 0.5rem;
     /* The image is wider than .hero__row's own content box (inset by
        --gutter on both sides), so a plain `margin: auto` has no spare
        room to center it in — it just sits flush at the row's left edge
@@ -400,15 +400,16 @@ body.menu-open { overflow: hidden; }
 .hero__accent { color: var(--accent); }
 
 .hero__cta { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; gap: 1.75rem; flex-wrap: wrap; width: 100%; }
-.hero__cv-link {
+.contact__cv-link {
   display: inline-flex; align-items: center; gap: 0.5rem;
   color: var(--text-dim); font-size: 0.9rem;
   border-bottom: 1px solid transparent;
   padding-bottom: 2px;
+  margin-top: 2rem;
   transition: color .3s ease, border-color .3s ease;
 }
-.hero__cv-link svg { width: 16px; height: 16px; flex: 0 0 auto; }
-.hero__cv-link:hover { color: var(--text); border-color: var(--text-dim); }
+.contact__cv-link svg { width: 16px; height: 16px; flex: 0 0 auto; }
+.contact__cv-link:hover { color: var(--text); border-color: var(--text-dim); }
 
 
 /* =========================================================
@@ -529,7 +530,7 @@ body.menu-open { overflow: hidden; }
   50% { transform: translateY(8px); opacity: 1; }
 }
 @media (prefers-reduced-motion: reduce) { .ai-morph__scroll-hint { animation: none; opacity: 0.8; } }
-.ai-morph__reveal { top: 14%; transform: translate(-50%, 0); opacity: 0; }
+.ai-morph__reveal { top: 8%; transform: translate(-50%, 0); opacity: 0; }
 .ai-morph__reveal h2 { font-size: clamp(1.5rem, 3.2vw, 2.4rem); margin-bottom: 0.8rem; text-wrap: balance; }
 .ai-morph__reveal p { color: #fff; font-size: 0.85rem; max-width: 46ch; margin: 0 auto; line-height: 1.5; opacity: 0.85; }
 
@@ -567,6 +568,7 @@ body.menu-open { overflow: hidden; }
      both up together so the circle sits closer to the section title
      above instead of dead-centre in the viewport. */
   .ai-morph__intro { top: 38%; }
+  .ai-morph__reveal { top: 5%; }
   .morph-card { top: 38%; width: 76px; height: 107px; margin: -53.5px 0 0 -38px; }
   .morph-card--poster { width: 86px; height: 121px; margin: -60.5px 0 0 -43px; }
   .morph-card--wide { width: 121px; height: 68px; margin: -34px 0 0 -60.5px; }
@@ -934,8 +936,9 @@ body.menu-open { overflow: hidden; }
 }
 .footer p, .footer__top, .footer__email, .footer__bottom { position: relative; z-index: 1; }
 .footer__top { color: var(--text); }
-.footer__email { color: var(--text-dim); transition: color .3s ease; }
-.footer__email:hover { color: var(--accent-soft); }
+.footer__email { display: inline-flex; opacity: 0.85; transition: opacity .3s ease, transform .3s var(--ease); }
+.footer__email svg { width: 22px; height: 22px; display: block; }
+.footer__email:hover { opacity: 1; transform: translateY(-2px); }
 .footer__bottom {
   display: flex; align-items: center; justify-content: space-between;
   flex-wrap: wrap; gap: 0.75rem; width: 100%;
@@ -971,7 +974,8 @@ body.menu-open { overflow: hidden; }
      footprint in the surrounding flex/flow layout unchanged, so nothing
      shifts, while the actual hit area grows toward the ~44px minimum. */
   .nav__toggle { padding: 17px 9px; margin: -17px -9px; }
-  .footer__top, .footer__email { display: inline-block; padding: 10px 2px; margin: -10px -2px; }
+  .footer__top { display: inline-block; padding: 10px 2px; margin: -10px -2px; }
+  .footer__email { padding: 11px; margin: -11px; }
   .contact__socials a { padding: 6px; margin: -6px; }
   /* .lang-switch has a fixed 30x30 box (box-sizing: border-box), so
      padding would just squeeze its content instead of growing the hit
