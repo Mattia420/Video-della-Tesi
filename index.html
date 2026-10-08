@@ -312,9 +312,14 @@
     <div class="contact__inner">
       <p class="section-tag word-reveal" data-i18n="contact.tag">Contatti</p>
       <h2 class="contact__title word-reveal"><span data-i18n="contact.question">Hai un progetto in mente?</span><br><span class="contact__title-line" data-i18n="contact.line1">Parliamone e</span> <span class="contact__rotator" id="contactRotator"><svg class="contact__rotator-svg" id="contactRotatorSvg" aria-hidden="true"><text id="contactRotatorText" x="2" y="0.78em">creiamo</text></svg><span class="visually-hidden" id="contactRotatorSr">creiamo</span></span> <span class="contact__title-line" data-i18n="contact.line2">insieme.</span></h2>
-      <a href="mailto:mattia.pedron2004@gmail.com" class="btn btn--magnetic btn--large reveal-up" data-cursor="view">
-        <span data-i18n="contact.cta">Scrivimi</span>
-      </a>
+      <div class="contact__cta-row reveal-up">
+        <a href="mailto:mattia.pedron2004@gmail.com" class="btn btn--magnetic btn--large" data-cursor="view">
+          <span data-i18n="contact.cta">Scrivimi</span>
+        </a>
+        <a href="assets/cv/mattia-pedron-cv.pdf" class="btn btn--magnetic btn--large" download data-cursor="view">
+          <span data-i18n="hero.cvCta">Scarica CV</span>
+        </a>
+      </div>
       <div class="contact__socials reveal-up">
         <a href="#" aria-label="LinkedIn" data-cursor="link">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="7.5" cy="7.5" r="0.9" fill="currentColor" stroke="none"/><line x1="7.5" y1="10.5" x2="7.5" y2="17"/><path d="M11 17v-4a2.3 2.3 0 0 1 4.6 0v4"/><line x1="11" y1="10.5" x2="11" y2="17"/></svg>
@@ -322,20 +327,16 @@
         <a href="https://www.instagram.com/pedron.mattia/" target="_blank" rel="noopener" aria-label="Instagram" data-cursor="link">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/></svg>
         </a>
+        <a href="mailto:mattia.pedron2004@gmail.com" aria-label="Email" data-cursor="link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        </a>
       </div>
-      <a href="assets/cv/mattia-pedron-cv.pdf" class="contact__cv-link reveal-up" download data-cursor="view">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
-        <span data-i18n="hero.cvCta">Scarica CV</span>
-      </a>
     </div>
   </section>
 
 </main>
 
 <footer class="footer">
-  <a href="mailto:mattia.pedron2004@gmail.com" class="footer__email" aria-label="Email" data-cursor="link">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#EA4335" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
-  </a>
   <div class="footer__bottom">
     <p>&copy; <span id="year"></span> Mattia Pedron. <span data-i18n="footer.rights">Tutti i diritti riservati.</span></p>
     <a href="#top" class="footer__top" data-cursor="link"><span data-i18n="footer.top">Torna su</span> ↑</a>

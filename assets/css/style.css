@@ -333,7 +333,7 @@ body.menu-open { overflow: hidden; }
 }
 .hero__inner { max-width: 620px; flex: 0 1 620px; }
 @media (min-width: 761px) {
-  .hero__inner { margin-top: clamp(5rem, 11vh, 7rem); }
+  .hero__inner { margin-top: clamp(8rem, 17vh, 11rem); }
 }
 
 .hero__portrait {
@@ -356,8 +356,8 @@ body.menu-open { overflow: hidden; }
      once the title + CTA + portrait stack taller than one screen — anchor
      to the top instead, with enough clearance for the fixed nav, and let
      the page scroll to reveal the rest. */
-  .hero { justify-content: flex-start; padding-top: clamp(4rem, 11vh, 5.5rem); padding-bottom: 3rem; }
-  .hero__row { flex-direction: column; gap: 0.75rem; }
+  .hero { justify-content: flex-start; padding-top: clamp(5rem, 13vh, 6.5rem); padding-bottom: 3rem; }
+  .hero__row { flex-direction: column; gap: 0.5rem; }
   /* flex-basis: 620px was sized for the desktop row layout, where it
      constrains width; once the row flips to a column here it constrains
      height instead, forcing a huge empty gap below the title. */
@@ -369,24 +369,25 @@ body.menu-open { overflow: hidden; }
      fought and squashed the photo out of its real aspect ratio. Width in,
      height auto out keeps it proportional no matter what the row does. */
   .hero__portrait {
-    flex: none; width: min(107.8vw, 528px); height: auto;
+    flex: none; width: min(92vw, 440px); height: auto;
     /* Overrides the tablet breakpoint's opacity:0.6 !important above —
        mobile falls inside that query too (both are max-width), so without
        this the photo stayed dimmed here even though it doesn't need to be
        softened next to the title the way it does in the tablet row layout. */
     opacity: 1 !important;
-    margin-top: 0.5rem;
-    /* The image is wider than .hero__row's own content box (inset by
-       --gutter on both sides), so a plain `margin: auto` has no spare
-       room to center it in — it just sits flush at the row's left edge
-       and bleeds off the right. `transform` can't fix this either: the
-       GSAP reveal (and its no-GSAP fallback) both write directly to this
-       element's inline transform, which would clobber any centering
-       transform set here. So center with a vw-based margin-left instead,
-       computed against the viewport rather than the (narrower, gutter-
-       inset) container — (100vw - own width) / 2 is the centered
-       position, minus the row's left inset to land it correctly. */
-    margin-left: calc((100vw - min(107.8vw, 528px)) / 2 - var(--gutter));
+    margin-top: 0.25rem;
+    /* Narrower than the row's own content box (inset by --gutter on both
+       sides) now that the photo no longer bleeds past the viewport edges,
+       so a plain `margin: auto` can't reach it either — it's still sized
+       against the full viewport width via vw, not the gutter-inset
+       container. `transform` can't center it this way: the GSAP reveal
+       (and its no-GSAP fallback) both write directly to this element's
+       inline transform, which would clobber any centering transform set
+       here. So center with a vw-based margin-left instead, computed
+       against the viewport rather than the container — (100vw - own
+       width) / 2 is the centered position, minus the row's left inset to
+       land it correctly. */
+    margin-left: calc((100vw - min(92vw, 440px)) / 2 - var(--gutter));
     transform: none;
   }
   .hero__portrait img { width: 100%; height: auto; }
@@ -400,16 +401,6 @@ body.menu-open { overflow: hidden; }
 .hero__accent { color: var(--accent); }
 
 .hero__cta { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; gap: 1.75rem; flex-wrap: wrap; width: 100%; }
-.contact__cv-link {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  color: var(--text-dim); font-size: 0.9rem;
-  border-bottom: 1px solid transparent;
-  padding-bottom: 2px;
-  margin-top: 2rem;
-  transition: color .3s ease, border-color .3s ease;
-}
-.contact__cv-link svg { width: 16px; height: 16px; flex: 0 0 auto; }
-.contact__cv-link:hover { color: var(--text); border-color: var(--text-dim); }
 
 
 /* =========================================================
@@ -783,7 +774,7 @@ body.menu-open { overflow: hidden; }
 .software { padding: 0 var(--gutter) clamp(4rem, 8vw, 7rem); }
 .software__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
 }
 .software-item {
@@ -917,6 +908,7 @@ body.menu-open { overflow: hidden; }
   transition: fill .4s ease;
 }
 .contact__rotator-svg text.is-filled { fill: #fff; }
+.contact__cta-row { display: flex; align-items: center; justify-content: center; gap: 1.25rem; flex-wrap: wrap; }
 .contact__socials { display: flex; gap: 1.75rem; justify-content: center; align-items: center; margin-top: 1.5rem; }
 .contact__socials a { color: var(--text-dim); opacity: 0.85; transition: color .3s ease, opacity .3s ease, transform .3s var(--ease); }
 .contact__socials a:hover { color: var(--accent); opacity: 1; transform: translateY(-2px); }
@@ -938,11 +930,8 @@ body.menu-open { overflow: hidden; }
   inset: 0;
   background: radial-gradient(120% 220% at 50% -120%, rgba(166, 0, 255, 0.20), transparent 70%);
 }
-.footer p, .footer__top, .footer__email, .footer__bottom { position: relative; z-index: 1; }
+.footer p, .footer__top, .footer__bottom { position: relative; z-index: 1; }
 .footer__top { color: var(--text); }
-.footer__email { display: inline-flex; opacity: 0.85; transition: opacity .3s ease, transform .3s var(--ease); }
-.footer__email svg { width: 22px; height: 22px; display: block; }
-.footer__email:hover { opacity: 1; transform: translateY(-2px); }
 .footer__bottom {
   display: flex; align-items: center; justify-content: space-between;
   flex-wrap: wrap; gap: 0.75rem; width: 100%;
@@ -964,6 +953,12 @@ body.menu-open { overflow: hidden; }
   .education { padding-bottom: 2rem; }
   .software { padding-bottom: 3rem; }
   .contact { padding: 3rem var(--gutter); }
+  /* Two .btn--large side by side don't fit the desktop padding within a
+     gutter-inset mobile width, so trim it here instead of stacking them —
+     the user specifically wants the CV button next to "Scrivimi", not
+     below it, on mobile too. */
+  .contact__cta-row { gap: 0.75rem; }
+  .contact__cta-row .btn--large { padding: 1.1rem 1.6rem; margin: 1.5rem 0; }
   .contact__socials { flex-wrap: wrap; row-gap: 0.75rem; }
   .footer { flex-direction: column; text-align: center; }
   .btn, .nav__toggle, .skill-item__row, .skill-item--static, .nav__links a {
@@ -979,7 +974,6 @@ body.menu-open { overflow: hidden; }
      shifts, while the actual hit area grows toward the ~44px minimum. */
   .nav__toggle { padding: 17px 9px; margin: -17px -9px; }
   .footer__top { display: inline-block; padding: 10px 2px; margin: -10px -2px; }
-  .footer__email { padding: 11px; margin: -11px; }
   .contact__socials a { padding: 6px; margin: -6px; }
   /* .lang-switch has a fixed 30x30 box (box-sizing: border-box), so
      padding would just squeeze its content instead of growing the hit
