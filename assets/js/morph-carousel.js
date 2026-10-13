@@ -209,11 +209,18 @@
     }
     lightbox.classList.add('is-open');
     document.body.style.overflow = 'hidden';
+    // Lenis intercepts wheel/touch scrolling on the whole page, which would
+    // otherwise swallow scroll input meant for .ai-lightbox's own
+    // overflow-y (needed when a long description or a gallery pushes the
+    // panel taller than the viewport) — suspend it while the lightbox is
+    // open, same as the mobile menu does.
+    if (window.lenis && typeof window.lenis.stop === 'function') window.lenis.stop();
   }
 
   function closeLightbox() {
     lightbox.classList.remove('is-open');
     document.body.style.overflow = '';
+    if (window.lenis && typeof window.lenis.start === 'function') window.lenis.start();
     const video = mediaEl.querySelector('video');
     if (video) video.pause();
     const iframe = mediaEl.querySelector('iframe');
