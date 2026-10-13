@@ -246,17 +246,38 @@
     return !(a.x2 + pad < b.x1 || b.x2 + pad < a.x1 || a.y2 + pad < b.y1 || b.y2 + pad < a.y1);
   }
 
+  // The canvas element itself is clipped to a circle (border-radius: 50%
+  // in CSS), but the ring/direction search above only keeps labels from
+  // overlapping each other — it knows nothing about that circular edge.
+  // A marker near the horizon can end up with its name-tag pushed far
+  // enough outward (ring + pill half-width/height) to land past the
+  // visible disc, where the CSS clip silently chops it off mid-word. Pull
+  // the candidate back along its own direction from the globe's centre so
+  // its full bounding box — approximated as its half-diagonal — always
+  // stays inside the disc, with a small safety margin.
+  function clampToDisc(ax, ay, w, h) {
+    const discRadius = Math.min(width, height) / 2 - 3;
+    const halfDiag = Math.sqrt((w / 2) ** 2 + (h / 2) ** 2);
+    const maxDist = discRadius - halfDiag;
+    const dx = ax - cx, dy = ay - cy;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (maxDist > 0 && dist > maxDist) {
+      const k = maxDist / dist;
+      return { ax: cx + dx * k, ay: cy + dy * k };
+    }
+    return { ax, ay };
+  }
+
   function placeLabel(markerX, markerY, w, h, placed) {
     for (const dist of LABEL_RINGS) {
       for (const [ux, uy] of LABEL_DIRS) {
-        const ax = markerX + ux * dist;
-        const ay = markerY + uy * dist;
+        const { ax, ay } = clampToDisc(markerX + ux * dist, markerY + uy * dist, w, h);
         const box = { x1: ax - w / 2, y1: ay - h / 2, x2: ax + w / 2, y2: ay + h / 2 };
         if (!placed.some((p) => rectsOverlap(box, p, 4))) return { ax, ay, box };
       }
     }
     const dist = LABEL_RINGS[LABEL_RINGS.length - 1];
-    const ax = markerX, ay = markerY - dist;
+    const { ax, ay } = clampToDisc(markerX, markerY - dist, w, h);
     return { ax, ay, box: { x1: ax - w / 2, y1: ay - h / 2, x2: ax + w / 2, y2: ay + h / 2 } };
   }
 

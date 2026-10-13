@@ -367,6 +367,7 @@
     let morphSmooth = 0;
     let wobbleSmooth = 0;
     let lastCategory = null;
+    let lastFrameTime = 0;
 
     // Re-translate already-built items/cards on a language switch. The
     // arc geometry (effectivePos, grouping) never depends on the text
@@ -402,11 +403,26 @@
     }
 
     function frame() {
+      const now = performance.now();
+      // Clamp dt so a dropped/backgrounded tab (dt could be seconds) doesn't
+      // make the very next frame jump straight to its target instead of
+      // easing — the carousel just resumes mid-ease when the tab returns.
+      const dt = lastFrameTime ? Math.min(now - lastFrameTime, 100) : 1000 / 60;
+      lastFrameTime = now;
+
       const progress = scrollProgress();
       const morphTarget = clamp(progress / 0.3, 0, 1);
       const wobbleTarget = clamp((progress - 0.3) / 0.7, 0, 1);
 
-      const smoothing = prefersReducedMotion ? 1 : 0.09;
+      // The 0.09/frame figure below was tuned by eye at a steady 60fps. On a
+      // phone under load that rate dips and swings (45fps one tick, 20fps
+      // the next), and a fixed per-frame factor tracks the target faster or
+      // slower with every such swing — which reads as the fan snapping
+      // forward in uneven bursts rather than gliding. Re-deriving the
+      // factor from the actual elapsed time keeps the eased motion's real
+      // (wall-clock) speed constant no matter how choppy the frame rate is.
+      const perFrameSmoothing = 0.09;
+      const smoothing = prefersReducedMotion ? 1 : 1 - Math.pow(1 - perFrameSmoothing, dt / (1000 / 60));
       morphSmooth += (morphTarget - morphSmooth) * smoothing;
       wobbleSmooth += (wobbleTarget - wobbleSmooth) * smoothing;
       // Snap fully to the target once the gap is imperceptible — otherwise
@@ -502,7 +518,8 @@
         if (document.activeElement !== card) card.style.zIndex = card.style.zIndex === '999' ? '999' : String(baseZ);
 
         const hoverTarget = card.__hover ? 1.12 : 1;
-        card.__hoverSmooth += (hoverTarget - card.__hoverSmooth) * (prefersReducedMotion ? 1 : 0.2);
+        const hoverSmoothing = prefersReducedMotion ? 1 : 1 - Math.pow(1 - 0.2, dt / (1000 / 60));
+        card.__hoverSmooth += (hoverTarget - card.__hoverSmooth) * hoverSmoothing;
         if (Math.abs(hoverTarget - card.__hoverSmooth) < 0.0005) card.__hoverSmooth = hoverTarget;
 
         // Skip the DOM write entirely once a card has settled (same string

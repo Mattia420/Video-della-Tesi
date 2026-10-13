@@ -7,7 +7,10 @@
   --bg: #0a0910;
   --bg-alt: #131019;
   --text: #f3f2ee;
-  --text-dim: #b8b4bc;
+  /* Was a muted gray (#b8b4bc) for secondary copy — bumped to match --text
+     so body paragraphs, descriptions, and labels read at full brightness
+     instead of lower contrast against the dark background. */
+  --text-dim: #f3f2ee;
   --accent: #a600ff;
   --accent-soft: #d9a6ff;
   --accent-deep: #3a0066;
@@ -799,16 +802,11 @@ body.menu-open { overflow: hidden; }
   font-size: 0.95rem; color: var(--text);
   font-family: 'Space Grotesk', sans-serif; font-weight: 500;
 }
-/* Procreate is an iPad app the author only uses on mobile projects, so it's
-   hidden on the desktop grid and shown only once the layout switches to the
-   mobile 2-column software grid below. */
-.software-item--mobile-only { display: none; }
 @media (max-width: 900px) {
   .software__grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
   .software-item { padding: 1rem 0.85rem; gap: 0.7rem; }
   .software-item__icon { width: 40px; height: 40px; }
   .software-item__name { font-size: 0.85rem; }
-  .software-item--mobile-only { display: flex; }
 }
 @media (max-width: 340px) {
   .software__grid { grid-template-columns: 1fr; }
