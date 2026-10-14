@@ -81,6 +81,66 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* =========================================================
+     CV LANGUAGE PICKER — "Scarica CV" opens a modal asking which
+     language's PDF to download instead of linking straight to a file.
+     Each option is a real <a download> link, so picking one downloads
+     it natively; the modal just closes alongside it. Uses the same
+     position:fixed body-freeze + Lenis resize-before-scrollTo dance as
+     the project lightbox (morph-carousel.js) to survive being open
+     longer than Lenis's debounced scroll-limit recalculation.
+     ========================================================= */
+  const cvTrigger = document.getElementById('cvDownloadTrigger');
+  const cvPicker = document.getElementById('cvPicker');
+  if (cvTrigger && cvPicker) {
+    const cvPickerClose = document.getElementById('cvPickerClose');
+    let cvSavedScrollY = 0;
+
+    function openCvPicker() {
+      cvPicker.classList.add('is-open');
+      cvSavedScrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${cvSavedScrollY}px`;
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+      if (window.lenis && typeof window.lenis.stop === 'function') window.lenis.stop();
+    }
+
+    function closeCvPicker() {
+      cvPicker.classList.remove('is-open');
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+      if (window.lenis && typeof window.lenis.resize === 'function') window.lenis.resize();
+      if (window.lenis && typeof window.lenis.start === 'function') {
+        window.lenis.start();
+        if (typeof window.lenis.scrollTo === 'function') {
+          window.lenis.scrollTo(cvSavedScrollY, { immediate: true, force: true });
+        } else {
+          window.scrollTo(0, cvSavedScrollY);
+        }
+      } else {
+        window.scrollTo(0, cvSavedScrollY);
+      }
+    }
+
+    cvTrigger.addEventListener('click', openCvPicker);
+    if (cvPickerClose) cvPickerClose.addEventListener('click', closeCvPicker);
+    // Picking a language link closes the modal alongside its native
+    // download; clicking anywhere else inside the card (the heading)
+    // does nothing; clicking the backdrop itself closes, same as the
+    // lang picker / project lightbox.
+    cvPicker.addEventListener('click', (e) => {
+      if (e.target.closest('.cv-picker__btn')) { closeCvPicker(); return; }
+      if (e.target.closest('.cv-picker__inner')) return;
+      closeCvPicker();
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && cvPicker.classList.contains('is-open')) closeCvPicker();
+    });
+  }
+
+  /* =========================================================
      SKILLS ACCORDION — plain JS, no GSAP dependency
      ========================================================= */
   document.querySelectorAll('.skill-item__row').forEach((btn) => {

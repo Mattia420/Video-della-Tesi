@@ -130,6 +130,78 @@ html.lang-ready .lang-picker { opacity: 0; visibility: hidden; pointer-events: n
 .lang-picker__flag { font-size: 1.8rem; line-height: 1; }
 
 /* =========================================================
+   CV LANGUAGE PICKER — opened by the "Scarica CV" button, visually
+   modeled on the language picker above but a structurally separate,
+   independently open/closeable modal (that one is a one-time onboarding
+   gate retired for good after the first pick, so its own class/markup
+   can't be reused for this second, repeatable one). See main.js.
+   ========================================================= */
+.cv-picker {
+  position: fixed; inset: 0; z-index: 1001;
+  display: flex; align-items: center; justify-content: center;
+  padding: 2rem var(--gutter);
+  background: rgba(10, 9, 16, 0.55);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .4s var(--ease), visibility .4s var(--ease);
+}
+.cv-picker.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
+
+.cv-picker__inner {
+  position: relative;
+  width: min(560px, 100%);
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: clamp(1.75rem, 4vw, 3rem);
+  text-align: center;
+  box-shadow: 0 40px 120px rgba(0,0,0,0.55);
+}
+.cv-picker__close {
+  position: absolute; top: 1rem; right: 1rem;
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(243,242,238,0.03); color: var(--text);
+  font-family: inherit; font-size: 1.3rem; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color .3s ease, color .3s ease;
+}
+.cv-picker__close:hover, .cv-picker__close:focus-visible { border-color: var(--accent); color: var(--accent-soft); }
+.cv-picker__eyebrow {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: clamp(1.25rem, 2.8vw, 1.6rem);
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 1.75rem;
+}
+.cv-picker__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+@media (max-width: 560px) {
+  .cv-picker__grid { grid-template-columns: 1fr; }
+}
+.cv-picker__btn {
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  padding: 1.1rem 0.75rem;
+  background: rgba(243,242,238,0.03);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--text);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: border-color .3s ease, background .3s ease, transform .3s var(--ease);
+}
+.cv-picker__btn:hover, .cv-picker__btn:focus-visible {
+  border-color: var(--accent-soft);
+  background: rgba(166, 0, 255, 0.10);
+  transform: translateY(-2px);
+}
+.cv-picker__flag { font-size: 1.8rem; line-height: 1; }
+
+/* =========================================================
    PRELOADER
    ========================================================= */
 .preloader {
@@ -429,6 +501,11 @@ body.menu-open { overflow: hidden; }
 .btn:hover, .btn:active { color: #201e21; border-color: var(--accent); }
 .btn:hover::before, .btn:active::before { transform: scale(1); }
 .btn--large { padding: 1.3rem 3rem; font-size: 1rem; margin: 2rem 0; }
+/* "Scarica CV" is a <button> (opens the CV language picker below, rather
+   than linking straight to a file), so it needs the chrome a native
+   <button> carries by default stripped off the same way every other
+   button-based control on this page already does. */
+button.btn { background: none; font-family: inherit; color: inherit; cursor: pointer; }
 
 /* =========================================================
    SECTION HEAD

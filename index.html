@@ -316,9 +316,9 @@
         <a href="mailto:mattia.pedron2004@gmail.com" class="btn btn--magnetic btn--large" data-cursor="view">
           <span data-i18n="contact.cta">Scrivimi</span>
         </a>
-        <a href="assets/cv/mattia-pedron-cv.pdf" class="btn btn--magnetic btn--large" download data-cursor="view">
+        <button type="button" id="cvDownloadTrigger" class="btn btn--magnetic btn--large" data-cursor="view">
           <span data-i18n="hero.cvCta">Scarica CV</span>
-        </a>
+        </button>
       </div>
       <div class="contact__socials reveal-up">
         <a href="https://www.linkedin.com/in/mattia-pedron-9987b02a2/" target="_blank" rel="noopener" aria-label="LinkedIn" data-cursor="link">
@@ -350,6 +350,26 @@
   <div class="lang-picker__inner">
     <p class="lang-picker__eyebrow">Which language would you like to view the site in?</p>
     <div class="lang-picker__grid" id="langPickerGrid"></div>
+  </div>
+</div>
+
+<!-- CV LANGUAGE PICKER — opened by the "Scarica CV" button (see main.js),
+     independent from the one-time language gate above -->
+<div class="cv-picker" id="cvPicker" role="dialog" aria-modal="true" aria-label="In quale lingua vuoi il CV?" data-i18n-aria="cvPicker.heading">
+  <div class="cv-picker__inner">
+    <button type="button" class="cv-picker__close" id="cvPickerClose" aria-label="Chiudi" data-i18n-aria="lightbox.close" data-cursor="link">&times;</button>
+    <p class="cv-picker__eyebrow" data-i18n="cvPicker.heading">In quale lingua vuoi il CV?</p>
+    <div class="cv-picker__grid">
+      <a href="assets/cv/mattia-pedron-cv-it.pdf" class="cv-picker__btn" download data-cursor="link">
+        <span class="cv-picker__flag" aria-hidden="true">🇮🇹</span><span>Italiano</span>
+      </a>
+      <a href="assets/cv/mattia-pedron-cv-en.pdf" class="cv-picker__btn" download data-cursor="link">
+        <span class="cv-picker__flag" aria-hidden="true">🇬🇧</span><span>English</span>
+      </a>
+      <a href="assets/cv/mattia-pedron-cv-de.pdf" class="cv-picker__btn" download data-cursor="link">
+        <span class="cv-picker__flag" aria-hidden="true">🇩🇪</span><span>Deutsch</span>
+      </a>
+    </div>
   </div>
 </div>
 

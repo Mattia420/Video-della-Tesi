@@ -246,6 +246,19 @@
     return !(a.x2 + pad < b.x1 || b.x2 + pad < a.x1 || a.y2 + pad < b.y1 || b.y2 + pad < a.y1);
   }
 
+  // Total overlap area (in px^2) a candidate box has against every
+  // already-placed label — used to rank candidates when none of them
+  // comes back fully clear.
+  function overlapArea(box, placed) {
+    let total = 0;
+    for (const p of placed) {
+      const ox = Math.min(box.x2, p.x2) - Math.max(box.x1, p.x1);
+      const oy = Math.min(box.y2, p.y2) - Math.max(box.y1, p.y1);
+      if (ox > 0 && oy > 0) total += ox * oy;
+    }
+    return total;
+  }
+
   // The canvas element itself is clipped to a circle (border-radius: 50%
   // in CSS), but the ring/direction search above only keeps labels from
   // overlapping each other — it knows nothing about that circular edge.
@@ -269,16 +282,24 @@
   }
 
   function placeLabel(markerX, markerY, w, h, placed) {
+    let best = null;
+    let bestOverlap = Infinity;
     for (const dist of LABEL_RINGS) {
       for (const [ux, uy] of LABEL_DIRS) {
         const { ax, ay } = clampToDisc(markerX + ux * dist, markerY + uy * dist, w, h);
         const box = { x1: ax - w / 2, y1: ay - h / 2, x2: ax + w / 2, y2: ay + h / 2 };
-        if (!placed.some((p) => rectsOverlap(box, p, 4))) return { ax, ay, box };
+        const overlap = overlapArea(box, placed);
+        if (overlap === 0) return { ax, ay, box };
+        if (overlap < bestOverlap) {
+          bestOverlap = overlap;
+          best = { ax, ay, box };
+        }
       }
     }
-    const dist = LABEL_RINGS[LABEL_RINGS.length - 1];
-    const { ax, ay } = clampToDisc(markerX, markerY - dist, w, h);
-    return { ax, ay, box: { x1: ax - w / 2, y1: ay - h / 2, x2: ax + w / 2, y2: ay + h / 2 } };
+    // Every candidate ring/direction collided with something — fall back to
+    // whichever tried position overlapped the least, rather than blindly
+    // stacking on top of another label with zero collision awareness.
+    return best;
   }
 
   const LABEL_FONT = '700 14px "Space Grotesk", sans-serif';

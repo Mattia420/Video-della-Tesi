@@ -99,6 +99,7 @@
     },
     footer: { rights: "Tutti i diritti riservati.", top: "Torna su", ariaEmail: "Email" },
     langSwitch: { ariaLabel: "Cambia lingua" },
+    cvPicker: { heading: "In quale lingua vuoi il CV?" },
     langPicker: { heading: "Scegli la lingua · Choose your language" },
     categories: {
       contenutiAi: "Contenuti AI", graphicDesign: "Graphic Design",
@@ -175,6 +176,7 @@
       },
       footer: { rights: "All rights reserved.", top: "Back to top", ariaEmail: "Email" },
       langSwitch: { ariaLabel: "Change language" },
+      cvPicker: { heading: "Which language would you like the CV in?" },
       categories: { contenutiAi: "AI Content", graphicDesign: "Graphic Design", uiuxDesign: "UI/UX Design", motionDesign: "Motion Design" },
       lightbox: { close: "Close", loading: "Loading the prototype… it may take a few seconds.", placeholderFigma: "Prototype coming soon", placeholderImage: "Artwork coming soon", placeholderVideo: "Video coming soon" },
       projects: {
@@ -239,6 +241,7 @@
       },
       footer: { rights: "Alle Rechte vorbehalten.", top: "Nach oben", ariaEmail: "E-Mail" },
       langSwitch: { ariaLabel: "Sprache ändern" },
+      cvPicker: { heading: "In welcher Sprache möchtest du den Lebenslauf?" },
       categories: { contenutiAi: "KI-Inhalte", graphicDesign: "Grafikdesign", uiuxDesign: "UI/UX Design", motionDesign: "Motion Design" },
       lightbox: { close: "Schließen", loading: "Prototyp wird geladen… kann einige Sekunden dauern.", placeholderFigma: "Prototyp folgt in Kürze", placeholderImage: "Grafik folgt in Kürze", placeholderVideo: "Video folgt in Kürze" },
       projects: {
@@ -303,6 +306,7 @@
       },
       footer: { rights: "Todos los derechos reservados.", top: "Volver arriba", ariaEmail: "Correo" },
       langSwitch: { ariaLabel: "Cambiar idioma" },
+      cvPicker: { heading: "¿En qué idioma quieres el CV?" },
       categories: { contenutiAi: "Contenido IA", graphicDesign: "Diseño Gráfico", uiuxDesign: "Diseño UI/UX", motionDesign: "Motion Design" },
       lightbox: { close: "Cerrar", loading: "Cargando el prototipo… puede tardar unos segundos.", placeholderFigma: "Prototipo próximamente", placeholderImage: "Gráfica próximamente", placeholderVideo: "Vídeo próximamente" },
       projects: {
@@ -367,6 +371,7 @@
       },
       footer: { rights: "Tous droits réservés.", top: "Retour en haut", ariaEmail: "E-mail" },
       langSwitch: { ariaLabel: "Changer de langue" },
+      cvPicker: { heading: "Dans quelle langue veux-tu le CV ?" },
       categories: { contenutiAi: "Contenus IA", graphicDesign: "Graphisme", uiuxDesign: "UI/UX Design", motionDesign: "Motion Design" },
       lightbox: { close: "Fermer", loading: "Chargement du prototype… cela peut prendre quelques secondes.", placeholderFigma: "Prototype à venir", placeholderImage: "Visuel à venir", placeholderVideo: "Vidéo à venir" },
       projects: {
@@ -431,6 +436,7 @@
       },
       footer: { rights: "Todos os direitos reservados.", top: "Voltar ao topo", ariaEmail: "E-mail" },
       langSwitch: { ariaLabel: "Mudar idioma" },
+      cvPicker: { heading: "Em que idioma queres o CV?" },
       categories: { contenutiAi: "Conteúdos IA", graphicDesign: "Design Gráfico", uiuxDesign: "Design UI/UX", motionDesign: "Motion Design" },
       lightbox: { close: "Fechar", loading: "A carregar o protótipo… pode demorar alguns segundos.", placeholderFigma: "Protótipo brevemente", placeholderImage: "Grafismo brevemente", placeholderVideo: "Vídeo brevemente" },
       projects: {
@@ -495,6 +501,7 @@
       },
       footer: { rights: "Toate drepturile rezervate.", top: "Înapoi sus", ariaEmail: "E-mail" },
       langSwitch: { ariaLabel: "Schimbă limba" },
+      cvPicker: { heading: "În ce limbă vrei CV-ul?" },
       categories: { contenutiAi: "Conținut AI", graphicDesign: "Design Grafic", uiuxDesign: "UI/UX Design", motionDesign: "Motion Design" },
       lightbox: { close: "Închide", loading: "Se încarcă prototipul… poate dura câteva secunde.", placeholderFigma: "Prototip în curând", placeholderImage: "Grafică în curând", placeholderVideo: "Video în curând" },
       projects: {
@@ -559,6 +566,7 @@
       },
       footer: { rights: "Alle rechten voorbehouden.", top: "Terug naar boven", ariaEmail: "E-mail" },
       langSwitch: { ariaLabel: "Taal wijzigen" },
+      cvPicker: { heading: "In welke taal wil je het cv?" },
       categories: { contenutiAi: "AI-content", graphicDesign: "Grafisch Ontwerp", uiuxDesign: "UI/UX Design", motionDesign: "Motion Design" },
       lightbox: { close: "Sluiten", loading: "Prototype wordt geladen… kan een paar seconden duren.", placeholderFigma: "Prototype volgt binnenkort", placeholderImage: "Grafiek volgt binnenkort", placeholderVideo: "Video volgt binnenkort" },
       projects: {
@@ -623,6 +631,7 @@
       },
       footer: { rights: "版权所有。", top: "返回顶部", ariaEmail: "邮箱" },
       langSwitch: { ariaLabel: "更改语言" },
+      cvPicker: { heading: "你想要哪种语言的简历？" },
       categories: { contenutiAi: "AI 内容", graphicDesign: "平面设计", uiuxDesign: "UI/UX 设计", motionDesign: "动态设计" },
       lightbox: { close: "关闭", loading: "原型加载中……可能需要几秒钟。", placeholderFigma: "原型即将上线", placeholderImage: "图稿即将上线", placeholderVideo: "视频即将上线" },
       projects: {
