@@ -508,7 +508,8 @@ body.menu-open { overflow: hidden; }
   transition: opacity .3s ease;
 }
 .ai-morph__intro h2 { font-size: clamp(1.8rem, 4vw, 3rem); margin-bottom: 0.8rem; }
-.ai-morph__intro p { color: #fff; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.ai-morph__intro p { color: #fff; font-size: 1rem; line-height: 1.6; opacity: 0.9; }
+.ai-morph__intro p:first-child { font-size: clamp(1.2rem, 2.4vw, 1.6rem); font-weight: 600; opacity: 1; margin-bottom: 0.4rem; }
 /* A static hint reads as decoration once the fan of cards is already on
    screen looking "finished" — people reach straight for a card instead of
    scrolling first. A bouncing arrow is the one piece of motion that still
@@ -526,7 +527,6 @@ body.menu-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) { .ai-morph__scroll-hint { animation: none; opacity: 0.8; } }
 .ai-morph__reveal { top: 8%; transform: translate(-50%, 0); opacity: 0; }
 .ai-morph__reveal h2 { font-size: clamp(1.5rem, 3.2vw, 2.4rem); margin-bottom: 0.8rem; text-wrap: balance; }
-.ai-morph__reveal p { color: #fff; font-size: 0.85rem; max-width: 46ch; margin: 0 auto; line-height: 1.5; opacity: 0.85; }
 
 .ai-morph__stage { position: absolute; inset: 0; z-index: 2; }
 .morph-card {

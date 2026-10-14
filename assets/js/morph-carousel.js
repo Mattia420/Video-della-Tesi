@@ -443,8 +443,20 @@
       if (Math.abs(morphTarget - morphSmooth) < 0.0005) morphSmooth = morphTarget;
       if (Math.abs(wobbleTarget - wobbleSmooth) < 0.0005) wobbleSmooth = wobbleTarget;
 
+      // People reached straight for a card the instant the fan was on
+      // screen, before ever scrolling — a static "scroll to explore" line
+      // wasn't a strong enough signal once there was something clickable-
+      // looking to grab instead. Blurring the whole stage up front removes
+      // that temptation (a blurred card doesn't read as "ready to click"),
+      // and clearing the blur fast — well before the circle has visibly
+      // started morphing into the fan — rewards the very first bit of
+      // scroll with an immediate, legible payoff instead of a slow reveal.
+      const blurProgress = clamp(morphSmooth / 0.15, 0, 1);
+      const blurPx = (1 - blurProgress) * 14;
+      stage.style.filter = blurPx > 0.05 ? `blur(${blurPx}px)` : '';
+
       if (introEl && revealEl) {
-        const introOpacity = clamp(1 - morphSmooth * 2, 0, 1);
+        const introOpacity = 1 - blurProgress;
         introEl.style.opacity = String(introOpacity);
         const revealOpacity = clamp((morphSmooth - 0.75) / 0.25, 0, 1) * clamp(1 - (wobbleSmooth - 0.7) / 0.3, 0, 1);
         revealEl.style.opacity = String(revealOpacity);
@@ -542,7 +554,10 @@
           card.style.opacity = nextOpacity;
           card.__lastOpacity = nextOpacity;
         }
-        card.style.pointerEvents = opacity < 0.05 ? 'none' : '';
+        // Still visibly blurred means still "not ready" — block clicks so
+        // an impatient click before the blur clears does nothing instead
+        // of confusingly opening whatever happened to be under the cursor.
+        card.style.pointerEvents = (opacity < 0.05 || blurPx > 0.5) ? 'none' : '';
       });
 
       requestAnimationFrame(frame);
