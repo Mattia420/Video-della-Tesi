@@ -137,7 +137,11 @@ html.lang-ready .lang-picker { opacity: 0; visibility: hidden; pointer-events: n
    can't be reused for this second, repeatable one). See main.js.
    ========================================================= */
 .cv-picker {
-  position: fixed; inset: 0; z-index: 1001;
+  /* Same layer as .lang-picker (1000), strictly below the custom cursor's
+     1001 — not 1001 itself: a tie would fall back to DOM order, and this
+     markup sits after .cursor, so the picker's own backdrop would paint
+     over the cursor dot and it'd read as "gone" while hovering it. */
+  position: fixed; inset: 0; z-index: 1000;
   display: flex; align-items: center; justify-content: center;
   padding: 2rem var(--gutter);
   background: rgba(10, 9, 16, 0.55);
