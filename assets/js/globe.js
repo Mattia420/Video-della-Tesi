@@ -184,7 +184,7 @@
   let dragging = false;
   let dragStartX = 0;
   let rotationAtDragStart = 0;
-  let autoSpin = 0.009;
+  let autoSpin = 0.0055;
 
   // The canvas box is bigger than the sphere actually drawn in it (extra
   // room for the name-tag pills above it), so only start a drag when the
