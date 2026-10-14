@@ -238,14 +238,35 @@
     document.body.style.top = '';
     document.body.style.width = '';
     document.body.style.overflow = '';
-    window.scrollTo(0, savedScrollY);
+    // Freezing the body with position: fixed takes it out of the document's
+    // normal flow, so document.documentElement.scrollHeight collapses to
+    // roughly one viewport height for as long as the lightbox stays open.
+    // Lenis watches that height with a (debounced, ~250ms) ResizeObserver
+    // to know how far down the page can scroll — if the lightbox is open
+    // longer than that debounce, which it normally is, Lenis recomputes
+    // its scroll limit against the collapsed height and clamps any
+    // scrollTo to roughly zero. Calling resize() here, now that the real
+    // layout is back, forces it to recompute against the correct height
+    // before the scrollTo below runs.
+    if (window.lenis && typeof window.lenis.resize === 'function') window.lenis.resize();
+    // Restoring the native scroll directly (window.scrollTo) and separately
+    // telling Lenis about it (lenis.scrollTo) raced: window.scrollTo fires
+    // its own native 'scroll' event asynchronously, which Lenis's own
+    // listener can pick up and use to resync — stepping on whichever of
+    // the two calls happened to land last. Lenis's own scrollTo does both
+    // atomically (it sets the native position itself via the same call
+    // that updates its internal tracked value), so it's the only call
+    // needed; only fall back to a plain native scrollTo if Lenis isn't on
+    // this page at all.
     if (window.lenis && typeof window.lenis.start === 'function') {
       window.lenis.start();
-      // Lenis tracks its own scroll value independently of the native one
-      // we just restored above — without this it doesn't know the page
-      // moved while it was stopped, and the next scroll gesture jumps
-      // from its stale position instead of continuing from here.
-      if (typeof window.lenis.scrollTo === 'function') window.lenis.scrollTo(savedScrollY, { immediate: true });
+      if (typeof window.lenis.scrollTo === 'function') {
+        window.lenis.scrollTo(savedScrollY, { immediate: true, force: true });
+      } else {
+        window.scrollTo(0, savedScrollY);
+      }
+    } else {
+      window.scrollTo(0, savedScrollY);
     }
     const video = mediaEl.querySelector('video');
     if (video) video.pause();
@@ -253,7 +274,13 @@
     if (iframe) iframe.src = iframe.src; // stops Vimeo/Figma playback on close
   }
 
-  closeBtn.addEventListener('click', closeLightbox);
+  // Without stopPropagation this click also bubbles to the lightbox's own
+  // "click outside media" listener below (the close button isn't inside
+  // mediaEl/galleryEl, so that handler doesn't skip it) — closeLightbox()
+  // ran twice per click, harmlessly before it only reset a couple of CSS
+  // properties, but now races the scroll-position restore below against
+  // itself.
+  closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeLightbox(); });
   // Close on any click that isn't on the media itself (video/iframe/image)
   // or the gallery thumbnails (which swap the image instead of closing) —
   // clicking the title, description, or anywhere else in/around the panel
@@ -477,7 +504,7 @@
       // and clearing the blur fast — well before the circle has visibly
       // started morphing into the fan — rewards the very first bit of
       // scroll with an immediate, legible payoff instead of a slow reveal.
-      const blurProgress = clamp(morphSmooth / 0.15, 0, 1);
+      const blurProgress = clamp(morphSmooth / 0.06, 0, 1);
       const blurPx = (1 - blurProgress) * 14;
       stage.style.filter = blurPx > 0.05 ? `blur(${blurPx}px)` : '';
 
