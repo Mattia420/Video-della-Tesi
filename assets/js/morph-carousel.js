@@ -42,6 +42,9 @@
   // below and consumed (then deleted) the first time each project opens.
   const preloadedMedia = new Map();
 
+  // The page's scroll position when the lightbox opened, restored on close.
+  let savedScrollY = 0;
+
   // Starts every project's video/image downloading — and every Figma
   // prototype's iframe loading — right away in hidden off-screen elements,
   // instead of waiting for a click. openLightbox() then reuses whichever
@@ -208,6 +211,18 @@
       mediaEl.appendChild(placeholder);
     }
     lightbox.classList.add('is-open');
+    // `body { overflow: hidden }` alone doesn't reliably block touch-driven
+    // scrolling on mobile (a long-standing iOS Safari gap, inconsistent
+    // elsewhere too) — the page could still be dragged underneath the open
+    // lightbox, landing far from where it was once closed. Freezing the
+    // body in place with position: fixed genuinely can't scroll, since
+    // it's taken out of the document's own scrollable flow; the negative
+    // top offset keeps it visually exactly where it was, and closeLightbox
+    // restores both the styles and the real scroll position afterwards.
+    savedScrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${savedScrollY}px`;
+    document.body.style.width = '100%';
     document.body.style.overflow = 'hidden';
     // Lenis intercepts wheel/touch scrolling on the whole page, which would
     // otherwise swallow scroll input meant for .ai-lightbox's own
@@ -219,8 +234,19 @@
 
   function closeLightbox() {
     lightbox.classList.remove('is-open');
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
     document.body.style.overflow = '';
-    if (window.lenis && typeof window.lenis.start === 'function') window.lenis.start();
+    window.scrollTo(0, savedScrollY);
+    if (window.lenis && typeof window.lenis.start === 'function') {
+      window.lenis.start();
+      // Lenis tracks its own scroll value independently of the native one
+      // we just restored above — without this it doesn't know the page
+      // moved while it was stopped, and the next scroll gesture jumps
+      // from its stale position instead of continuing from here.
+      if (typeof window.lenis.scrollTo === 'function') window.lenis.scrollTo(savedScrollY, { immediate: true });
+    }
     const video = mediaEl.querySelector('video');
     if (video) video.pause();
     const iframe = mediaEl.querySelector('iframe');
@@ -497,7 +523,23 @@
         // Mobile cards are proportionally bigger relative to the narrow
         // stage width, so the same 0.32 radius used on desktop leaves them
         // crowding in over the centred intro text — give them more room.
-        const circleRadius = Math.min(minDim * (isMobile ? 0.44 : 0.32), 220);
+        // The circle's centre sits at a fixed fraction of the stage's own
+        // height (38% on mobile, 50% on desktop) — on a short viewport
+        // (a real phone with its address bar/toolbar visible eats a lot
+        // of the "100svh" this is based on) that fraction lands close
+        // enough to the top edge that the topmost card's blur, which
+        // needs clear space on every side to fade instead of stopping
+        // dead, gets clipped by .ai-morph__sticky's overflow: hidden —
+        // a visible hard edge instead of a soft one. Shrinking the
+        // radius to whatever vertical room is actually available (never
+        // below 40px, so it never collapses to nothing) fixes that on
+        // short viewports without changing anything on normal ones,
+        // where this never ends up smaller than the existing cap below.
+        const anchorY = stageSize.height * (isMobile ? 0.38 : 0.5);
+        const tallestCardHalfHeight = isMobile ? 61 : 48;
+        const blurClearance = 34;
+        const maxRadiusByHeight = Math.min(anchorY, stageSize.height - anchorY) - tallestCardHalfHeight - blurClearance;
+        const circleRadius = Math.min(minDim * (isMobile ? 0.44 : 0.32), 220, Math.max(maxRadiusByHeight, 40));
         const circleAngle = (i / total) * 360;
         const circleRad = (circleAngle * Math.PI) / 180;
         const circlePos = {
