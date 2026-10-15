@@ -38,49 +38,8 @@
   const galleryEl = lightbox.querySelector('#aiLightboxGallery');
   const closeBtn = lightbox.querySelector('.ai-lightbox__close');
 
-  // id -> hidden, already-loading <video>/<iframe>, built by preloadMedia()
-  // below and consumed (then deleted) the first time each project opens.
-  const preloadedMedia = new Map();
-
   // The page's scroll position when the lightbox opened, restored on close.
   let savedScrollY = 0;
-
-  // Starts every project's video/image downloading — and every Figma
-  // prototype's iframe loading — right away in hidden off-screen elements,
-  // instead of waiting for a click. openLightbox() then reuses whichever
-  // element is ready rather than starting a fresh request, so the first
-  // open of any project is instant (or close to it) instead of showing a
-  // blank/loading state. Costs extra bandwidth/CPU up front — acceptable
-  // for a personal portfolio where pages aren't large and visits are one
-  // person browsing, not high concurrent traffic.
-  function preloadMedia(items) {
-    items.forEach((data) => {
-      if (data.type === 'figma' && data.figmaUrl) {
-        const iframe = document.createElement('iframe');
-        iframe.src = data.figmaUrl;
-        iframe.setAttribute('allowfullscreen', '');
-        iframe.setAttribute('aria-hidden', 'true');
-        iframe.tabIndex = -1;
-        iframe.title = data.title;
-        iframe.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;border:0;opacity:0;pointer-events:none;';
-        iframe.addEventListener('load', () => { iframe.dataset.loaded = 'true'; });
-        document.body.appendChild(iframe);
-        preloadedMedia.set(data.id, iframe);
-      } else if (data.video && !data.video.includes('vimeo.com')) {
-        const video = document.createElement('video');
-        video.src = data.video;
-        video.preload = 'auto';
-        video.muted = true;
-        video.playsInline = true;
-        video.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;';
-        document.body.appendChild(video);
-        preloadedMedia.set(data.id, video);
-      } else if (data.type === 'image' && data.image) {
-        const img = new Image();
-        img.src = data.image;
-      }
-    });
-  }
 
   function openLightbox(data) {
     closeBtn.setAttribute('aria-label', (window.i18n && window.i18n.t('lightbox.close')) || 'Chiudi');
@@ -90,15 +49,6 @@
     mediaEl.className = 'ai-lightbox__media';
     galleryEl.innerHTML = '';
     loadingEl.hidden = true;
-
-    // A project preloaded in the background (see preloadMedia below) is
-    // reused here instead of recreated, so the first open of any project
-    // shows already-buffered media rather than starting a fresh request.
-    // Consumed once — reopening the same project later falls back to a
-    // normal fresh load, which is fine since it's no longer the user's
-    // first contact with it.
-    const preloaded = preloadedMedia.get(data.id);
-    if (preloaded) preloadedMedia.delete(data.id);
 
     if (data.type === 'figma' && data.figmaUrl) {
       const isDeck = data.figmaKind === 'deck';
@@ -114,7 +64,7 @@
       if (isDeck) mediaEl.classList.add('ai-lightbox__media--wide-video');
 
       let spinner = null;
-      if (showLoadingUI && !(preloaded && preloaded.dataset.loaded === 'true')) {
+      if (showLoadingUI) {
         loadingEl.textContent = (window.i18n && window.i18n.t('lightbox.loading')) || 'Caricamento del prototipo… può richiedere alcuni secondi.';
         loadingEl.hidden = false;
         spinner = document.createElement('div');
@@ -123,33 +73,16 @@
         mediaEl.appendChild(spinner);
       }
 
-      let iframe;
-      if (preloaded) {
-        iframe = preloaded;
-        iframe.style.cssText = '';
-        iframe.removeAttribute('aria-hidden');
-        iframe.tabIndex = 0;
-        if (iframe.dataset.loaded !== 'true') {
-          iframe.classList.add('is-loading');
-          iframe.addEventListener('load', () => {
-            iframe.classList.remove('is-loading');
-            iframe.dataset.loaded = 'true';
-            if (spinner) spinner.remove();
-            loadingEl.hidden = true;
-          });
-        }
-      } else {
-        iframe = document.createElement('iframe');
-        iframe.className = 'is-loading';
-        iframe.src = data.figmaUrl;
-        iframe.setAttribute('allowfullscreen', '');
-        iframe.title = data.title;
-        iframe.addEventListener('load', () => {
-          iframe.classList.remove('is-loading');
-          if (spinner) spinner.remove();
-          loadingEl.hidden = true;
-        });
-      }
+      const iframe = document.createElement('iframe');
+      iframe.className = 'is-loading';
+      iframe.src = data.figmaUrl;
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.title = data.title;
+      iframe.addEventListener('load', () => {
+        iframe.classList.remove('is-loading');
+        if (spinner) spinner.remove();
+        loadingEl.hidden = true;
+      });
       mediaEl.appendChild(iframe);
     } else if (data.type === 'image' && data.image) {
       mediaEl.classList.add('ai-lightbox__media--image');
@@ -187,14 +120,8 @@
       mediaEl.appendChild(iframe);
     } else if (data.video) {
       if (data.wide) mediaEl.classList.add('ai-lightbox__media--wide-video');
-      let video;
-      if (preloaded) {
-        video = preloaded;
-        video.style.cssText = '';
-      } else {
-        video = document.createElement('video');
-        video.src = data.video;
-      }
+      const video = document.createElement('video');
+      video.src = data.video;
       video.autoplay = true;
       video.muted = false;
       video.loop = true;
@@ -808,11 +735,4 @@
     // touching the item data itself.
     items: ALL_ITEMS,
   });
-
-  // Deferred a tick past the carousel's own setup (requestIdleCallback where
-  // available, a short timeout elsewhere — Safari has neither issue nor the
-  // API) so the first paint/scroll-trigger setup isn't competing with a
-  // dozen video/iframe requests firing at once.
-  const scheduleIdle = window.requestIdleCallback || ((fn) => setTimeout(fn, 500));
-  scheduleIdle(() => preloadMedia(ALL_ITEMS));
 })();
