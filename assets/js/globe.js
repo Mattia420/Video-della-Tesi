@@ -232,42 +232,100 @@
 
   // Some cities sit almost on top of each other on a world-scale globe
   // (Trento is ~50km from Bolzano) — their labels would collide if just
-  // placed straight above each marker. Try a ring of candidate positions
-  // around each marker and keep the first that clears already-placed
-  // labels, so the true (geographically accurate) marker position never
-  // moves, only where its name-tag renders.
-  const LABEL_DIRS = [
-    [0, -1], [0.75, -0.75], [1, 0], [0.75, 0.75],
-    [0, 1], [-0.75, 0.75], [-1, 0], [-0.75, -0.75],
-  ];
-  const LABEL_RINGS = [26, 42, 60, 80];
+  // placed straight above each marker. Each label keeps a persistent
+  // offset from its marker (in `labelOffsets`, carried across frames)
+  // instead of being re-solved from scratch every frame: a light
+  // relaxation pass only nudges overlapping labels apart by a fraction of
+  // the overlap each frame, and a much gentler spring eases them back
+  // toward sitting straight above their marker once nothing is pushing
+  // them away. That keeps the minimum gap between labels without ever
+  // having them hop between discrete candidate slots as the globe turns.
+  const LABEL_DEFAULT_DIST = 26;
+  const LABEL_MAX_DIST = 90;
+  const LABEL_SEPARATION_STEP = 0.35;
+  const LABEL_SPRING_STEP = 0.025;
+  // High enough to fully resolve even a dense 4-5-label cluster within a
+  // single frame (cheap: a handful of markers, so negligible CPU cost) —
+  // the smoothness comes from `labelOffsets` persisting across frames, not
+  // from going easy on iterations within one.
+  const LABEL_RELAX_ITERS = 24;
+  const LABEL_PAD = 4;
+  const labelOffsets = new Map(); // city name -> { dx, dy } relative to its marker
 
-  function rectsOverlap(a, b, pad) {
-    return !(a.x2 + pad < b.x1 || b.x2 + pad < a.x1 || a.y2 + pad < b.y1 || b.y2 + pad < a.y1);
-  }
+  // Every label's rest position pulls toward "straight above its marker" by
+  // default, but giving each city its own direction instead of sharing one
+  // matters when several of them project close together on screen (Trento,
+  // Tilburg and Oradea all sit a short hop from Bolzano): six labels all
+  // springing back toward the same point fights the separation pass into a
+  // stalemate, each one shoving its neighbor right back as soon as it's
+  // nudged aside. Spread six collision-free "home" directions 60deg apart
+  // instead, so a crowded cluster fans out into a rosette around its
+  // markers rather than stacking in one jammed row.
+  const LABEL_HOME_DIRS = {
+    Bolzano: [0, -1],
+    Boston: [0.87, -0.5],
+    Valencia: [0.87, 0.5],
+    Oradea: [0, 1],
+    Tilburg: [-0.87, 0.5],
+    Trento: [-0.87, -0.5],
+  };
 
-  // Total overlap area (in px^2) a candidate box has against every
-  // already-placed label — used to rank candidates when none of them
-  // comes back fully clear.
-  function overlapArea(box, placed) {
-    let total = 0;
-    for (const p of placed) {
-      const ox = Math.min(box.x2, p.x2) - Math.max(box.x1, p.x1);
-      const oy = Math.min(box.y2, p.y2) - Math.max(box.y1, p.y1);
-      if (ox > 0 && oy > 0) total += ox * oy;
+  function layoutLabels(items) {
+    items.forEach((it) => {
+      const [hx, hy] = LABEL_HOME_DIRS[it.city.name] || [0, -1];
+      it.homeDx = hx * LABEL_DEFAULT_DIST;
+      it.homeDy = hy * LABEL_DEFAULT_DIST;
+      const off = labelOffsets.get(it.city.name) || { dx: it.homeDx, dy: it.homeDy };
+      it.dx = off.dx;
+      it.dy = off.dy;
+    });
+
+    for (let iter = 0; iter < LABEL_RELAX_ITERS; iter++) {
+      for (let i = 0; i < items.length; i++) {
+        for (let j = i + 1; j < items.length; j++) {
+          const a = items[i], b = items[j];
+          const ax = a.proj.x + a.dx, ay = a.proj.y + a.dy;
+          const bx = b.proj.x + b.dx, by = b.proj.y + b.dy;
+          const overlapX = (a.w + b.w) / 2 + LABEL_PAD - Math.abs(ax - bx);
+          const overlapY = (a.h + b.h) / 2 + LABEL_PAD - Math.abs(ay - by);
+          if (overlapX <= 0 || overlapY <= 0) continue;
+          // Push along the line between the two labels' centers (not
+          // strictly along one axis) so a tight knot of several overlapping
+          // labels fans radially outward instead of just sliding into a
+          // single overlapping row or column.
+          let pdx = ax - bx, pdy = ay - by;
+          let pdist = Math.hypot(pdx, pdy);
+          if (pdist < 0.01) { pdx = i < j ? 1 : -1; pdy = -0.3; pdist = 1; }
+          pdx /= pdist; pdy /= pdist;
+          const mag = Math.min(overlapX, overlapY) * LABEL_SEPARATION_STEP;
+          a.dx += (pdx * mag) / 2; a.dy += (pdy * mag) / 2;
+          b.dx -= (pdx * mag) / 2; b.dy -= (pdy * mag) / 2;
+        }
+      }
     }
-    return total;
+
+    return items.map((it) => {
+      it.dx += (it.homeDx - it.dx) * LABEL_SPRING_STEP;
+      it.dy += (it.homeDy - it.dy) * LABEL_SPRING_STEP;
+      const dist = Math.hypot(it.dx, it.dy);
+      if (dist > LABEL_MAX_DIST) {
+        const k = LABEL_MAX_DIST / dist;
+        it.dx *= k; it.dy *= k;
+      }
+      const { ax, ay } = clampToDisc(it.proj.x + it.dx, it.proj.y + it.dy, it.w, it.h);
+      labelOffsets.set(it.city.name, { dx: ax - it.proj.x, dy: ay - it.proj.y });
+      return { city: it.city, proj: it.proj, alpha: it.alpha, ax, ay };
+    });
   }
 
   // The canvas element itself is clipped to a circle (border-radius: 50%
-  // in CSS), but the ring/direction search above only keeps labels from
-  // overlapping each other — it knows nothing about that circular edge.
-  // A marker near the horizon can end up with its name-tag pushed far
-  // enough outward (ring + pill half-width/height) to land past the
-  // visible disc, where the CSS clip silently chops it off mid-word. Pull
-  // the candidate back along its own direction from the globe's centre so
-  // its full bounding box — approximated as its half-diagonal — always
-  // stays inside the disc, with a small safety margin.
+  // in CSS), but the relaxation above only keeps labels from overlapping
+  // each other — it knows nothing about that circular edge. A marker near
+  // the horizon can end up with its name-tag pushed far enough outward to
+  // land past the visible disc, where the CSS clip silently chops it off
+  // mid-word. Pull the candidate back along its own direction from the
+  // globe's centre so its full bounding box — approximated as its
+  // half-diagonal — always stays inside the disc, with a small safety margin.
   function clampToDisc(ax, ay, w, h) {
     const discRadius = Math.min(width, height) / 2 - 3;
     const halfDiag = Math.sqrt((w / 2) ** 2 + (h / 2) ** 2);
@@ -279,27 +337,6 @@
       return { ax: cx + dx * k, ay: cy + dy * k };
     }
     return { ax, ay };
-  }
-
-  function placeLabel(markerX, markerY, w, h, placed) {
-    let best = null;
-    let bestOverlap = Infinity;
-    for (const dist of LABEL_RINGS) {
-      for (const [ux, uy] of LABEL_DIRS) {
-        const { ax, ay } = clampToDisc(markerX + ux * dist, markerY + uy * dist, w, h);
-        const box = { x1: ax - w / 2, y1: ay - h / 2, x2: ax + w / 2, y2: ay + h / 2 };
-        const overlap = overlapArea(box, placed);
-        if (overlap === 0) return { ax, ay, box };
-        if (overlap < bestOverlap) {
-          bestOverlap = overlap;
-          best = { ax, ay, box };
-        }
-      }
-    }
-    // Every candidate ring/direction collided with something — fall back to
-    // whichever tried position overlapped the least, rather than blindly
-    // stacking on top of another label with zero collision awareness.
-    return best;
   }
 
   const LABEL_FONT = '700 14px "Space Grotesk", sans-serif';
@@ -395,10 +432,15 @@
     // city + hub markers: draw all dots first (each faded by its own
     // horizon proximity), then lay out labels so pills never cover a
     // marker that hasn't been placed yet.
-    const markers = [{ ...HUB, xyz: hubXYZ, hub: true }, ...cityData]
+    const allMarkers = [{ ...HUB, xyz: hubXYZ, hub: true }, ...cityData]
       .map((city) => ({ city, z: orient(city.xyz).z, proj: project(city.xyz) }))
-      .map((m) => ({ ...m, alpha: fadeAlpha(m.z) }))
-      .filter((m) => m.alpha > 0.01);
+      .map((m) => ({ ...m, alpha: fadeAlpha(m.z) }));
+    // Drop the stored offset for anything currently behind the horizon —
+    // otherwise, once it rotates back into view, its label would resume
+    // from a now-stale offset and snap a long way to catch up instead of
+    // starting fresh (which settles smoothly while it's still fading in).
+    allMarkers.forEach((m) => { if (m.alpha <= 0.01) labelOffsets.delete(m.city.name); });
+    const markers = allMarkers.filter((m) => m.alpha > 0.01);
 
     markers.forEach(({ city, proj, alpha }) => {
       ctx.globalAlpha = alpha;
@@ -421,13 +463,13 @@
     });
 
     const labelOrder = [...markers].sort((a, b) => (b.city.hub ? 1 : 0) - (a.city.hub ? 1 : 0) || b.z - a.z);
-    const placedBoxes = [];
     ctx.font = LABEL_FONT;
-    labelOrder.forEach(({ city, proj, alpha }) => {
-      const w = ctx.measureText(city.name.toUpperCase()).width + 22;
-      const h = 26;
-      const { ax, ay, box } = placeLabel(proj.x, proj.y, w, h, placedBoxes);
-      placedBoxes.push(box);
+    const labelItems = labelOrder.map(({ city, proj, alpha }) => ({
+      city, proj, alpha,
+      w: ctx.measureText(city.name.toUpperCase()).width + 22,
+      h: 26,
+    }));
+    layoutLabels(labelItems).forEach(({ city, proj, alpha, ax, ay }) => {
       drawLabel(proj.x, proj.y, ax, ay, city.name, city.hub, alpha);
     });
 
