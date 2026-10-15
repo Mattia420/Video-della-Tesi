@@ -240,8 +240,8 @@
   // toward sitting straight above their marker once nothing is pushing
   // them away. That keeps the minimum gap between labels without ever
   // having them hop between discrete candidate slots as the globe turns.
-  const LABEL_DEFAULT_DIST = 26;
-  const LABEL_MAX_DIST = 90;
+  const LABEL_DEFAULT_DIST = 40;
+  const LABEL_MAX_DIST = 100;
   const LABEL_SEPARATION_STEP = 0.35;
   const LABEL_SPRING_STEP = 0.025;
   // High enough to fully resolve even a dense 4-5-label cluster within a
