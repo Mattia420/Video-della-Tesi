@@ -689,6 +689,15 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
   transform: scale(0.94); transition: transform .35s var(--ease);
 }
 .ai-lightbox.is-open .ai-lightbox__panel { transform: scale(1); }
+/* Website prototypes: media above text instead of side-by-side — see
+   .ai-lightbox__media--figma-wide, which needs most of the panel's own
+   width for itself. */
+.ai-lightbox__panel--stacked {
+  flex-direction: column; gap: 1.5rem;
+  max-width: min(90vw, 1100px);
+  text-align: center;
+}
+.ai-lightbox__panel--stacked .ai-lightbox__info p { margin: 0 auto; }
 .ai-lightbox__media {
   position: relative;
   flex: 0 0 auto;
@@ -709,6 +718,12 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
    fills the frame instead — transforms remap pointer events correctly,
    unlike object-fit, so clicking through the zoomed prototype still works */
 .ai-lightbox__media--figma iframe { transform: scale(1.15); transform-origin: center center; }
+/* Website prototypes (full desktop-width pages, not a phone mockup) get
+   their own landscape frame instead of the portrait one above — no scale
+   transform here, since there's no phone-mockup margin to compensate for,
+   and sized generously (vs. the narrower video frame below) since reading
+   a whole web page needs more room than glancing at a video clip. */
+.ai-lightbox__media--figma-wide { aspect-ratio: 16/9; width: min(82vw, 1100px); height: auto; }
 .ai-lightbox__spinner {
   position: absolute; top: 50%; left: 50%;
   width: 36px; height: 36px; margin: -18px 0 0 -18px;
@@ -792,14 +807,14 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
      button pinned right on top of it instead of in clear backdrop space. */
   .ai-lightbox { padding: 5rem 1.25rem 1.5rem; }
   .ai-lightbox__panel { flex-direction: column; gap: 1.5rem; }
-  .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--wide-video) {
+  .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--wide-video):not(.ai-lightbox__media--figma-wide) {
     max-height: 62svh; width: auto;
   }
   .ai-lightbox__media--image, .ai-lightbox__media--image img { max-height: 68svh; }
-  .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--deck):not(.ai-lightbox__media--wide-video) {
+  .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--deck):not(.ai-lightbox__media--wide-video):not(.ai-lightbox__media--figma-wide) {
     aspect-ratio: 9/16;
   }
-  .ai-lightbox__media--wide-video { width: 100%; max-height: none; }
+  .ai-lightbox__media--wide-video, .ai-lightbox__media--figma-wide { width: 100%; max-height: none; }
   .ai-lightbox__info { text-align: center; }
   .ai-lightbox__info p { margin: 0 auto; }
   .ai-lightbox__loading { justify-content: center; }

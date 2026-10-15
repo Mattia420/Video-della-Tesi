@@ -31,6 +31,7 @@
   `;
   document.body.appendChild(lightbox);
 
+  const panelEl = lightbox.querySelector('.ai-lightbox__panel');
   const mediaEl = lightbox.querySelector('#aiLightboxMedia');
   const titleEl = lightbox.querySelector('#aiLightboxTitle');
   const descEl = lightbox.querySelector('#aiLightboxDesc');
@@ -47,31 +48,38 @@
     descEl.textContent = data.desc;
     mediaEl.innerHTML = '';
     mediaEl.className = 'ai-lightbox__media';
+    // The side-by-side panel only has ~1040px to split between media and
+    // text — fine for a portrait phone mockup, not for a desktop-width
+    // website screenshot, which needs most of that width itself. Stack
+    // media above text instead of fighting it for the same row.
+    panelEl.classList.toggle('ai-lightbox__panel--stacked', !!data.figmaWide);
     galleryEl.innerHTML = '';
     loadingEl.hidden = true;
 
     if (data.type === 'figma' && data.figmaUrl) {
       const isDeck = data.figmaKind === 'deck';
-      // Only the interactive UI/UX prototypes get the "loading, may take a
-      // few seconds" indicator — a presentation deck (Graphic Design) just
-      // fades the iframe in without it. Keyed off categoryId (stable, not
-      // translated) rather than category (the live-translated label) —
-      // comparing against the literal Italian string broke this for every
-      // language whose translated category text differs from it.
-      const showLoadingUI = data.categoryId === 'uiuxDesign';
-      mediaEl.classList.add(isDeck ? 'ai-lightbox__media--deck' : 'ai-lightbox__media--figma');
+      // Figma's own embed is slow to boot (it's loading its full canvas
+      // runtime, not just a static page) regardless of project type, so
+      // every figma embed — deck included — gets the "loading" indicator,
+      // not just the interactive UI/UX prototypes.
+      mediaEl.classList.add(
+        isDeck ? 'ai-lightbox__media--deck'
+        // Website prototypes (full desktop-width pages) are the wrong shape
+        // for the default portrait phone-mockup frame below — a landscape
+        // box instead, same idea as the video frame but sized for reading a
+        // whole page rather than glancing at a clip.
+        : data.figmaWide ? 'ai-lightbox__media--figma-wide'
+        : 'ai-lightbox__media--figma'
+      );
       // Decks play back landscape, like the widescreen video frame.
       if (isDeck) mediaEl.classList.add('ai-lightbox__media--wide-video');
 
-      let spinner = null;
-      if (showLoadingUI) {
-        loadingEl.textContent = (window.i18n && window.i18n.t('lightbox.loading')) || 'Caricamento del prototipo… può richiedere alcuni secondi.';
-        loadingEl.hidden = false;
-        spinner = document.createElement('div');
-        spinner.className = 'ai-lightbox__spinner';
-        spinner.setAttribute('aria-hidden', 'true');
-        mediaEl.appendChild(spinner);
-      }
+      loadingEl.textContent = (window.i18n && window.i18n.t('lightbox.loading')) || 'Caricamento del prototipo… può richiedere alcuni secondi.';
+      loadingEl.hidden = false;
+      const spinner = document.createElement('div');
+      spinner.className = 'ai-lightbox__spinner';
+      spinner.setAttribute('aria-hidden', 'true');
+      mediaEl.appendChild(spinner);
 
       const iframe = document.createElement('iframe');
       iframe.className = 'is-loading';
@@ -80,7 +88,7 @@
       iframe.title = data.title;
       iframe.addEventListener('load', () => {
         iframe.classList.remove('is-loading');
-        if (spinner) spinner.remove();
+        spinner.remove();
         loadingEl.hidden = true;
       });
       mediaEl.appendChild(iframe);
@@ -673,6 +681,9 @@
       categoryId: 'uiuxDesign',
       badge: 'UX',
       figmaUrl: 'https://embed.figma.com/proto/x33ltOsDcfo6juWomFtQRL/Untitled?node-id=3-452&p=f&t=13H4pYlpdgXzjNJg-0&page-id=0%3A1&embed-host=share&hide-ui=1',
+      // A full desktop-width website, not a phone app — the portrait phone
+      // frame below would crop most of each page; give it a landscape one.
+      figmaWide: true,
       coverContain: true,
       cardBg: '#000000',
       cover: 'assets/img/underground-cover.webp',
@@ -686,6 +697,7 @@
       categoryId: 'uiuxDesign',
       badge: 'UX',
       figmaUrl: 'https://embed.figma.com/proto/cGf7mdGIqd6ll97oSJkmuT/FESTILLU-%7C-Website?node-id=137-37&p=f&page-id=69%3A2&starting-point-node-id=137%3A37&embed-host=share&hide-ui=1',
+      figmaWide: true,
       coverContain: true,
       cardBg: '#000000',
       cover: 'assets/img/festillu-cover.webp',

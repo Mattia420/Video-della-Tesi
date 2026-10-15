@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
+<!-- Browsers restore the scroll position a reload had before it, by
+     default — this page should always come back to the top instead. Has
+     to run before the browser gets a chance to restore it, so it's inline
+     and first, not deferred to any later script. -->
+<script>if ('scrollRestoration' in history) history.scrollRestoration = 'manual';</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mattia Pedron — Portfolio</title>
