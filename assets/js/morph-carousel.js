@@ -48,31 +48,56 @@
     descEl.textContent = data.desc;
     mediaEl.innerHTML = '';
     mediaEl.className = 'ai-lightbox__media';
-    // The side-by-side panel only has ~1040px to split between media and
-    // text — fine for a portrait phone mockup, not for a desktop-width
-    // website screenshot, which needs most of that width itself. Stack
-    // media above text instead of fighting it for the same row.
-    panelEl.classList.toggle('ai-lightbox__panel--stacked', !!data.figmaWide);
+    // A many-slide presentation needs most of the panel's own width for
+    // itself — stack it above the text instead of squeezing both into the
+    // same row.
+    panelEl.classList.toggle('ai-lightbox__panel--stacked', data.type === 'slides');
     galleryEl.innerHTML = '';
     loadingEl.hidden = true;
 
-    if (data.type === 'figma' && data.figmaUrl) {
-      const isDeck = data.figmaKind === 'deck';
+    if (data.type === 'slides' && data.slidesCount) {
+      mediaEl.classList.add('ai-lightbox__media--slides');
+      let current = 0;
+      const img = document.createElement('img');
+      img.alt = data.title;
+      const counter = document.createElement('div');
+      counter.className = 'ai-lightbox__slide-counter';
+      const prevBtn = document.createElement('button');
+      prevBtn.type = 'button';
+      prevBtn.className = 'ai-lightbox__slide-nav ai-lightbox__slide-nav--prev';
+      prevBtn.innerHTML = '&#8249;';
+      prevBtn.setAttribute('aria-label', (window.i18n && window.i18n.t('lightbox.prevSlide')) || 'Slide precedente');
+      const nextBtn = document.createElement('button');
+      nextBtn.type = 'button';
+      nextBtn.className = 'ai-lightbox__slide-nav ai-lightbox__slide-nav--next';
+      nextBtn.innerHTML = '&#8250;';
+      nextBtn.setAttribute('aria-label', (window.i18n && window.i18n.t('lightbox.nextSlide')) || 'Slide successiva');
+
+      const renderSlide = () => {
+        img.src = `${data.slidesPrefix}${String(current + 1).padStart(2, '0')}.webp`;
+        counter.textContent = `${current + 1} / ${data.slidesCount}`;
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === data.slidesCount - 1;
+      };
+      prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (current > 0) { current--; renderSlide(); }
+      });
+      nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (current < data.slidesCount - 1) { current++; renderSlide(); }
+      });
+      renderSlide();
+
+      mediaEl.appendChild(img);
+      mediaEl.appendChild(prevBtn);
+      mediaEl.appendChild(nextBtn);
+      mediaEl.appendChild(counter);
+    } else if (data.type === 'figma' && data.figmaUrl) {
       // Figma's own embed is slow to boot (it's loading its full canvas
-      // runtime, not just a static page) regardless of project type, so
-      // every figma embed — deck included — gets the "loading" indicator,
-      // not just the interactive UI/UX prototypes.
-      mediaEl.classList.add(
-        isDeck ? 'ai-lightbox__media--deck'
-        // Website prototypes (full desktop-width pages) are the wrong shape
-        // for the default portrait phone-mockup frame below — a landscape
-        // box instead, same idea as the video frame but sized for reading a
-        // whole page rather than glancing at a clip.
-        : data.figmaWide ? 'ai-lightbox__media--figma-wide'
-        : 'ai-lightbox__media--figma'
-      );
-      // Decks play back landscape, like the widescreen video frame.
-      if (isDeck) mediaEl.classList.add('ai-lightbox__media--wide-video');
+      // runtime, not just a static page), so every figma embed gets the
+      // "loading" indicator, not just the interactive UI/UX prototypes.
+      mediaEl.classList.add('ai-lightbox__media--figma');
 
       loadingEl.textContent = (window.i18n && window.i18n.t('lightbox.loading')) || 'Caricamento del prototipo… può richiedere alcuni secondi.';
       loadingEl.hidden = false;
@@ -224,7 +249,12 @@
     if (mediaEl.contains(e.target) || galleryEl.contains(e.target)) return;
     closeLightbox();
   });
-  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { closeLightbox(); return; }
+    if (!lightbox.classList.contains('is-open')) return;
+    if (e.key === 'ArrowRight') mediaEl.querySelector('.ai-lightbox__slide-nav--next')?.click();
+    else if (e.key === 'ArrowLeft') mediaEl.querySelector('.ai-lightbox__slide-nav--prev')?.click();
+  });
 
   /* ---------- project text translation, keyed by each item's stable id ---------- */
   function translateItems(items) {
@@ -648,15 +678,18 @@
       id: 'touch-of-beauty',
       title: 'Touch of Beauty — Presentazione',
       desc: 'Presentazione del brand Touch of Beauty, navigabile slide per slide.',
-      type: 'figma',
+      // Rendered to a set of static webp slides instead of embedding the
+      // Figma deck — loads instantly, costs ~1.4MB for all 56 slides
+      // combined (vs. booting Figma's whole canvas runtime just to look
+      // at a presentation), and gets real prev/next paging.
+      type: 'slides',
+      slidesPrefix: 'assets/img/touch-of-beauty/slide-',
+      slidesCount: 56,
       category: 'Graphic Design',
       categoryId: 'graphicDesign',
       badge: 'GD',
-      // Same card size as the other Graphic Design posters/flyers, even
-      // though this one opens as a figma deck rather than a plain image.
+      // Same card size as the other Graphic Design posters/flyers.
       poster: true,
-      figmaUrl: 'https://embed.figma.com/deck/7g65MmoCigEi0K7Vzhi4ty/Touch-of-Beauty-%7C-Presentation--Copy-?node-id=1-559&t=Qc40Qai1cRm8ujqa-1&embed-host=share',
-      figmaKind: 'deck',
       cover: 'assets/img/touch-of-beauty-cover.webp',
     },
     {
@@ -681,9 +714,6 @@
       categoryId: 'uiuxDesign',
       badge: 'UX',
       figmaUrl: 'https://embed.figma.com/proto/x33ltOsDcfo6juWomFtQRL/Untitled?node-id=3-452&p=f&t=13H4pYlpdgXzjNJg-0&page-id=0%3A1&embed-host=share&hide-ui=1',
-      // A full desktop-width website, not a phone app — the portrait phone
-      // frame below would crop most of each page; give it a landscape one.
-      figmaWide: true,
       coverContain: true,
       cardBg: '#000000',
       cover: 'assets/img/underground-cover.webp',
@@ -697,7 +727,6 @@
       categoryId: 'uiuxDesign',
       badge: 'UX',
       figmaUrl: 'https://embed.figma.com/proto/cGf7mdGIqd6ll97oSJkmuT/FESTILLU-%7C-Website?node-id=137-37&p=f&page-id=69%3A2&starting-point-node-id=137%3A37&embed-host=share&hide-ui=1',
-      figmaWide: true,
       coverContain: true,
       cardBg: '#000000',
       cover: 'assets/img/festillu-cover.webp',
