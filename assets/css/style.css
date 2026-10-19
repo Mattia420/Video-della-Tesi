@@ -606,26 +606,42 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
   50% { transform: translateY(8px); opacity: 1; }
 }
 @media (prefers-reduced-motion: reduce) { .ai-morph__scroll-hint { animation: none; opacity: 0.8; } }
-.ai-morph__reveal { top: 8%; transform: translate(-50%, 0); opacity: 0; }
+/* Clear of the navbar: it slides back down the moment the visitor scrolls
+   back up even slightly to re-read an earlier project, and at the old 8%
+   this title sat right behind it. Still well above where the fan's own
+   cards reach (comfortably over 200px of clearance at common viewport
+   sizes), so it doesn't read as crowding the fan either. */
+.ai-morph__reveal { top: 15%; transform: translate(-50%, 0); opacity: 0; }
 .ai-morph__reveal h2 { font-size: clamp(1.5rem, 3.2vw, 2.4rem); margin-bottom: 0.8rem; text-wrap: balance; }
 
 .ai-morph__stage { position: absolute; inset: 0; z-index: 2; }
 .morph-card {
   position: absolute; top: 50%; left: 50%;
-  width: 60px; height: 85px; margin: -42.5px 0 0 -30px;
+  /* Sized to the card's LARGEST on-screen footprint — the fully-arced
+     state, where JS now scales it at exactly 1 (see the scale formula in
+     morph-carousel.js) — and only ever scaled down from there, during the
+     circle intro and while mid-morph. The previous box was sized to the
+     smallest (circle) state and scaled UP to 3.1x for the arc, which read
+     visibly soft the whole time it was animating: a texture stretched
+     past its native size, not just decoded small. Numbers here are the
+     old 60x85 box at that same 3.1x, so the arc state looks identical;
+     only the circle/mid-morph states get crisper.
+     border-radius and box-shadow are scaled by the same 3.1x so they
+     still read the same size relative to the card once it's full-scale. */
+  width: 186px; height: 264px; margin: -132px 0 0 -93px;
   pointer-events: auto;
   cursor: pointer;
   will-change: transform;
 }
 /* Posters/flyers: taller box, closer to a real print ratio, so the
    "contain" fit above (set in JS) doesn't have to shrink the art much. */
-.morph-card--poster { width: 68px; height: 96px; margin: -48px 0 0 -34px; }
+.morph-card--poster { width: 211px; height: 298px; margin: -149px 0 0 -105.5px; }
 /* Motion design: landscape 16:9 box instead of the default portrait one. */
-.morph-card--wide { width: 96px; height: 54px; margin: -27px 0 0 -48px; }
+.morph-card--wide { width: 298px; height: 167px; margin: -83.5px 0 0 -149px; }
 .morph-card:focus-visible .morph-card__inner { outline: 2px solid var(--accent-soft); outline-offset: 3px; }
 .morph-card__inner { position: relative; width: 100%; height: 100%; }
 .morph-card__front {
-  position: absolute; inset: 0; border-radius: 10px;
+  position: absolute; inset: 0; border-radius: 31px;
   /* Own compositing layer from the start (not just while its parent's
      scroll-driven transform is actively changing) so the GPU rasterizes
      the background-image at full quality up front instead of stretching
@@ -633,7 +649,7 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
   will-change: transform;
   display: flex; align-items: center; justify-content: center;
   font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; font-weight: 600;
-  box-shadow: 0 10px 22px -12px rgba(0,0,0,0.6);
+  box-shadow: 0 31px 68px -37px rgba(0,0,0,0.6);
   color: #fbf8ff;
 }
 
@@ -643,10 +659,15 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
      both up together so the circle sits closer to the section title
      above instead of dead-centre in the viewport. */
   .ai-morph__intro { top: 38%; }
-  .ai-morph__reveal { top: 5%; }
-  .morph-card { top: 38%; width: 76px; height: 107px; margin: -53.5px 0 0 -38px; }
-  .morph-card--poster { width: 86px; height: 121px; margin: -60.5px 0 0 -43px; }
-  .morph-card--wide { width: 121px; height: 68px; margin: -34px 0 0 -60.5px; }
+  /* Same navbar-clearance fix as the desktop rule above — mobile's navbar
+     sits even closer to this title by default. */
+  .ai-morph__reveal { top: 13%; }
+  /* Same "sized to its largest state" approach as the desktop rule above,
+     scaled by mobile's own (smaller) arcScale of 2.1 instead of 3.1. */
+  .morph-card { top: 38%; width: 160px; height: 225px; margin: -112.5px 0 0 -80px; }
+  .morph-card--poster { width: 181px; height: 254px; margin: -127px 0 0 -90.5px; }
+  .morph-card--wide { width: 254px; height: 143px; margin: -71.5px 0 0 -127px; }
+  .morph-card__front { border-radius: 21px; box-shadow: 0 21px 46px -25px rgba(0,0,0,0.6); }
   .ai-morph__reveal h2 { font-size: clamp(2.1rem, 9vw, 3rem); }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -771,6 +792,43 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
   font-size: 0.75rem; letter-spacing: 0.04em;
   pointer-events: none;
 }
+/* Lets a Figma prototype take over the whole screen on a phone, where the
+   boxed preview still reads as "a preview" rather than the app itself.
+   Hidden by default — see the mobile media query below, which is the only
+   place this is actually offered. */
+.ai-lightbox__fullscreen-btn {
+  display: none;
+  position: absolute; bottom: 0.75rem; right: 0.75rem; z-index: 2;
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 1px solid var(--line); background: rgba(12,8,16,0.65); color: var(--text);
+  cursor: pointer;
+  align-items: center; justify-content: center;
+  transition: border-color .3s ease, color .3s ease;
+}
+.ai-lightbox__fullscreen-btn svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; }
+.ai-lightbox__fullscreen-btn:hover { border-color: var(--accent); color: var(--accent-soft); }
+/* CSS-only takeover rather than the Fullscreen API — iOS Safari's support
+   for requestFullscreen() on anything but a <video> is unreliable, where
+   this works identically everywhere. */
+/* !important throughout: this has to beat both the generic
+   .ai-lightbox__media sizing rule above and the mobile media query's own
+   override below, both of which use long :not() chains whose specificity
+   otherwise outranks a plain two-class selector regardless of source
+   order. */
+.ai-lightbox__media--figma.is-fullscreen {
+  position: fixed !important; inset: 0 !important; z-index: 700;
+  width: 100vw !important; height: 100dvh !important;
+  max-width: none !important; max-height: none !important;
+  aspect-ratio: auto !important; border-radius: 0 !important;
+}
+/* The panel's own transform (its open/close scale animation) makes it the
+   containing block for the fixed-position rule above, which would resolve
+   against the panel instead of the real viewport — drop it for as long as
+   the media is fullscreen. */
+.ai-lightbox__panel--figma-fullscreen { transform: none !important; }
+.ai-lightbox__media--figma.is-fullscreen .ai-lightbox__fullscreen-btn {
+  bottom: auto; top: calc(0.75rem + env(safe-area-inset-top, 0px)); right: calc(0.75rem + env(safe-area-inset-right, 0px));
+}
 .ai-lightbox__placeholder {
   color: rgba(251,248,255,0.75); font-family: 'Space Grotesk', sans-serif;
   font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase;
@@ -829,8 +887,14 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
      button pinned right on top of it instead of in clear backdrop space. */
   .ai-lightbox { padding: 5rem 1.25rem 1.5rem; }
   .ai-lightbox__panel { flex-direction: column; gap: 1.5rem; }
+  /* A Figma prototype embed won't shrink its device frame below some
+     internal minimum — boxed any smaller than that and it renders larger
+     than the box itself, with the rest clipped by the box's own
+     overflow:hidden instead of scaling down to fit. 62svh was tight
+     enough to trigger that; this gives it enough room that the frame's
+     own natural fit takes over instead. */
   .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--wide-video):not(.ai-lightbox__media--slides) {
-    max-height: 62svh; width: auto;
+    max-height: 74svh; width: auto;
   }
   .ai-lightbox__media--image, .ai-lightbox__media--image img { max-height: 68svh; }
   .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--deck):not(.ai-lightbox__media--wide-video):not(.ai-lightbox__media--slides) {
@@ -840,6 +904,7 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
   .ai-lightbox__slide-nav { width: 38px; height: 38px; font-size: 1.4rem; }
   .ai-lightbox__slide-nav--prev { left: 0.4rem; }
   .ai-lightbox__slide-nav--next { right: 0.4rem; }
+  .ai-lightbox__fullscreen-btn { display: flex; }
   .ai-lightbox__info { text-align: center; }
   .ai-lightbox__info p { margin: 0 auto; }
   .ai-lightbox__loading { justify-content: center; }

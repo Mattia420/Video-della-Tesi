@@ -113,6 +113,7 @@
       placeholderVideo: "Video in arrivo",
       prevSlide: "Slide precedente",
       nextSlide: "Slide successiva",
+      fullscreen: "Schermo intero",
     },
     projects: {
       telemea: { title: "Telemea — Solomonescu", desc: "Spot pubblicitario generato con l'intelligenza artificiale per il Telemea di Solomonescu, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania." },
@@ -180,7 +181,7 @@
       langSwitch: { ariaLabel: "Change language" },
       cvPicker: { heading: "Which language would you like the CV in?" },
       categories: { contenutiAi: "AI Content", graphicDesign: "Graphic Design", uiuxDesign: "UI/UX Design", motionDesign: "Motion Design" },
-      lightbox: { close: "Close", loading: "Loading the prototype… it may take a few seconds.", placeholderFigma: "Prototype coming soon", placeholderImage: "Artwork coming soon", placeholderVideo: "Video coming soon", prevSlide: "Previous slide", nextSlide: "Next slide" },
+      lightbox: { close: "Close", loading: "Loading the prototype… it may take a few seconds.", placeholderFigma: "Prototype coming soon", placeholderImage: "Artwork coming soon", placeholderVideo: "Video coming soon", prevSlide: "Previous slide", nextSlide: "Next slide", fullscreen: "Fullscreen" },
       projects: {
         telemea: { desc: "AI-generated ad for Solomonescu's Telemea, a Romanian dairy company, made during a work period in Romania." },
         "lunca-cascaval": { desc: "AI-generated ad for Cascaval Dalia, a Lunca Ilvei cheese, Romanian dairy company, made during a work period in Romania." },
@@ -245,7 +246,7 @@
       langSwitch: { ariaLabel: "Sprache ändern" },
       cvPicker: { heading: "In welcher Sprache möchtest du den Lebenslauf?" },
       categories: { contenutiAi: "KI-Inhalte", graphicDesign: "Grafikdesign", uiuxDesign: "UI/UX Design", motionDesign: "Motion Design" },
-      lightbox: { close: "Schließen", loading: "Prototyp wird geladen… kann einige Sekunden dauern.", placeholderFigma: "Prototyp folgt in Kürze", placeholderImage: "Grafik folgt in Kürze", placeholderVideo: "Video folgt in Kürze", prevSlide: "Vorherige Folie", nextSlide: "Nächste Folie" },
+      lightbox: { close: "Schließen", loading: "Prototyp wird geladen… kann einige Sekunden dauern.", placeholderFigma: "Prototyp folgt in Kürze", placeholderImage: "Grafik folgt in Kürze", placeholderVideo: "Video folgt in Kürze", prevSlide: "Vorherige Folie", nextSlide: "Nächste Folie", fullscreen: "Vollbild" },
       projects: {
         telemea: { desc: "KI-generierter Werbespot für den Telemea von Solomonescu, einem rumänischen Molkereiunternehmen, entstanden während einer Arbeitsphase in Rumänien." },
         "lunca-cascaval": { desc: "KI-generierter Werbespot für den Cascaval Dalia, einen Käse von Lunca Ilvei, rumänisches Molkereiunternehmen, entstanden während einer Arbeitsphase in Rumänien." },
@@ -310,7 +311,7 @@
       langSwitch: { ariaLabel: "Cambiar idioma" },
       cvPicker: { heading: "¿En qué idioma quieres el CV?" },
       categories: { contenutiAi: "Contenido IA", graphicDesign: "Diseño Gráfico", uiuxDesign: "Diseño UI/UX", motionDesign: "Motion Design" },
-      lightbox: { close: "Cerrar", loading: "Cargando el prototipo… puede tardar unos segundos.", placeholderFigma: "Prototipo próximamente", placeholderImage: "Gráfica próximamente", placeholderVideo: "Vídeo próximamente", prevSlide: "Diapositiva anterior", nextSlide: "Diapositiva siguiente" },
+      lightbox: { close: "Cerrar", loading: "Cargando el prototipo… puede tardar unos segundos.", placeholderFigma: "Prototipo próximamente", placeholderImage: "Gráfica próximamente", placeholderVideo: "Vídeo próximamente", prevSlide: "Diapositiva anterior", nextSlide: "Diapositiva siguiente", fullscreen: "Pantalla completa" },
       projects: {
         telemea: { desc: "Spot publicitario generado con inteligencia artificial para el Telemea de Solomonescu, empresa láctea rumana, realizado durante un periodo de trabajo en Rumanía." },
         "lunca-cascaval": { desc: "Spot publicitario generado con inteligencia artificial para el Cascaval Dalia, queso de Lunca Ilvei, empresa láctea rumana, realizado durante un periodo de trabajo en Rumanía." },
@@ -375,7 +376,7 @@
       langSwitch: { ariaLabel: "Changer de langue" },
       cvPicker: { heading: "Dans quelle langue veux-tu le CV ?" },
       categories: { contenutiAi: "Contenus IA", graphicDesign: "Graphisme", uiuxDesign: "UI/UX Design", motionDesign: "Motion Design" },
-      lightbox: { close: "Fermer", loading: "Chargement du prototype… cela peut prendre quelques secondes.", placeholderFigma: "Prototype à venir", placeholderImage: "Visuel à venir", placeholderVideo: "Vidéo à venir", prevSlide: "Diapositive précédente", nextSlide: "Diapositive suivante" },
+      lightbox: { close: "Fermer", loading: "Chargement du prototype… cela peut prendre quelques secondes.", placeholderFigma: "Prototype à venir", placeholderImage: "Visuel à venir", placeholderVideo: "Vidéo à venir", prevSlide: "Diapositive précédente", nextSlide: "Diapositive suivante", fullscreen: "Plein écran" },
       projects: {
         telemea: { desc: "Spot publicitaire généré par intelligence artificielle pour le Telemea de Solomonescu, entreprise laitière roumaine, réalisé lors d'une période de travail en Roumanie." },
         "lunca-cascaval": { desc: "Spot publicitaire généré par intelligence artificielle pour le Cascaval Dalia, fromage de Lunca Ilvei, entreprise laitière roumaine, réalisé lors d'une période de travail en Roumanie." },
@@ -440,7 +441,7 @@
       langSwitch: { ariaLabel: "Mudar idioma" },
       cvPicker: { heading: "Em que idioma queres o CV?" },
       categories: { contenutiAi: "Conteúdos IA", graphicDesign: "Design Gráfico", uiuxDesign: "Design UI/UX", motionDesign: "Motion Design" },
-      lightbox: { close: "Fechar", loading: "A carregar o protótipo… pode demorar alguns segundos.", placeholderFigma: "Protótipo brevemente", placeholderImage: "Grafismo brevemente", placeholderVideo: "Vídeo brevemente", prevSlide: "Slide anterior", nextSlide: "Slide seguinte" },
+      lightbox: { close: "Fechar", loading: "A carregar o protótipo… pode demorar alguns segundos.", placeholderFigma: "Protótipo brevemente", placeholderImage: "Grafismo brevemente", placeholderVideo: "Vídeo brevemente", prevSlide: "Slide anterior", nextSlide: "Slide seguinte", fullscreen: "Ecrã inteiro" },
       projects: {
         telemea: { desc: "Anúncio gerado com inteligência artificial para o Telemea da Solomonescu, empresa láctea romena, realizado durante um período de trabalho na Roménia." },
         "lunca-cascaval": { desc: "Anúncio gerado com inteligência artificial para o Cascaval Dalia, queijo da Lunca Ilvei, empresa láctea romena, realizado durante um período de trabalho na Roménia." },
@@ -505,7 +506,7 @@
       langSwitch: { ariaLabel: "Schimbă limba" },
       cvPicker: { heading: "În ce limbă vrei CV-ul?" },
       categories: { contenutiAi: "Conținut AI", graphicDesign: "Design Grafic", uiuxDesign: "UI/UX Design", motionDesign: "Motion Design" },
-      lightbox: { close: "Închide", loading: "Se încarcă prototipul… poate dura câteva secunde.", placeholderFigma: "Prototip în curând", placeholderImage: "Grafică în curând", placeholderVideo: "Video în curând", prevSlide: "Slide anterior", nextSlide: "Slide următor" },
+      lightbox: { close: "Închide", loading: "Se încarcă prototipul… poate dura câteva secunde.", placeholderFigma: "Prototip în curând", placeholderImage: "Grafică în curând", placeholderVideo: "Video în curând", prevSlide: "Slide anterior", nextSlide: "Slide următor", fullscreen: "Ecran complet" },
       projects: {
         telemea: { desc: "Reclamă generată cu inteligență artificială pentru Telemea Solomonescu, companie românească de lactate, realizată în timpul unei perioade de lucru în România." },
         "lunca-cascaval": { desc: "Reclamă generată cu inteligență artificială pentru Cașcaval Dalia, brânză de la Lunca Ilvei, companie românească de lactate, realizată în timpul unei perioade de lucru în România." },
@@ -570,7 +571,7 @@
       langSwitch: { ariaLabel: "Taal wijzigen" },
       cvPicker: { heading: "In welke taal wil je het cv?" },
       categories: { contenutiAi: "AI-content", graphicDesign: "Grafisch Ontwerp", uiuxDesign: "UI/UX Design", motionDesign: "Motion Design" },
-      lightbox: { close: "Sluiten", loading: "Prototype wordt geladen… kan een paar seconden duren.", placeholderFigma: "Prototype volgt binnenkort", placeholderImage: "Grafiek volgt binnenkort", placeholderVideo: "Video volgt binnenkort", prevSlide: "Vorige slide", nextSlide: "Volgende slide" },
+      lightbox: { close: "Sluiten", loading: "Prototype wordt geladen… kan een paar seconden duren.", placeholderFigma: "Prototype volgt binnenkort", placeholderImage: "Grafiek volgt binnenkort", placeholderVideo: "Video volgt binnenkort", prevSlide: "Vorige slide", nextSlide: "Volgende slide", fullscreen: "Volledig scherm" },
       projects: {
         telemea: { desc: "AI-gegenereerde reclame voor de Telemea van Solomonescu, een Roemeens zuivelbedrijf, gemaakt tijdens een werkperiode in Roemenië." },
         "lunca-cascaval": { desc: "AI-gegenereerde reclame voor de Cascaval Dalia, een kaas van Lunca Ilvei, Roemeens zuivelbedrijf, gemaakt tijdens een werkperiode in Roemenië." },
@@ -635,7 +636,7 @@
       langSwitch: { ariaLabel: "更改语言" },
       cvPicker: { heading: "你想要哪种语言的简历？" },
       categories: { contenutiAi: "AI 内容", graphicDesign: "平面设计", uiuxDesign: "UI/UX 设计", motionDesign: "动态设计" },
-      lightbox: { close: "关闭", loading: "原型加载中……可能需要几秒钟。", placeholderFigma: "原型即将上线", placeholderImage: "图稿即将上线", placeholderVideo: "视频即将上线", prevSlide: "上一张", nextSlide: "下一张" },
+      lightbox: { close: "关闭", loading: "原型加载中……可能需要几秒钟。", placeholderFigma: "原型即将上线", placeholderImage: "图稿即将上线", placeholderVideo: "视频即将上线", prevSlide: "上一张", nextSlide: "下一张", fullscreen: "全屏" },
       projects: {
         telemea: { desc: "为罗马尼亚乳制品公司 Solomonescu 的 Telemea 奶酪制作的 AI 生成广告，创作于在罗马尼亚工作期间。" },
         "lunca-cascaval": { desc: "为罗马尼亚乳制品公司 Lunca Ilvei 的 Cascaval Dalia 奶酪制作的 AI 生成广告，创作于在罗马尼亚工作期间。" },
