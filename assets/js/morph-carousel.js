@@ -389,6 +389,51 @@
     applyHeight();
     window.addEventListener('resize', applyHeight);
 
+    // The fan is driven entirely by vertical page scroll progress through
+    // this (very tall) section, so a horizontal mouse-wheel/trackpad swipe
+    // across it is handled sitewide already (see Lenis's gestureOrientation
+    // option in main.js) — it just treats whichever axis moved more on
+    // each tick as scroll input. Touch is different: a browser only ever
+    // starts its own native scroll along the page's actual (vertical) axis,
+    // so a horizontal finger swipe does nothing unless something here
+    // turns it into the same vertical scroll by hand.
+    function scrollBy(delta) {
+      if (!delta) return;
+      if (window.lenis && typeof window.lenis.scrollTo === 'function') {
+        window.lenis.scrollTo(window.lenis.scroll + delta, { immediate: true });
+      } else {
+        window.scrollTo(0, window.scrollY + delta);
+      }
+    }
+    let touchStartX = 0, touchStartY = 0, touchLastX = 0, touchActive = false, touchDecided = false, touchIsHorizontal = false;
+    section.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1) return;
+      touchStartX = touchLastX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      touchActive = true;
+      touchDecided = false;
+    }, { passive: true });
+    section.addEventListener('touchmove', (e) => {
+      if (!touchActive || e.touches.length !== 1) return;
+      const x = e.touches[0].clientX;
+      const y = e.touches[0].clientY;
+      if (!touchDecided) {
+        // Decide the gesture's axis on its very first move, however small —
+        // a browser that's let even one native touchmove through has
+        // already committed to its own (vertical) scroll for the rest of
+        // the gesture, so there's no "wait and see" window to use here.
+        touchIsHorizontal = Math.abs(x - touchStartX) >= Math.abs(y - touchStartY);
+        touchDecided = true;
+        if (!touchIsHorizontal) { touchActive = false; return; }
+      }
+      e.preventDefault();
+      // Swiping left (finger moves toward lower x) advances the fan, same
+      // direction a natural-scrolling trackpad swipe does.
+      scrollBy(touchLastX - x);
+      touchLastX = x;
+    }, { passive: false });
+    section.addEventListener('touchend', () => { touchActive = false; }, { passive: true });
+
     let morphSmooth = 0;
     let wobbleSmooth = 0;
     let lastCategory = null;
@@ -677,7 +722,7 @@
     {
       id: 'touch-of-beauty',
       title: 'Touch of Beauty — Presentazione',
-      desc: 'Presentazione del brand Touch of Beauty, navigabile slide per slide.',
+      desc: 'Rebranding realizzato per il salone di questa parrucchiera, presentato slide per slide.',
       // Rendered to a set of static webp slides instead of embedding the
       // Figma deck — loads instantly, costs ~1.4MB for all 56 slides
       // combined (vs. booting Figma's whole canvas runtime just to look

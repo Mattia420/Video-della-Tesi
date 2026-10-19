@@ -745,8 +745,12 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
 .ai-lightbox__media--wide-video { aspect-ratio: 16/9; width: min(56vw, 620px); height: auto; }
 /* Touch of Beauty's presentation, rendered to static slides — wide enough
    to actually read, since it replaces a deck meant to be looked through
-   page by page rather than glanced at like a video clip. */
-.ai-lightbox__media--slides { aspect-ratio: 16/9; width: min(80vw, 1100px); height: auto; }
+   page by page rather than glanced at like a video clip. Sized by height
+   (not width, like the wide-video rule above) — a width-first box can come
+   out taller than the viewport on a normal laptop screen, pushing the
+   title/description below the fold where they just look cut off instead
+   of scrolled; capping the height keeps the whole panel in view. */
+.ai-lightbox__media--slides { aspect-ratio: 16/9; height: min(58vh, 620px); width: auto; max-width: min(90vw, 1100px); }
 .ai-lightbox__media--slides img { width: 100%; height: 100%; object-fit: contain; display: block; }
 .ai-lightbox__slide-nav {
   position: absolute; top: 50%; transform: translateY(-50%);

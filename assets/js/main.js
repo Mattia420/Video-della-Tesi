@@ -208,6 +208,13 @@ document.addEventListener('DOMContentLoaded', () => {
       duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
+      // The page only ever scrolls vertically, so a horizontal wheel/
+      // trackpad swipe normally does nothing — but the work carousel reads
+      // its progress from vertical scroll alone, so people instinctively
+      // try swiping sideways through it too. Accepting whichever axis has
+      // the bigger delta on each wheel tick means that works everywhere,
+      // not just there, with no extra code beyond this option.
+      gestureOrientation: 'both',
     });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((time) => lenis.raf(time * 1000));
