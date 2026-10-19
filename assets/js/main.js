@@ -383,6 +383,18 @@ document.addEventListener('DOMContentLoaded', () => {
       // mid-blur all the way to the bottom. Play it as a one-shot timed
       // tween instead, so it fully resolves shortly after the section comes
       // into view regardless of how much scroll room is left after it.
+      // Once a word has actually finished revealing, drop the (by then
+      // inert, always blur(0px)) filter inline style rather than leaving
+      // it in place. Every browser tested promotes a filtered element to
+      // its own compositing layer for as long as the property is set at
+      // all, zero included — with ~200 of these words sitting permanently
+      // revealed further up the page, that's ~200 layers the browser keeps
+      // alive and has to recomposite on any nearby repaint, which is
+      // exactly what made the skills accordion (just below this section,
+      // itself reflowing every frame while it opens) visibly stutter.
+      // Only on forward completion, not on reverse — clearing at the
+      // hidden end would drop back to no-filter/full-opacity instead of
+      // back to the pre-reveal blurred state.
       const isContactTitle = el.classList.contains('contact__title');
       if (isContactTitle) {
         el.__wordRevealTween = gsap.to(words, {
@@ -396,6 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
             start: isMobileViewport ? 'top 95%' : 'top 85%',
             toggleActions: 'play none none reverse',
           },
+          onComplete: () => gsap.set(words, { clearProps: 'filter' }),
         });
       } else {
         el.__wordRevealTween = gsap.to(words, {
@@ -409,6 +422,7 @@ document.addEventListener('DOMContentLoaded', () => {
             end: isMobileViewport ? 'bottom 82%' : 'bottom 60%',
             scrub: 0.6,
           },
+          onComplete: () => gsap.set(words, { clearProps: 'filter' }),
         });
       }
     });

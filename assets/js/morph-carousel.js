@@ -42,6 +42,34 @@
   // The page's scroll position when the lightbox opened, restored on close.
   let savedScrollY = 0;
 
+  // Shared by the Figma prototype view (mobile only) and the Touch of
+  // Beauty slide deck (every screen size): lets the open media take over
+  // the whole screen edge-to-edge. CSS-only, not the Fullscreen API —
+  // iOS Safari's support for requestFullscreen() on anything but a
+  // <video> is unreliable, where this works the same everywhere.
+  function createFullscreenButton() {
+    const fsBtn = document.createElement('button');
+    fsBtn.type = 'button';
+    fsBtn.className = 'ai-lightbox__fullscreen-btn';
+    fsBtn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>';
+    fsBtn.setAttribute('aria-label', (window.i18n && window.i18n.t('lightbox.fullscreen')) || 'Schermo intero');
+    fsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // .ai-lightbox__panel has its own transform (the open/close scale
+      // animation), which makes it the containing block for any
+      // position:fixed descendant — "fixed" would resolve against the
+      // panel instead of the real viewport. Dropping the panel's
+      // transform for as long as the media is fullscreen fixes that
+      // without moving the media element itself in the DOM — reparenting
+      // an iframe would reload it and throw away wherever the person had
+      // navigated to inside the prototype.
+      const entering = !mediaEl.classList.contains('is-fullscreen');
+      panelEl.classList.toggle('ai-lightbox__panel--media-fullscreen', entering);
+      mediaEl.classList.toggle('is-fullscreen', entering);
+    });
+    return fsBtn;
+  }
+
   function openLightbox(data) {
     closeBtn.setAttribute('aria-label', (window.i18n && window.i18n.t('lightbox.close')) || 'Chiudi');
     titleEl.textContent = data.title;
@@ -93,6 +121,11 @@
       mediaEl.appendChild(prevBtn);
       mediaEl.appendChild(nextBtn);
       mediaEl.appendChild(counter);
+      // Offered on every screen size, not just mobile — a presentation
+      // benefits from a proper fullscreen look regardless of device.
+      const slidesFsBtn = createFullscreenButton();
+      slidesFsBtn.classList.add('ai-lightbox__fullscreen-btn--always');
+      mediaEl.appendChild(slidesFsBtn);
     } else if (data.type === 'figma' && data.figmaUrl) {
       // Figma's own embed is slow to boot (it's loading its full canvas
       // runtime, not just a static page), so every figma embed gets the
@@ -117,33 +150,13 @@
         loadingEl.hidden = true;
       });
       mediaEl.appendChild(iframe);
-
       // On a phone, the boxed preview is still small next to a real app —
       // let it take over the whole screen instead, so navigating the
       // prototype feels like using the actual app rather than peering at
-      // it inside a card. CSS-only (not the Fullscreen API): iOS Safari's
-      // support for requestFullscreen() on anything but a <video> is
-      // unreliable, where this works the same everywhere.
-      const fsBtn = document.createElement('button');
-      fsBtn.type = 'button';
-      fsBtn.className = 'ai-lightbox__fullscreen-btn';
-      fsBtn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>';
-      fsBtn.setAttribute('aria-label', (window.i18n && window.i18n.t('lightbox.fullscreen')) || 'Schermo intero');
-      fsBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        // .ai-lightbox__panel has its own transform (the open/close scale
-        // animation), which makes it the containing block for any
-        // position:fixed descendant — "fixed" would resolve against the
-        // panel instead of the real viewport. Dropping the panel's
-        // transform for as long as the media is fullscreen fixes that
-        // without moving the iframe itself in the DOM — reparenting it
-        // would reload the prototype and throw away wherever the person
-        // had navigated to inside it.
-        const entering = !mediaEl.classList.contains('is-fullscreen');
-        panelEl.classList.toggle('ai-lightbox__panel--figma-fullscreen', entering);
-        mediaEl.classList.toggle('is-fullscreen', entering);
-      });
-      mediaEl.appendChild(fsBtn);
+      // it inside a card. Offered on mobile only (see the fullscreen
+      // button's default display:none, overridden there) — on desktop the
+      // box is already roomy.
+      mediaEl.appendChild(createFullscreenButton());
     } else if (data.type === 'image' && data.image) {
       mediaEl.classList.add('ai-lightbox__media--image');
       const img = document.createElement('img');
@@ -222,7 +235,7 @@
   function closeLightbox() {
     lightbox.classList.remove('is-open');
     mediaEl.classList.remove('is-fullscreen');
-    panelEl.classList.remove('ai-lightbox__panel--figma-fullscreen');
+    panelEl.classList.remove('ai-lightbox__panel--media-fullscreen');
     document.body.style.position = '';
     document.body.style.top = '';
     document.body.style.width = '';
@@ -284,7 +297,7 @@
       // lightbox from there would skip past the view the person was
       // actually just looking at.
       if (mediaEl.classList.contains('is-fullscreen')) {
-        panelEl.classList.remove('ai-lightbox__panel--figma-fullscreen');
+        panelEl.classList.remove('ai-lightbox__panel--media-fullscreen');
         mediaEl.classList.remove('is-fullscreen');
         return;
       }

@@ -722,7 +722,11 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
 .ai-lightbox__media {
   position: relative;
   flex: 0 0 auto;
-  height: min(78vh, 720px); width: auto; aspect-ratio: 9/16;
+  /* 9:16 undershoots a real phone frame (closer to 9:19.5, e.g. an
+     iPhone) — boxing a taller prototype into a shorter box than its own
+     frame forces Figma to either shrink past its own minimum zoom or
+     render larger than the box, clipped by overflow:hidden either way. */
+  height: min(78vh, 720px); width: auto; aspect-ratio: 9/19.5;
   border-radius: 18px; overflow: hidden;
   background: linear-gradient(155deg, var(--accent), #1c0033);
   display: flex; align-items: center; justify-content: center;
@@ -770,8 +774,12 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
    (not width, like the wide-video rule above) — a width-first box can come
    out taller than the viewport on a normal laptop screen, pushing the
    title/description below the fold where they just look cut off instead
-   of scrolled; capping the height keeps the whole panel in view. */
-.ai-lightbox__media--slides { aspect-ratio: 16/9; height: min(58vh, 620px); width: auto; max-width: min(90vw, 1100px); }
+   of scrolled. The fixed 58vh this used to be was tuned conservatively
+   against that, which left it reading small with room to spare on most
+   screens; subtracting the panel's own actual chrome (padding, gap,
+   title/description) use the space that's really there instead, while
+   still reliably leaving the title/description in view without scrolling. */
+.ai-lightbox__media--slides { aspect-ratio: 16/9; height: min(calc(100vh - 17rem), 750px); width: auto; max-width: min(92vw, 1400px); }
 .ai-lightbox__media--slides img { width: 100%; height: 100%; object-fit: contain; display: block; }
 .ai-lightbox__slide-nav {
   position: absolute; top: 50%; transform: translateY(-50%);
@@ -792,10 +800,11 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
   font-size: 0.75rem; letter-spacing: 0.04em;
   pointer-events: none;
 }
-/* Lets a Figma prototype take over the whole screen on a phone, where the
-   boxed preview still reads as "a preview" rather than the app itself.
-   Hidden by default — see the mobile media query below, which is the only
-   place this is actually offered. */
+/* Lets the open media (a Figma prototype, or the Touch of Beauty slide
+   deck) take over the whole screen. Hidden by default — a Figma prototype
+   only offers it on mobile (see the media query below), where the boxed
+   preview still reads as "a preview" rather than the app itself; the
+   slide deck offers it everywhere via --always, below. */
 .ai-lightbox__fullscreen-btn {
   display: none;
   position: absolute; bottom: 0.75rem; right: 0.75rem; z-index: 2;
@@ -805,6 +814,7 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
   align-items: center; justify-content: center;
   transition: border-color .3s ease, color .3s ease;
 }
+.ai-lightbox__fullscreen-btn--always { display: flex; }
 .ai-lightbox__fullscreen-btn svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; }
 .ai-lightbox__fullscreen-btn:hover { border-color: var(--accent); color: var(--accent-soft); }
 /* CSS-only takeover rather than the Fullscreen API — iOS Safari's support
@@ -815,7 +825,7 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
    override below, both of which use long :not() chains whose specificity
    otherwise outranks a plain two-class selector regardless of source
    order. */
-.ai-lightbox__media--figma.is-fullscreen {
+.ai-lightbox__media.is-fullscreen {
   position: fixed !important; inset: 0 !important; z-index: 700;
   width: 100vw !important; height: 100dvh !important;
   max-width: none !important; max-height: none !important;
@@ -825,8 +835,8 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
    containing block for the fixed-position rule above, which would resolve
    against the panel instead of the real viewport — drop it for as long as
    the media is fullscreen. */
-.ai-lightbox__panel--figma-fullscreen { transform: none !important; }
-.ai-lightbox__media--figma.is-fullscreen .ai-lightbox__fullscreen-btn {
+.ai-lightbox__panel--media-fullscreen { transform: none !important; }
+.ai-lightbox__media.is-fullscreen .ai-lightbox__fullscreen-btn {
   bottom: auto; top: calc(0.75rem + env(safe-area-inset-top, 0px)); right: calc(0.75rem + env(safe-area-inset-right, 0px));
 }
 .ai-lightbox__placeholder {
@@ -890,15 +900,18 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
   /* A Figma prototype embed won't shrink its device frame below some
      internal minimum — boxed any smaller than that and it renders larger
      than the box itself, with the rest clipped by the box's own
-     overflow:hidden instead of scaling down to fit. 62svh was tight
-     enough to trigger that; this gives it enough room that the frame's
-     own natural fit takes over instead. */
+     overflow:hidden instead of scaling down to fit. A flat 62svh (then
+     74svh) was tight enough to trigger that; subtracting the panel's own
+     actual chrome (padding, gap, title/description — same fix as the
+     slide deck above) gives it as much of the real available room as
+     reliably fits without pushing the title/description off-screen. */
   .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--wide-video):not(.ai-lightbox__media--slides) {
-    max-height: 74svh; width: auto;
+    max-height: min(calc(100svh - 17rem), 700px); width: auto;
   }
   .ai-lightbox__media--image, .ai-lightbox__media--image img { max-height: 68svh; }
+  /* Taller than 9:16 — see the desktop rule above for why. */
   .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--deck):not(.ai-lightbox__media--wide-video):not(.ai-lightbox__media--slides) {
-    aspect-ratio: 9/16;
+    aspect-ratio: 9/19.5;
   }
   .ai-lightbox__media--wide-video, .ai-lightbox__media--slides { width: 100%; max-height: none; }
   .ai-lightbox__slide-nav { width: 38px; height: 38px; font-size: 1.4rem; }
@@ -923,7 +936,12 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
 }
 .skills > .section-head, .skills__list { position: relative; z-index: 1; }
 .skills__list { border-top: 1px solid var(--line); }
-.skill-item { border-bottom: 1px solid var(--line); }
+/* Scopes the accordion panel's own reflow (the grid-template-rows
+   transition below) to just this item instead of letting the browser
+   re-check layout for the rest of the page on every one of its frames —
+   it only ever affects its own box and where later siblings land, both
+   of which containment still accounts for correctly. */
+.skill-item { border-bottom: 1px solid var(--line); contain: layout style; }
 /* Static rows (no description written yet) keep the exact old markup/look:
    plain li, number span + label, same hover nudge. */
 .skill-item--static {
