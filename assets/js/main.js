@@ -143,9 +143,36 @@ document.addEventListener('DOMContentLoaded', () => {
   /* =========================================================
      SKILLS ACCORDION — plain JS, no GSAP dependency
      ========================================================= */
+  // Measured-height animation (0 <-> scrollHeight px, settling to 'auto'
+  // once open) instead of the grid-template-rows: 0fr/1fr trick this used
+  // to use. Both still reflow every frame — there's no CSS way around that
+  // for an "auto height" animation that's also meant to push the items
+  // below it down smoothly — but grid-template-rows additionally re-runs
+  // CSS Grid's own track-sizing algorithm on every one of those frames,
+  // which is measurably more expensive than interpolating a plain height
+  // between two already-known pixel values. That showed up as this
+  // specific panel's open/close animation visibly lagging.
   document.querySelectorAll('.skill-item__row').forEach((btn) => {
+    const panel = btn.nextElementSibling;
+    if (!panel || !panel.classList.contains('skill-item__panel')) return;
     btn.addEventListener('click', () => {
       const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      if (isOpen) {
+        // Settled at height:auto from the last time this opened — snap to
+        // the equivalent pixel value first (and force layout to register
+        // it) so there's an actual starting point to animate down from,
+        // instead of jumping straight from 'auto' to 0.
+        panel.style.height = `${panel.scrollHeight}px`;
+        panel.offsetHeight; // eslint-disable-line no-unused-expressions
+        requestAnimationFrame(() => { panel.style.height = '0px'; });
+      } else {
+        panel.style.height = `${panel.scrollHeight}px`;
+        panel.addEventListener('transitionend', function onDone(e) {
+          if (e.propertyName !== 'height') return;
+          panel.style.height = 'auto';
+          panel.removeEventListener('transitionend', onDone);
+        });
+      }
       btn.setAttribute('aria-expanded', String(!isOpen));
     });
   });
@@ -208,13 +235,15 @@ document.addEventListener('DOMContentLoaded', () => {
       duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      // The page only ever scrolls vertically, so a horizontal wheel/
-      // trackpad swipe normally does nothing — but the work carousel reads
-      // its progress from vertical scroll alone, so people instinctively
-      // try swiping sideways through it too. Accepting whichever axis has
-      // the bigger delta on each wheel tick means that works everywhere,
-      // not just there, with no extra code beyond this option.
-      gestureOrientation: 'both',
+      // gestureOrientation stays the default ('vertical') here on purpose:
+      // it's a single setting for the whole page, and turning it on
+      // globally so the work carousel could also read a horizontal swipe
+      // meant any slightly diagonal wheel/trackpad wobble elsewhere (e.g.
+      // reading through the skills list) could get misread as a
+      // horizontal scroll instead of a vertical one, reading as the page
+      // stuttering or refusing to scroll. The carousel gets its own
+      // horizontal handling instead, scoped to just that section — see
+      // morph-carousel.js.
     });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((time) => lenis.raf(time * 1000));

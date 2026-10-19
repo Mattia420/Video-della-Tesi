@@ -443,13 +443,14 @@
     window.addEventListener('resize', applyHeight);
 
     // The fan is driven entirely by vertical page scroll progress through
-    // this (very tall) section, so a horizontal mouse-wheel/trackpad swipe
-    // across it is handled sitewide already (see Lenis's gestureOrientation
-    // option in main.js) — it just treats whichever axis moved more on
-    // each tick as scroll input. Touch is different: a browser only ever
-    // starts its own native scroll along the page's actual (vertical) axis,
-    // so a horizontal finger swipe does nothing unless something here
-    // turns it into the same vertical scroll by hand.
+    // this (very tall) section — a horizontal wheel/trackpad swipe or
+    // finger swipe across it does nothing by default, so both are
+    // redirected into that same vertical scroll by hand. Scoped to this
+    // section specifically (not a sitewide Lenis setting) — turning it on
+    // for the whole page meant a slightly diagonal wheel/trackpad wobble
+    // anywhere else (e.g. reading through the skills list) could get
+    // misread as a horizontal scroll instead of a vertical one, reading as
+    // the page stuttering or refusing to scroll there.
     function scrollBy(delta) {
       if (!delta) return;
       if (window.lenis && typeof window.lenis.scrollTo === 'function') {
@@ -458,6 +459,14 @@
         window.scrollTo(0, window.scrollY + delta);
       }
     }
+    section.addEventListener('wheel', (e) => {
+      // Only hijack when the gesture is mostly horizontal — a normal
+      // vertical wheel/trackpad scroll (deltaX ~ 0) is left untouched so
+      // Lenis keeps handling it exactly as before.
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+      e.preventDefault();
+      scrollBy(e.deltaX);
+    }, { passive: false });
     let touchStartX = 0, touchStartY = 0, touchLastX = 0, touchActive = false, touchDecided = false, touchIsHorizontal = false;
     section.addEventListener('touchstart', (e) => {
       if (e.touches.length !== 1) return;

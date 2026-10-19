@@ -738,11 +738,13 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
    wrong place and the embed reads as "broken" — just fill the box instead. */
 .ai-lightbox__media iframe { width: 100%; height: 100%; border: 0; opacity: 1; transition: opacity .4s ease; }
 .ai-lightbox__media iframe.is-loading { opacity: 0; }
-/* Figma fits each prototype's own frame to the embed viewport on its own —
-   no transform here. A previous zoom (scale(1.15), meant to fill empty
-   margin around a centred phone mockup) cropped prototypes whose frame
-   was close to the full viewport already, cutting off real content along
-   the edges instead of just trimming margin. */
+/* Figma fits each prototype's own frame to the embed viewport on its own,
+   but leaves a visible margin around the device mockup rather than
+   filling the box edge to edge — a smaller zoom than the scale(1.15)
+   tried earlier (which cropped a prototype whose own frame already filled
+   most of the viewport) closes most of that gap on the sides without
+   reproducing that crop. */
+.ai-lightbox__media--figma iframe { transform: scale(1.08); }
 .ai-lightbox__spinner {
   position: absolute; top: 50%; left: 50%;
   width: 36px; height: 36px; margin: -18px 0 0 -18px;
@@ -954,9 +956,12 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
 .skill-item--static span { color: var(--text-dim); font-size: 0.9rem; font-family: 'Inter', sans-serif; }
 .skill-item--static:hover { padding-left: 1.5rem; color: var(--accent); }
 /* Expandable rows: a full-width button (keyboard/click-accessible) holding
-   the same number+label layout, plus a collapsible panel below it that
-   animates open/closed via a 0fr->1fr grid-template-rows trick — no fixed
-   height to guess at, and it still animates smoothly. */
+   the same number+label layout, plus a collapsible panel below it. The
+   panel's JS-measured height animates between 0 and its real content
+   height (settling at 'auto' once open) rather than using a
+   grid-template-rows: 0fr/1fr trick — both still cost a layout reflow on
+   every frame, but grid-template-rows additionally re-runs the Grid
+   track-sizing algorithm on each of those frames, on top of that. */
 .skill-item__row {
   display: flex; align-items: baseline; gap: 1.5rem; width: 100%;
   padding: 1.4rem 0.5rem;
@@ -981,8 +986,8 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
 .skill-item__chevron::after { transform: translate(-50%, -50%) rotate(90deg); }
 .skill-item__row[aria-expanded="true"] .skill-item__chevron::after { transform: translate(-50%, -50%) rotate(0deg); }
 .skill-item__panel {
-  display: grid; grid-template-rows: 0fr;
-  transition: grid-template-rows .4s var(--ease);
+  height: 0; overflow: hidden;
+  transition: height .4s var(--ease);
 }
 /* The description's left edge is made to match the label's (not the
    number's) by giving the panel the row's own gap/padding plus an
@@ -998,7 +1003,6 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
   color: var(--text-dim); font-size: 1rem; line-height: 1.6;
   max-width: 60ch; padding: 0 0.5rem 1.4rem 0;
 }
-.skill-item__row[aria-expanded="true"] + .skill-item__panel { grid-template-rows: 1fr; }
 
 /* =========================================================
    SOFTWARE
@@ -1015,9 +1019,7 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
   border: 1px solid var(--line);
   border-radius: 14px;
   background: var(--bg-alt);
-  transition: border-color .4s var(--ease), transform .4s var(--ease);
 }
-.software-item:hover { border-color: var(--accent); transform: translateX(4px); }
 .software-item__icon {
   flex: 0 0 auto; width: 48px; height: 48px;
   display: flex; align-items: center; justify-content: center;
