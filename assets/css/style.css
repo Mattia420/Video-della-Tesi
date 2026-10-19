@@ -745,6 +745,12 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
    most of the viewport) closes most of that gap on the sides without
    reproducing that crop. */
 .ai-lightbox__media--figma iframe { transform: scale(1.08); }
+/* The zoom above grows the iframe to 108% of the box from its own centre,
+   so without this the box's own overflow:hidden would clip that extra 8%
+   right back off on every side. Growing the box itself by the same factor
+   keeps the zoomed prototype exactly as it renders, just no longer cut off
+   by its own frame. */
+.ai-lightbox__media--figma { height: min(84vh, 778px); }
 .ai-lightbox__spinner {
   position: absolute; top: 50%; left: 50%;
   width: 36px; height: 36px; margin: -18px 0 0 -18px;
@@ -910,6 +916,12 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
   .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--wide-video):not(.ai-lightbox__media--slides) {
     max-height: min(calc(100svh - 17rem), 700px); width: auto;
   }
+  /* Same "grow the box to match the zoom" fix as the desktop rule above —
+     !important because the :not() chain just above otherwise outranks a
+     plain single-class selector regardless of source order. */
+  .ai-lightbox__media--figma {
+    max-height: min(calc((100svh - 18.5rem) * 1.08), 756px) !important;
+  }
   .ai-lightbox__media--image, .ai-lightbox__media--image img { max-height: 68svh; }
   /* Taller than 9:16 — see the desktop rule above for why. */
   .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--deck):not(.ai-lightbox__media--wide-video):not(.ai-lightbox__media--slides) {
@@ -954,7 +966,6 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
   transition: padding-left .4s var(--ease), color .4s ease;
 }
 .skill-item--static span { color: var(--text-dim); font-size: 0.9rem; font-family: 'Inter', sans-serif; }
-.skill-item--static:hover { padding-left: 1.5rem; color: var(--accent); }
 /* Expandable rows: a full-width button (keyboard/click-accessible) holding
    the same number+label layout, plus a collapsible panel below it. The
    panel's JS-measured height animates between 0 and its real content
@@ -970,7 +981,6 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
   font-size: clamp(1.3rem, 3vw, 2rem); color: var(--text);
   transition: padding-left .4s var(--ease), color .4s ease;
 }
-.skill-item__row:hover { padding-left: 1.5rem; color: var(--accent); }
 .skill-item__num { color: var(--text-dim); font-size: 0.9rem; font-family: 'Inter', sans-serif; }
 .skill-item__label { flex: 1; }
 .skill-item__chevron {
@@ -985,6 +995,16 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
 }
 .skill-item__chevron::after { transform: translate(-50%, -50%) rotate(90deg); }
 .skill-item__row[aria-expanded="true"] .skill-item__chevron::after { transform: translate(-50%, -50%) rotate(0deg); }
+/* Real-mouse devices only: a touchscreen fires :hover on tap just as much
+   as on an actual hover, which both leaves the nudge stuck until the next
+   tap elsewhere (there's no "mouse leaving" to clear it) and — worse —
+   means tapping a row to open it also kicks off this padding-left
+   transition at the exact same moment as the panel's own height one,
+   doubling the reflow cost right when the accordion was already lagging. */
+@media (hover: hover) and (pointer: fine) {
+  .skill-item--static:hover { padding-left: 1.5rem; color: var(--accent); }
+  .skill-item__row:hover { padding-left: 1.5rem; color: var(--accent); }
+}
 .skill-item__panel {
   height: 0; overflow: hidden;
   transition: height .4s var(--ease);
