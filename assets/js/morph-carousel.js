@@ -131,9 +131,6 @@
       // runtime, not just a static page), so every figma embed gets the
       // "loading" indicator, not just the interactive UI/UX prototypes.
       mediaEl.classList.add('ai-lightbox__media--figma');
-      // A native-app prototype's own frame runs taller than a website's —
-      // boxed the same as the others, its bottom screen gets cut off.
-      mediaEl.classList.toggle('ai-lightbox__media--figma-tall', !!data.tallApp);
 
       loadingEl.textContent = (window.i18n && window.i18n.t('lightbox.loading')) || 'Caricamento del prototipo… può richiedere alcuni secondi.';
       loadingEl.hidden = false;
@@ -153,13 +150,15 @@
         loadingEl.hidden = true;
       });
       mediaEl.appendChild(iframe);
-      // On a phone, the boxed preview is still small next to a real app —
-      // let it take over the whole screen instead, so navigating the
-      // prototype feels like using the actual app rather than peering at
-      // it inside a card. Offered on mobile only (see the fullscreen
-      // button's default display:none, overridden there) — on desktop the
-      // box is already roomy.
-      mediaEl.appendChild(createFullscreenButton());
+      if (!data.noFullscreen) {
+        // On a phone, the boxed preview is still small next to a real app —
+        // let it take over the whole screen instead, so navigating the
+        // prototype feels like using the actual app rather than peering at
+        // it inside a card. Offered on mobile only (see the fullscreen
+        // button's default display:none, overridden there) — on desktop
+        // the box is already roomy.
+        mediaEl.appendChild(createFullscreenButton());
+      }
     } else if (data.type === 'image' && data.image) {
       mediaEl.classList.add('ai-lightbox__media--image');
       const img = document.createElement('img');
@@ -656,7 +655,10 @@
         const fullSpan = stageSize.width * (isMobile ? 0.92 : 0.86);
         const halfSpreadRad = (halfSpreadDeg * Math.PI) / 180;
         const radius = fullSpan / (2 * Math.sin(halfSpreadRad));
-        const baseY = stageSize.height * (isMobile ? 0.1 : 0.06);
+        // Shifted up from the title's own position (not down from it) —
+        // the arc used to settle noticeably below the category label, with
+        // a wide empty gap between the two.
+        const baseY = stageSize.height * (isMobile ? -0.02 : -0.09);
 
         const arcPos = {
           x: radius * Math.sin(thetaRad),
@@ -819,7 +821,7 @@
       categoryId: 'uiuxDesign',
       badge: 'UX',
       figmaUrl: 'https://embed.figma.com/proto/qsAKaRUSjtsC116hsVKzkx/Smart-Home---Esame-App-Design-colorato-super?node-id=423-1823&t=SZbr9mx5Bmd2BxqS-1&starting-point-node-id=423%3A1823&embed-host=share&hide-ui=1',
-      tallApp: true,
+      noFullscreen: true,
       coverContain: true,
       cardBg: '#000000',
       cover: 'assets/img/smart-home-cover.webp',
