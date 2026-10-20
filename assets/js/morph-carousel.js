@@ -657,8 +657,9 @@
         const radius = fullSpan / (2 * Math.sin(halfSpreadRad));
         // Shifted up from the title's own position (not down from it) —
         // the arc used to settle noticeably below the category label, with
-        // a wide empty gap between the two.
-        const baseY = stageSize.height * (isMobile ? -0.02 : -0.09);
+        // a wide empty gap between the two. Pushed further still after the
+        // first pass still read as too far apart.
+        const baseY = stageSize.height * (isMobile ? -0.045 : -0.12);
 
         const arcPos = {
           x: radius * Math.sin(thetaRad),
