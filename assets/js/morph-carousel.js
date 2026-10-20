@@ -657,9 +657,12 @@
         const radius = fullSpan / (2 * Math.sin(halfSpreadRad));
         // Shifted up from the title's own position (not down from it) —
         // the arc used to settle noticeably below the category label, with
-        // a wide empty gap between the two. Pushed further still after the
-        // first pass still read as too far apart.
-        const baseY = stageSize.height * (isMobile ? -0.045 : -0.12);
+        // a wide empty gap between the two. The previous pass pushed this
+        // too far the other way and started overlapping the title on some
+        // categories; backed off to a value checked against the minimum
+        // gap across all four categories (Contenuti AI/Graphic/Motion/
+        // UI-UX Design) on both breakpoints, not just one scroll depth.
+        const baseY = stageSize.height * (isMobile ? -0.02 : -0.105);
 
         const arcPos = {
           x: radius * Math.sin(thetaRad),
