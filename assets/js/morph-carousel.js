@@ -131,6 +131,9 @@
       // runtime, not just a static page), so every figma embed gets the
       // "loading" indicator, not just the interactive UI/UX prototypes.
       mediaEl.classList.add('ai-lightbox__media--figma');
+      // A native-app prototype's own frame runs taller than a website's —
+      // boxed the same as the others, its bottom screen gets cut off.
+      mediaEl.classList.toggle('ai-lightbox__media--figma-tall', !!data.tallApp);
 
       loadingEl.textContent = (window.i18n && window.i18n.t('lightbox.loading')) || 'Caricamento del prototipo… può richiedere alcuni secondi.';
       loadingEl.hidden = false;
@@ -816,6 +819,7 @@
       categoryId: 'uiuxDesign',
       badge: 'UX',
       figmaUrl: 'https://embed.figma.com/proto/qsAKaRUSjtsC116hsVKzkx/Smart-Home---Esame-App-Design-colorato-super?node-id=423-1823&t=SZbr9mx5Bmd2BxqS-1&starting-point-node-id=423%3A1823&embed-host=share&hide-ui=1',
+      tallApp: true,
       coverContain: true,
       cardBg: '#000000',
       cover: 'assets/img/smart-home-cover.webp',

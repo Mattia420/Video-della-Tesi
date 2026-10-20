@@ -915,22 +915,40 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
      slide deck above) gives it as much of the real available room as
      reliably fits without pushing the title/description off-screen. */
   .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--wide-video):not(.ai-lightbox__media--slides) {
-    max-height: min(calc(100svh - 17rem), 700px); width: auto;
+    max-height: min(calc(100svh - 14.5rem), 760px); width: auto;
   }
   /* The desktop rule above zooms the prototype further and shortens its
      box to match — too tight a fit on a phone-size viewport, where it
      still clipped the prototype even after growing the box for the
      original, smaller zoom. Dropping the zoom back to none here (rather
-     than growing the box yet again) keeps the box at the same reliably
-     non-scrolling size as every other media type in this breakpoint. */
+     than growing the box yet again) keeps the box as big as the (now
+     bigger) formula just above reliably allows without scrolling. */
   .ai-lightbox__media--figma iframe { transform: none !important; }
   .ai-lightbox__media--figma { aspect-ratio: 9/19.5 !important; }
+  /* A native-app prototype (Smart Home) runs taller than the website
+     prototypes' own frames — the shared 9/19.5 above cuts its bottom
+     screen off. Tall enough that it needs to trade away some of the
+     chrome-subtraction margin above to still fit without scrolling. */
+  .ai-lightbox__media--figma-tall {
+    aspect-ratio: 9/22 !important;
+    max-height: min(calc(100svh - 15.5rem), 780px) !important;
+  }
   .ai-lightbox__media--image, .ai-lightbox__media--image img { max-height: 68svh; }
   /* Taller than 9:16 — see the desktop rule above for why. */
   .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--deck):not(.ai-lightbox__media--wide-video):not(.ai-lightbox__media--slides) {
     aspect-ratio: 9/19.5;
   }
   .ai-lightbox__media--wide-video, .ai-lightbox__media--slides { width: 100%; max-height: none; }
+  /* The desktop rule above gives --slides an explicit height (so it can
+     stay height-led there); that explicit value otherwise survives onto
+     mobile too, fighting the width:100% and aspect-ratio:16/9 above it —
+     a 16:9 image boxed into whatever that height formula came out to at
+     mobile's narrow width is nowhere near 16:9 itself, so it only filled
+     a strip through the middle of its own box, with the rest showing as
+     plain empty background around it. Reverting to height:auto lets the
+     box follow the image's own ratio again, like wide-video (which never
+     had this override to fight) already does. */
+  .ai-lightbox__media--slides { height: auto; }
   .ai-lightbox__slide-nav { width: 38px; height: 38px; font-size: 1.4rem; }
   .ai-lightbox__slide-nav--prev { left: 0.4rem; }
   .ai-lightbox__slide-nav--next { right: 0.4rem; }
@@ -945,6 +963,19 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
    SKILLS
    ========================================================= */
 .skills { position: relative; padding: 0 var(--gutter) clamp(4rem, 8vw, 7rem); }
+/* The word-by-word scroll reveal (main.js) ties each word's blur to live
+   scroll position the whole time this section is in range, not just
+   once — a continuous cost for as long as the section is being scrolled
+   through, on top of whatever's left over once it settles (which
+   main.js's own clearProps already cleans up). This section carries more
+   .word spans than most (a title plus six item labels), and is also
+   where the accordion's own reflow-heavy open/close animation runs, so
+   it's the one place that combination was actually visible as stutter.
+   Forcing the filter off here (the opacity fade still runs normally)
+   removes the cost outright: the cascade — not GSAP's own per-frame
+   writes, which keep running unseen — decides what's painted, so this
+   costs nothing to leave GSAP unaware of. */
+.skills .word-reveal .word { filter: none !important; }
 .skills::after {
   inset: -10% -15% -10% 45%;
   background:
