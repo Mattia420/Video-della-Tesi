@@ -740,17 +740,18 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
 .ai-lightbox__media iframe.is-loading { opacity: 0; }
 /* Figma fits each prototype's own frame to the embed viewport on its own,
    but leaves a visible margin around the device mockup rather than
-   filling the box edge to edge — a smaller zoom than the scale(1.15)
-   tried earlier (which cropped a prototype whose own frame already filled
-   most of the viewport) closes most of that gap on the sides without
-   reproducing that crop. */
-.ai-lightbox__media--figma iframe { transform: scale(1.08); }
-/* The zoom above grows the iframe to 108% of the box from its own centre,
-   so without this the box's own overflow:hidden would clip that extra 8%
-   right back off on every side. Growing the box itself by the same factor
-   keeps the zoomed prototype exactly as it renders, just no longer cut off
-   by its own frame. */
-.ai-lightbox__media--figma { height: min(84vh, 778px); }
+   filling the box edge to edge. Desktop-only (see the mobile override
+   below, tuned lighter — the viewport there is a lot tighter): a bigger
+   zoom closes the left/right gap, and a shorter, less-tall box (than the
+   shared 9/19.5 default above) closes the top/bottom one from the other
+   direction. */
+.ai-lightbox__media--figma iframe { transform: scale(1.15); }
+/* The zoom above grows the iframe to 115% of the box from its own centre,
+   so without this the box's own overflow:hidden would clip that extra
+   15% right back off on every side. Growing the box itself by the same
+   factor keeps the zoomed prototype exactly as it renders, just no
+   longer cut off by its own frame. */
+.ai-lightbox__media--figma { aspect-ratio: 9/17; height: min(calc(100vh - 7.5rem), 828px); }
 .ai-lightbox__spinner {
   position: absolute; top: 50%; left: 50%;
   width: 36px; height: 36px; margin: -18px 0 0 -18px;
@@ -916,12 +917,14 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
   .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--wide-video):not(.ai-lightbox__media--slides) {
     max-height: min(calc(100svh - 17rem), 700px); width: auto;
   }
-  /* Same "grow the box to match the zoom" fix as the desktop rule above —
-     !important because the :not() chain just above otherwise outranks a
-     plain single-class selector regardless of source order. */
-  .ai-lightbox__media--figma {
-    max-height: min(calc((100svh - 18.5rem) * 1.08), 756px) !important;
-  }
+  /* The desktop rule above zooms the prototype further and shortens its
+     box to match — too tight a fit on a phone-size viewport, where it
+     still clipped the prototype even after growing the box for the
+     original, smaller zoom. Dropping the zoom back to none here (rather
+     than growing the box yet again) keeps the box at the same reliably
+     non-scrolling size as every other media type in this breakpoint. */
+  .ai-lightbox__media--figma iframe { transform: none !important; }
+  .ai-lightbox__media--figma { aspect-ratio: 9/19.5 !important; }
   .ai-lightbox__media--image, .ai-lightbox__media--image img { max-height: 68svh; }
   /* Taller than 9:16 — see the desktop rule above for why. */
   .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--deck):not(.ai-lightbox__media--wide-video):not(.ai-lightbox__media--slides) {
