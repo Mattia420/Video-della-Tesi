@@ -48,6 +48,7 @@
       p1: "Mi occupo di comunicazione visiva a 360°: graphic design, animazioni, video editing e video mapping sono le competenze su cui ho costruito il mio percorso, tra studio tecnico e progetti concreti.",
       p2: "Negli ultimi anni ho affiancato questi strumenti con l'intelligenza artificiale, che uso per velocizzare il workflow e ampliare le possibilità creative, mantenendo sempre la direzione creativa e il controllo sul risultato finale.",
       p2Em: "Non scelgo tra tecnica e AI: li combino.",
+      p3: "Ho anche vissuto e studiato all'estero — tra Stati Uniti, Spagna, Romania e Paesi Bassi — un'esperienza che mi ha aperto a culture e modi di lavorare diversi, arricchendo il mio approccio creativo.",
     },
     education: {
       tag: "Percorso di studi",
@@ -148,6 +149,7 @@
         p1: "I work in visual communication across the board: graphic design, animation, video editing and video mapping are the skills I've built my path on, between technical study and real projects.",
         p2: "In recent years I've paired these tools with artificial intelligence, which I use to speed up the workflow and expand creative possibilities, always keeping creative direction and control over the final result.",
         p2Em: "I don't choose between craft and AI: I combine them.",
+        p3: "I've also lived and studied abroad — in the United States, Spain, Romania and the Netherlands — an experience that opened me up to different cultures and ways of working, enriching my creative approach.",
       },
       education: {
         tag: "Education",
@@ -213,6 +215,7 @@
         p1: "Ich beschäftige mich mit visueller Kommunikation in ihrer ganzen Bandbreite: Grafikdesign, Animation, Videoschnitt und Video Mapping sind die Kompetenzen, auf denen ich meinen Weg aufgebaut habe, zwischen technischem Studium und konkreten Projekten.",
         p2: "In den letzten Jahren habe ich diese Werkzeuge mit künstlicher Intelligenz kombiniert, die ich nutze, um den Workflow zu beschleunigen und die kreativen Möglichkeiten zu erweitern — die kreative Leitung und die Kontrolle über das Endergebnis behalte ich dabei immer.",
         p2Em: "Ich entscheide mich nicht zwischen Technik und KI: Ich verbinde beides.",
+        p3: "Ich habe außerdem im Ausland gelebt und studiert — in den USA, Spanien, Rumänien und den Niederlanden — eine Erfahrung, die mir unterschiedliche Kulturen und Arbeitsweisen eröffnet und meinen kreativen Ansatz bereichert hat.",
       },
       education: {
         tag: "Ausbildung",
@@ -278,6 +281,7 @@
         p1: "Me dedico a la comunicación visual en todos sus aspectos: diseño gráfico, animación, edición de vídeo y video mapping son las habilidades sobre las que he construido mi trayectoria, entre estudio técnico y proyectos concretos.",
         p2: "En los últimos años he combinado estas herramientas con la inteligencia artificial, que uso para acelerar el flujo de trabajo y ampliar las posibilidades creativas, manteniendo siempre la dirección creativa y el control sobre el resultado final.",
         p2Em: "No elijo entre técnica e IA: las combino.",
+        p3: "También he vivido y estudiado en el extranjero — en Estados Unidos, España, Rumanía y los Países Bajos — una experiencia que me ha abierto a culturas y formas de trabajar diferentes, enriqueciendo mi enfoque creativo.",
       },
       education: {
         tag: "Formación",
@@ -343,6 +347,7 @@
         p1: "Je m'occupe de communication visuelle à 360° : graphisme, animation, montage vidéo et video mapping sont les compétences sur lesquelles j'ai construit mon parcours, entre études techniques et projets concrets.",
         p2: "Ces dernières années, j'ai associé ces outils à l'intelligence artificielle, que j'utilise pour accélérer le flux de travail et élargir les possibilités créatives, tout en gardant toujours la direction créative et le contrôle sur le résultat final.",
         p2Em: "Je ne choisis pas entre technique et IA : je les combine.",
+        p3: "J'ai aussi vécu et étudié à l'étranger — aux États-Unis, en Espagne, en Roumanie et aux Pays-Bas — une expérience qui m'a ouvert à des cultures et des façons de travailler différentes, enrichissant mon approche créative.",
       },
       education: {
         tag: "Formation",
@@ -408,6 +413,7 @@
         p1: "Dedico-me à comunicação visual a 360°: design gráfico, animação, edição de vídeo e video mapping são as competências sobre as quais construí o meu percurso, entre estudo técnico e projetos concretos.",
         p2: "Nos últimos anos tenho aliado estas ferramentas à inteligência artificial, que uso para acelerar o fluxo de trabalho e ampliar as possibilidades criativas, mantendo sempre a direção criativa e o controlo sobre o resultado final.",
         p2Em: "Não escolho entre técnica e IA: combino as duas.",
+        p3: "Também vivi e estudei no estrangeiro — nos Estados Unidos, em Espanha, na Roménia e nos Países Baixos — uma experiência que me abriu a culturas e formas de trabalhar diferentes, enriquecendo a minha abordagem criativa.",
       },
       education: {
         tag: "Formação",
@@ -473,6 +479,7 @@
         p1: "Mă ocup de comunicare vizuală în toate formele ei: design grafic, animație, montaj video și video mapping sunt competențele pe care mi-am construit parcursul, între studiu tehnic și proiecte concrete.",
         p2: "În ultimii ani am combinat aceste instrumente cu inteligența artificială, pe care o folosesc pentru a accelera fluxul de lucru și a extinde posibilitățile creative, păstrând mereu direcția creativă și controlul asupra rezultatului final.",
         p2Em: "Nu aleg între tehnică și AI: le combin.",
+        p3: "Am locuit și am studiat și în străinătate — în Statele Unite, Spania, România și Țările de Jos — o experiență care m-a deschis către culturi și moduri de lucru diferite, îmbogățindu-mi abordarea creativă.",
       },
       education: {
         tag: "Studii",
@@ -538,6 +545,7 @@
         p1: "Ik houd me bezig met visuele communicatie in de volle breedte: grafisch ontwerp, animatie, video-editing en video mapping zijn de vaardigheden waarop ik mijn pad heb gebouwd, tussen technische studie en concrete projecten.",
         p2: "De afgelopen jaren heb ik deze tools gecombineerd met kunstmatige intelligentie, die ik gebruik om de workflow te versnellen en de creatieve mogelijkheden te vergroten, waarbij ik altijd de creatieve regie en controle over het eindresultaat behoud.",
         p2Em: "Ik kies niet tussen vakmanschap en AI: ik combineer ze.",
+        p3: "Ik heb ook in het buitenland gewoond en gestudeerd — in de Verenigde Staten, Spanje, Roemenië en Nederland — een ervaring die me heeft opengesteld voor andere culturen en werkwijzen, wat mijn creatieve aanpak heeft verrijkt.",
       },
       education: {
         tag: "Opleiding",
@@ -603,6 +611,7 @@
         p1: "我从事全方位的视觉传达工作：平面设计、动画、视频剪辑和投影映射（video mapping）是我一路走来所积累的技能，兼顾技术学习与实际项目。",
         p2: "近年来，我将这些工具与人工智能结合使用，用它来加快工作流程、拓展创意可能性，同时始终保持创意主导权和对最终成果的把控。",
         p2Em: "我不在技术和 AI 之间做选择：我把两者结合起来。",
+        p3: "我还曾在国外生活和学习——美国、西班牙、罗马尼亚和荷兰——这段经历让我接触到不同的文化和工作方式，丰富了我的创意视角。",
       },
       education: {
         tag: "教育背景",
