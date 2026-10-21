@@ -191,8 +191,13 @@
   // pointer comes down within the visible sphere itself — otherwise a
   // touch anywhere in that empty padding would "grab" the globe instead of
   // scrolling the page. touch-action stays pan-y (native vertical scroll)
-  // everywhere on the canvas except this one moment, where we
-  // preventDefault to hand that specific gesture over to the drag.
+  // everywhere on the canvas except while actually dragging: CSS
+  // touch-action is a compositor-level hint the browser applies before any
+  // JS runs, so a horizontal drag gesture on a pan-y element can get
+  // throttled or cut short by the browser's own scroll handling no matter
+  // what preventDefault() does in a handler — switching it to 'none' only
+  // for the drag's own duration (and back once it ends) is what actually
+  // hands the whole gesture to JS, letting a full rotation complete.
   canvas.addEventListener('pointerdown', (e) => {
     const rect = canvas.getBoundingClientRect();
     const px = e.clientX - rect.left - cx;
@@ -202,6 +207,7 @@
     dragging = true;
     dragStartX = e.clientX;
     rotationAtDragStart = rotation;
+    canvas.style.touchAction = 'none';
     canvas.setPointerCapture(e.pointerId);
   });
   canvas.addEventListener('pointermove', (e) => {
@@ -209,8 +215,9 @@
     e.preventDefault();
     rotation = rotationAtDragStart + (e.clientX - dragStartX) * 0.008;
   });
-  canvas.addEventListener('pointerup', () => { dragging = false; });
-  canvas.addEventListener('pointercancel', () => { dragging = false; });
+  function endDrag() { dragging = false; canvas.style.touchAction = 'pan-y'; }
+  canvas.addEventListener('pointerup', endDrag);
+  canvas.addEventListener('pointercancel', endDrag);
 
   function project(p3d) {
     const rp = orient(p3d);
