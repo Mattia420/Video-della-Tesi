@@ -1205,10 +1205,9 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
   inset: 0;
   background: radial-gradient(120% 220% at 50% -120%, rgba(166, 0, 255, 0.20), transparent 70%);
 }
-.footer p, .footer__top, .footer__bottom { position: relative; z-index: 1; }
-.footer__top { color: var(--text); }
+.footer p, .footer__bottom { position: relative; z-index: 1; }
 .footer__bottom {
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex; align-items: center; justify-content: center;
   flex-wrap: wrap; gap: 0.75rem; width: 100%;
 }
 
@@ -1248,7 +1247,6 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
      footprint in the surrounding flex/flow layout unchanged, so nothing
      shifts, while the actual hit area grows toward the ~44px minimum. */
   .nav__toggle { padding: 17px 9px; margin: -17px -9px; }
-  .footer__top { display: inline-block; padding: 10px 2px; margin: -10px -2px; }
   .contact__socials a { padding: 6px; margin: -6px; }
   /* .lang-switch has a fixed 30x30 box (box-sizing: border-box), so
      padding would just squeeze its content instead of growing the hit
