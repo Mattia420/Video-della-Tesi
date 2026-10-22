@@ -71,6 +71,13 @@
   }
 
   function openLightbox(data) {
+    // Re-entrant call while already open (a stray click reaching a card
+    // underneath, a doubled event, two triggers firing back to back) would
+    // read window.scrollY as 0 below — the body is already locked via
+    // position:fixed from the first open, which is what makes it read 0 —
+    // and stomp savedScrollY with that, so closing later snaps to the top
+    // of the page instead of back where the person actually was.
+    if (lightbox.classList.contains('is-open')) return;
     closeBtn.setAttribute('aria-label', (window.i18n && window.i18n.t('lightbox.close')) || 'Chiudi');
     titleEl.textContent = data.title;
     descEl.textContent = data.desc;
@@ -235,6 +242,11 @@
   }
 
   function closeLightbox() {
+    // Already closed — bail before a second/duplicate call (overlapping
+    // triggers, a doubled event) redundantly re-runs the scroll restore
+    // below against whatever the page has scrolled to since the first
+    // call actually closed it.
+    if (!lightbox.classList.contains('is-open')) return;
     lightbox.classList.remove('is-open');
     mediaEl.classList.remove('is-fullscreen');
     panelEl.classList.remove('ai-lightbox__panel--media-fullscreen');
@@ -455,6 +467,15 @@
     // the page stuttering or refusing to scroll there.
     function scrollBy(delta) {
       if (!delta) return;
+      // The lightbox sits above this section and is meant to own every
+      // wheel/touch gesture while it's open (see openLightbox/closeLightbox)
+      // — but pointer-events on it flips back to none the instant it
+      // closes, mid-transition and possibly mid-gesture. A touch that
+      // started on a card, or a wheel/trackpad flick still landing right as
+      // the lightbox closes, could otherwise reach this handler and jump
+      // the page by whatever stale delta it computes, reading as the page
+      // "resetting" right after closing a prototype.
+      if (lightbox.classList.contains('is-open')) return;
       if (window.lenis && typeof window.lenis.scrollTo === 'function') {
         window.lenis.scrollTo(window.lenis.scroll + delta, { immediate: true });
       } else {
