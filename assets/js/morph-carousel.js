@@ -785,7 +785,7 @@
       categoryId: 'graphicDesign',
       badge: 'GD',
       image: 'assets/img/open-decks.webp',
-      cover: 'assets/img/open-decks-cover.webp?v=2',
+      cover: 'assets/img/open-decks-cover.webp?v=3',
     },
     {
       id: 'elektronik-summerfest',
@@ -796,7 +796,7 @@
       categoryId: 'graphicDesign',
       badge: 'GD',
       image: 'assets/img/elektronik-summerfest.webp',
-      cover: 'assets/img/elektronik-summerfest-cover.webp?v=2',
+      cover: 'assets/img/elektronik-summerfest-cover.webp?v=3',
     },
     {
       id: 'touch-of-beauty',
