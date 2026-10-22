@@ -726,17 +726,6 @@
   /* ---------- content data ---------- */
   const AI_ITEMS = [
     {
-      id: 'black-white',
-      title: 'Black & White',
-      desc: 'Contenuto visivo generato con l\'intelligenza artificiale, creato per pubblicizzare una canzone.',
-      video: 'assets/video/black-and-white.mp4',
-      cover: 'assets/img/black-and-white-cover.webp?v=2',
-      type: 'video',
-      category: 'Contenuti AI',
-      categoryId: 'contenutiAi',
-      badge: 'AI',
-    },
-    {
       id: 'redbull',
       title: 'Red Bull Green Edition — Spot',
       desc: 'Concept di spot pubblicitario generato con l\'intelligenza artificiale.',
@@ -766,6 +755,17 @@
       desc: 'Spot pubblicitario generato con l\'intelligenza artificiale per Hopy, linea cosmetica a base di canapa di TiliLab, pensato per il pubblico rumeno — da qui la voce fuori campo in rumeno.',
       video: 'assets/video/hopy-spot.mp4',
       cover: 'assets/img/hopy-spot-cover.webp',
+      type: 'video',
+      category: 'Contenuti AI',
+      categoryId: 'contenutiAi',
+      badge: 'AI',
+    },
+    {
+      id: 'black-white',
+      title: 'Black & White',
+      desc: 'Contenuto visivo generato con l\'intelligenza artificiale, creato per pubblicizzare una canzone.',
+      video: 'assets/video/black-and-white.mp4',
+      cover: 'assets/img/black-and-white-cover.webp?v=2',
       type: 'video',
       category: 'Contenuti AI',
       categoryId: 'contenutiAi',
