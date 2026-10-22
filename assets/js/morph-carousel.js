@@ -808,7 +808,7 @@
       // at a presentation), and gets real prev/next paging.
       type: 'slides',
       slidesPrefix: 'assets/img/touch-of-beauty/slide-',
-      slidesCount: 56,
+      slidesCount: 15,
       category: 'Graphic Design',
       categoryId: 'graphicDesign',
       badge: 'GD',
