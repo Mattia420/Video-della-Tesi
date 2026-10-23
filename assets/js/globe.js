@@ -391,6 +391,23 @@
     ctx.globalAlpha = 1;
   }
 
+  // Same issue as the work-carousel's own loop: this redraws the canvas
+  // (several arcs, gradients, measureText calls for every city label)
+  // every single frame forever, even with the globe scrolled far out of
+  // view — e.g. while the person is still up in Skills, well above it.
+  // That's sustained main-thread work competing with Skills' own
+  // per-frame accordion transition for no visible benefit, and a
+  // contributor to the stutter (and, under enough sustained pressure on
+  // mobile Safari, tab kills) reported there. Pause the loop outside a
+  // generous viewport margin and let this observer restart it.
+  let isNearViewport = true;
+  const visibilityObserver = new IntersectionObserver((entries) => {
+    const wasNear = isNearViewport;
+    isNearViewport = entries[entries.length - 1].isIntersecting;
+    if (isNearViewport && !wasNear) requestAnimationFrame(frame);
+  }, { rootMargin: '50% 0px 50% 0px' });
+  visibilityObserver.observe(canvas);
+
   function frame() {
     if (!dragging && !prefersReducedMotion) rotation += autoSpin;
     ctx.clearRect(0, 0, width, height);
@@ -480,7 +497,7 @@
       drawLabel(proj.x, proj.y, ax, ay, city.name, city.hub, alpha);
     });
 
-    requestAnimationFrame(frame);
+    if (isNearViewport) requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
 })();

@@ -289,16 +289,43 @@ document.addEventListener('DOMContentLoaded', () => {
      ========================================================= */
   const nav = document.getElementById('nav');
   let lastScroll = 0;
+  // The last position actually used to decide hide/show — kept separate
+  // from lastScroll (every raw reading) so the direction check compares
+  // against a point far enough back to represent real intent, not a
+  // single tick of scroll.
+  let navDecisionY = 0;
+  // A plain "did it move down since the last tick" check reacts to every
+  // sub-pixel delta Lenis reports — on mobile, rubber-band bounce at the
+  // top/bottom of the page and momentum deceleration both produce a run of
+  // tiny, alternating-sign deltas, which read as the nav rapidly
+  // hiding/showing ("si sposta e scompare a caso"). Requiring a real
+  // enough swing before flipping state filters that noise out while still
+  // reacting promptly to an actual scroll.
+  const NAV_SCROLL_THRESHOLD = 12;
 
   const handleNavScroll = (scrollY) => {
-    if (scrollY > 80) nav.classList.add('nav--scrolled'); else nav.classList.remove('nav--scrolled');
-    if (scrollY > lastScroll && scrollY > 200) {
-      nav.classList.add('nav--hidden');
-    } else {
+    // Clamp out rubber-band overscroll — iOS/Android report scrollY past
+    // the real [0, max] range while bouncing, which would otherwise read
+    // as a big, spurious delta.
+    const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    const y = clampScroll(scrollY, 0, maxScroll);
+
+    if (y > 80) nav.classList.add('nav--scrolled'); else nav.classList.remove('nav--scrolled');
+
+    const delta = y - navDecisionY;
+    if (y <= 200) {
       nav.classList.remove('nav--hidden');
+      navDecisionY = y;
+    } else if (delta > NAV_SCROLL_THRESHOLD) {
+      nav.classList.add('nav--hidden');
+      navDecisionY = y;
+    } else if (delta < -NAV_SCROLL_THRESHOLD) {
+      nav.classList.remove('nav--hidden');
+      navDecisionY = y;
     }
-    lastScroll = scrollY;
+    lastScroll = y;
   };
+  function clampScroll(v, min, max) { return Math.min(max, Math.max(min, v)); }
 
   if (lenis) {
     lenis.on('scroll', ({ scroll }) => handleNavScroll(scroll));

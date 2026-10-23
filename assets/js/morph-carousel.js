@@ -524,6 +524,28 @@
     let lastCategory = null;
     let lastFrameTime = 0;
 
+    // frame() below used to call requestAnimationFrame(frame) unconditionally,
+    // forever — meaning its per-frame work (scrollProgress()'s
+    // getBoundingClientRect call, a trig pass over every card) kept running
+    // at a full 60fps even with this section scrolled far out of view, e.g.
+    // while the person was down in Skills. getBoundingClientRect forces a
+    // synchronous layout read, and Skills' own accordion is *also* animating
+    // height every frame while open — two independent per-frame layout-
+    // forcing loops compounding is exactly what read as stutter specifically
+    // when opening a skill, and sustained enough main-thread pressure is a
+    // known way mobile Safari decides a tab is unresponsive and kills it.
+    // Pausing the loop (not rescheduling itself) whenever the section is
+    // nowhere near the viewport, and waking it back up via this observer
+    // when it next approaches, removes that cost entirely while it can't
+    // matter to anyone anyway.
+    let isNearViewport = true;
+    const visibilityObserver = new IntersectionObserver((entries) => {
+      const wasNear = isNearViewport;
+      isNearViewport = entries[entries.length - 1].isIntersecting;
+      if (isNearViewport && !wasNear) requestAnimationFrame(frame);
+    }, { rootMargin: '50% 0px 50% 0px' });
+    visibilityObserver.observe(section);
+
     // Re-translate already-built items/cards on a language switch. The
     // arc geometry (effectivePos, grouping) never depends on the text
     // itself, so this only needs to touch the DOM text and force the
@@ -683,7 +705,7 @@
         // categories; backed off to a value checked against the minimum
         // gap across all four categories (Contenuti AI/Graphic/Motion/
         // UI-UX Design) on both breakpoints, not just one scroll depth.
-        const baseY = stageSize.height * (isMobile ? -0.02 : -0.105);
+        const baseY = stageSize.height * (isMobile ? 0.05 : -0.105);
 
         const arcPos = {
           x: radius * Math.sin(thetaRad),
@@ -739,7 +761,7 @@
         card.style.pointerEvents = (opacity < 0.05 || blurPx > 0.5) ? 'none' : '';
       });
 
-      requestAnimationFrame(frame);
+      if (isNearViewport) requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
   }
