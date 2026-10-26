@@ -143,35 +143,49 @@ document.addEventListener('DOMContentLoaded', () => {
   /* =========================================================
      SKILLS ACCORDION — plain JS, no GSAP dependency
      ========================================================= */
-  // Measured-height animation (0 <-> scrollHeight px, settling to 'auto'
-  // once open) instead of the grid-template-rows: 0fr/1fr trick this used
-  // to use. Both still reflow every frame — there's no CSS way around that
-  // for an "auto height" animation that's also meant to push the items
-  // below it down smoothly — but grid-template-rows additionally re-runs
-  // CSS Grid's own track-sizing algorithm on every one of those frames,
-  // which is measurably more expensive than interpolating a plain height
-  // between two already-known pixel values. That showed up as this
-  // specific panel's open/close animation visibly lagging.
+  // Previously animated height directly (0 <-> scrollHeight px). That
+  // still reflowed on every single frame for the whole transition — height
+  // affects layout, so there's no way to animate it, by any technique,
+  // without that cost. The actual "unfold" now comes from .skill-item__
+  // panel-inner's transform/opacity (both compositor-only, see style.css),
+  // and panel.style.height is only ever set directly, never transitioned:
+  // once to its full content height right as the fade-in starts, and once
+  // back to 0 only after the fade-out has finished (so nothing visible
+  // jumps) — one reflow per open and per close instead of ~24.
   document.querySelectorAll('.skill-item__row').forEach((btn) => {
     const panel = btn.nextElementSibling;
     if (!panel || !panel.classList.contains('skill-item__panel')) return;
+    const inner = panel.querySelector('.skill-item__panel-inner');
+    if (!inner) return;
+    // A click while the previous click's own close animation is still
+    // playing (toggled fast enough) would otherwise leave that first
+    // click's transitionend listener attached — it fires once the now-
+    // reversed, now-opening transform transition finishes instead, and
+    // snaps height back to 0 right after the panel just opened. Tracked
+    // so every click can clear whatever the last one left pending first.
+    let pendingCloseHandler = null;
     btn.addEventListener('click', () => {
+      if (pendingCloseHandler) {
+        inner.removeEventListener('transitionend', pendingCloseHandler);
+        pendingCloseHandler = null;
+      }
       const isOpen = btn.getAttribute('aria-expanded') === 'true';
       if (isOpen) {
-        // Settled at height:auto from the last time this opened — snap to
-        // the equivalent pixel value first (and force layout to register
-        // it) so there's an actual starting point to animate down from,
-        // instead of jumping straight from 'auto' to 0.
-        panel.style.height = `${panel.scrollHeight}px`;
-        panel.offsetHeight; // eslint-disable-line no-unused-expressions
-        requestAnimationFrame(() => { panel.style.height = '0px'; });
+        inner.classList.remove('is-open');
+        pendingCloseHandler = (e) => {
+          if (e.propertyName !== 'transform') return;
+          panel.style.height = '0px';
+          inner.removeEventListener('transitionend', pendingCloseHandler);
+          pendingCloseHandler = null;
+        };
+        inner.addEventListener('transitionend', pendingCloseHandler);
       } else {
         panel.style.height = `${panel.scrollHeight}px`;
-        panel.addEventListener('transitionend', function onDone(e) {
-          if (e.propertyName !== 'height') return;
-          panel.style.height = 'auto';
-          panel.removeEventListener('transitionend', onDone);
-        });
+        // Reads scrollHeight above (forces one layout) before the class
+        // flip below starts the transform transition — doing it in this
+        // order means that forced layout reflects the *closed* state
+        // (inner still scaleY(0)), not a half-transitioned one.
+        requestAnimationFrame(() => { inner.classList.add('is-open'); });
       }
       btn.setAttribute('aria-expanded', String(!isOpen));
     });

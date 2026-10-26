@@ -1031,16 +1031,32 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
   .skill-item--static:hover { padding-left: 1.5rem; color: var(--accent); }
   .skill-item__row:hover { padding-left: 1.5rem; color: var(--accent); }
 }
-.skill-item__panel {
-  height: 0; overflow: hidden;
-  transition: height .4s var(--ease);
-}
+/* height was previously the thing transitioned open/closed — but height
+   affects layout, so animating it (whatever the technique: plain height,
+   grid-template-rows, max-height) forces a full synchronous layout
+   recalculation on every single frame of the transition, for its whole
+   duration. That's the part no amount of pausing *other* unrelated
+   animation loops elsewhere on the page actually fixes — it's a fixed
+   cost of this element's own transition, every time. JS now sets this
+   height directly (open: the content's measured height, no transition;
+   close: 0, but only once the fade-out below has already finished, so
+   there's nothing left on screen to see the jump) — a single reflow at
+   each end instead of ~24 of them spread across the animation. The
+   actual visible "unfold" comes entirely from .skill-item__panel-inner's
+   transform/opacity below, both compositor-only properties a browser can
+   animate without ever touching layout. */
+.skill-item__panel { height: 0; overflow: hidden; }
 /* The description's left edge is made to match the label's (not the
    number's) by giving the panel the row's own gap/padding plus an
    invisible copy of the number — same text, same font — so its
    rendered width lines up exactly with the real one above, at any
    viewport size, without hardcoding a guessed offset. */
-.skill-item__panel-inner { overflow: hidden; display: flex; align-items: flex-start; gap: 1.5rem; padding-left: 0.5rem; }
+.skill-item__panel-inner {
+  overflow: hidden; display: flex; align-items: flex-start; gap: 1.5rem; padding-left: 0.5rem;
+  transform-origin: top; transform: scaleY(0); opacity: 0;
+  transition: transform .4s var(--ease), opacity .3s var(--ease);
+}
+.skill-item__panel-inner.is-open { transform: scaleY(1); opacity: 1; }
 .skill-item__num-spacer {
   flex: 0 0 auto; visibility: hidden;
   color: var(--text-dim); font-size: 0.9rem; font-family: 'Inter', sans-serif;
