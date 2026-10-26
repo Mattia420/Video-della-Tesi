@@ -926,10 +926,15 @@
   ];
 
   /* ---------- one merged carousel: AI content + everything else, category label swaps live ---------- */
+  // The UI/UX prototypes are heavy Figma embeds (full canvas runtime inside
+  // an iframe) — on phones they've caused occasional lag and page reloads
+  // under memory pressure, so they're left out of the mobile carousel
+  // entirely rather than just skipping the iframe load on tap.
+  const isMobileViewport = window.matchMedia('(max-width: 760px)').matches;
   const ALL_ITEMS = [
     ...OTHER_ITEMS.filter((d) => d.category !== 'UI/UX Design'),
     ...AI_ITEMS,
-    ...OTHER_ITEMS.filter((d) => d.category === 'UI/UX Design'),
+    ...(isMobileViewport ? [] : OTHER_ITEMS.filter((d) => d.category === 'UI/UX Design')),
   ];
 
   createCarousel({
