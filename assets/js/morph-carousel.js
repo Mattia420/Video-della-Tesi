@@ -408,8 +408,10 @@
 
       card.__hover = false;
       card.__hoverSmooth = 1;
-      card.addEventListener('mouseenter', () => { card.style.zIndex = '999'; card.__hover = true; });
-      card.addEventListener('mouseleave', () => { card.__hover = false; card.style.zIndex = ''; card.__baseZ && (card.style.zIndex = card.__baseZ); });
+      // Hover doesn't move the scroll position, so it needs its own wake
+      // call — the settled loop below only listens for scroll by default.
+      card.addEventListener('mouseenter', () => { card.style.zIndex = '999'; card.__hover = true; wake(); });
+      card.addEventListener('mouseleave', () => { card.__hover = false; card.style.zIndex = ''; card.__baseZ && (card.style.zIndex = card.__baseZ); wake(); });
       card.addEventListener('click', () => openLightbox(data));
       card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(data); } });
 
@@ -542,9 +544,31 @@
     const visibilityObserver = new IntersectionObserver((entries) => {
       const wasNear = isNearViewport;
       isNearViewport = entries[entries.length - 1].isIntersecting;
-      if (isNearViewport && !wasNear) requestAnimationFrame(frame);
+      if (isNearViewport && !wasNear) wake();
     }, { rootMargin: '50% 0px 50% 0px' });
     visibilityObserver.observe(section);
+
+    // The visibility check above only covers being scrolled far away — this
+    // section is tall enough (it's the whole fan) that its tail end is
+    // still literally on screen while reading Skills right below it, so
+    // isNearViewport stays true there and the loop above kept running at a
+    // full, pointless 60fps: morphSmooth/wobbleSmooth had long since reached
+    // their target (nothing left to ease toward while scroll position isn't
+    // changing), yet every single frame still re-ran scrollProgress()'s
+    // forced layout read plus a full pass over every card. That's exactly
+    // the kind of background cost that, stacked on top of Skills' own
+    // accordion work, read as stutter right where the user is actually
+    // interacting. Stopping the loop once it's provably converged — and
+    // only a real scroll event (not a timer) waking it back up — removes
+    // that cost while nothing is actually moving, with no visible effect
+    // since there was nothing left to animate anyway.
+    let rafActive = true;
+    function wake() {
+      if (rafActive || !isNearViewport) return;
+      rafActive = true;
+      requestAnimationFrame(frame);
+    }
+    window.addEventListener('scroll', wake, { passive: true });
 
     // Re-translate already-built items/cards on a language switch. The
     // arc geometry (effectivePos, grouping) never depends on the text
@@ -586,6 +610,11 @@
       // easing — the carousel just resumes mid-ease when the tab returns.
       const dt = lastFrameTime ? Math.min(now - lastFrameTime, 100) : 1000 / 60;
       lastFrameTime = now;
+      // Set by the per-card loop below if any card's hover scale is still
+      // easing toward its target — those don't move the scroll position,
+      // so the overall morph/wobble settle check further down can't see
+      // them on its own.
+      let anyHoverEasing = false;
 
       const progress = scrollProgress();
       const morphTarget = clamp(progress / 0.3, 0, 1);
@@ -741,6 +770,7 @@
         const hoverSmoothing = prefersReducedMotion ? 1 : 1 - Math.pow(1 - 0.2, dt / (1000 / 60));
         card.__hoverSmooth += (hoverTarget - card.__hoverSmooth) * hoverSmoothing;
         if (Math.abs(hoverTarget - card.__hoverSmooth) < 0.0005) card.__hoverSmooth = hoverTarget;
+        else anyHoverEasing = true;
 
         // Skip the DOM write entirely once a card has settled (same string
         // as last frame) — see the smoothing snap above for why this is
@@ -761,7 +791,12 @@
         card.style.pointerEvents = (opacity < 0.05 || blurPx > 0.5) ? 'none' : '';
       });
 
-      if (isNearViewport) requestAnimationFrame(frame);
+      const settled = morphSmooth === morphTarget && wobbleSmooth === wobbleTarget && !anyHoverEasing;
+      if (isNearViewport && !settled) {
+        requestAnimationFrame(frame);
+      } else {
+        rafActive = false;
+      }
     }
     requestAnimationFrame(frame);
   }
