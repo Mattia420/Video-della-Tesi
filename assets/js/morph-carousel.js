@@ -203,12 +203,29 @@
     } else if (data.video) {
       if (data.wide) mediaEl.classList.add('ai-lightbox__media--wide-video');
       const video = document.createElement('video');
-      video.src = data.video;
+      // The Media Fragments hash seeks straight there on some browsers
+      // without waiting for a 'loadedmetadata' round trip — the explicit
+      // currentTime set below (needed on browsers that ignore the hash,
+      // e.g. Safari) then has little or nothing left to seek, so there's
+      // no visible jump back to 0 first.
+      video.src = data.startAt ? `${data.video}#t=${data.startAt}` : data.video;
       video.autoplay = true;
       video.muted = false;
-      video.loop = true;
+      // Native loop restarts at 0, which would bring back the dead time at
+      // the front of the clip on every repeat — looped manually instead so
+      // it keeps resuming from startAt.
+      video.loop = !data.startAt;
       video.playsInline = true;
       video.controls = true;
+      if (data.startAt) {
+        video.addEventListener('loadedmetadata', () => {
+          if (video.currentTime < data.startAt) video.currentTime = data.startAt;
+        }, { once: true });
+        video.addEventListener('ended', () => {
+          video.currentTime = data.startAt;
+          video.play().catch(() => {});
+        });
+      }
       mediaEl.appendChild(video);
       video.play().catch(() => { /* autoplay with sound can be blocked — controls are there to start it manually */ });
     } else {
@@ -734,7 +751,7 @@
         // categories; backed off to a value checked against the minimum
         // gap across all four categories (Contenuti AI/Graphic/Motion/
         // UI-UX Design) on both breakpoints, not just one scroll depth.
-        const baseY = stageSize.height * (isMobile ? 0.05 : -0.105);
+        const baseY = stageSize.height * (isMobile ? 0.05 : -0.065);
 
         const arcPos = {
           x: radius * Math.sin(thetaRad),
@@ -819,6 +836,8 @@
       title: 'Installazione Genesis',
       desc: 'Avatar creato tramite intelligenza artificiale che canta una canzone reale, utilizzato in un\'installazione chiamata Genesis, a Barcellona.',
       video: 'assets/video/corolla.mp4',
+      // The clip itself doesn't start getting interesting until 16s in.
+      startAt: 16,
       cover: 'assets/img/corolla-cover.webp',
       type: 'video',
       category: 'Contenuti AI',

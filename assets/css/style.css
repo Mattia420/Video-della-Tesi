@@ -1055,6 +1055,13 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
   overflow: hidden; display: flex; align-items: flex-start; gap: 1.5rem; padding-left: 0.5rem;
   transform-origin: top; transform: scaleY(0); opacity: 0;
   transition: transform .4s var(--ease), opacity .3s var(--ease);
+  /* Without this, some browsers only promote this to its own GPU layer
+     once a transition is already running, then drop it again the moment
+     one finishes — so the very next open (or close) pays a one-off
+     layer-creation cost right as it starts, which reads as a brief
+     stutter at the start of the animation. Keeping the layer around
+     permanently removes that cost from every open/close alike. */
+  will-change: transform, opacity;
 }
 .skill-item__panel-inner.is-open { transform: scaleY(1); opacity: 1; }
 .skill-item__num-spacer {

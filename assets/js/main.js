@@ -164,14 +164,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // snaps height back to 0 right after the panel just opened. Tracked
     // so every click can clear whatever the last one left pending first.
     let pendingCloseHandler = null;
+    // Both branches below defer their own class flip to the next animation
+    // frame (see the comments at each). A second click arriving before
+    // that frame fires would otherwise leave the first click's queued
+    // rAF callback to run anyway — flipping the class back to whatever
+    // the first click wanted, right after the second click's own,
+    // opposite change. Tracked the same way as pendingCloseHandler so
+    // every click can cancel whatever the last one left pending first.
+    let pendingFrame = null;
     btn.addEventListener('click', () => {
       if (pendingCloseHandler) {
         inner.removeEventListener('transitionend', pendingCloseHandler);
         pendingCloseHandler = null;
       }
+      if (pendingFrame !== null) {
+        cancelAnimationFrame(pendingFrame);
+        pendingFrame = null;
+      }
       const isOpen = btn.getAttribute('aria-expanded') === 'true';
       if (isOpen) {
-        inner.classList.remove('is-open');
         pendingCloseHandler = (e) => {
           if (e.propertyName !== 'transform') return;
           panel.style.height = '0px';
@@ -179,13 +190,20 @@ document.addEventListener('DOMContentLoaded', () => {
           pendingCloseHandler = null;
         };
         inner.addEventListener('transitionend', pendingCloseHandler);
+        // Opening spreads its own work across two frames (write the height,
+        // *then* next frame flip the class) — closing used to flip the
+        // class immediately in the same tick as the click, packing the
+        // style invalidation and transition start into one already-busy
+        // frame instead. Deferring it the same one frame as open removes
+        // that one asymmetry between the two directions.
+        pendingFrame = requestAnimationFrame(() => { inner.classList.remove('is-open'); pendingFrame = null; });
       } else {
         panel.style.height = `${panel.scrollHeight}px`;
         // Reads scrollHeight above (forces one layout) before the class
         // flip below starts the transform transition — doing it in this
         // order means that forced layout reflects the *closed* state
         // (inner still scaleY(0)), not a half-transitioned one.
-        requestAnimationFrame(() => { inner.classList.add('is-open'); });
+        pendingFrame = requestAnimationFrame(() => { inner.classList.add('is-open'); pendingFrame = null; });
       }
       btn.setAttribute('aria-expanded', String(!isOpen));
     });
