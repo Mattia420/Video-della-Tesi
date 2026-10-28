@@ -118,7 +118,7 @@
     projects: {
       telemea: { title: "Telemea — Solomonescu", desc: "Spot pubblicitario generato con l'intelligenza artificiale per il Telemea di Solomonescu, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania." },
       "lunca-cascaval": { title: "Lunca Ilvei — Cascaval Dalia", desc: "Spot pubblicitario generato con l'intelligenza artificiale per il Cascaval Dalia, formaggio di Lunca Ilvei, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania." },
-      "black-white": { title: "Black & White", desc: "Contenuto visivo generato con l'intelligenza artificiale, creato per pubblicizzare una canzone." },
+      "ai-evolution": { title: "Evoluzione dell'IA", desc: "Breve video esplicativo sull'evoluzione dell'intelligenza artificiale, realizzato in stile Vox: ogni elemento è animato come un ritaglio di carta, in un collage in movimento." },
       genesis: { title: "Installazione Genesis", desc: "Avatar creato tramite intelligenza artificiale che canta una canzone reale, utilizzato in un'installazione chiamata Genesis, a Barcellona." },
       "deserto-sale": { title: "Deserto di Sale", desc: "Contenuto visivo generato con l'intelligenza artificiale." },
       "lunca-raclette": { title: "Lunca Ilvei — Raclette", desc: "Spot pubblicitario generato con l'intelligenza artificiale per la linea Raclette di Lunca Ilvei, azienda casearia rumena, realizzato durante un periodo di lavoro in Romania." },
@@ -185,7 +185,7 @@
       projects: {
         telemea: { desc: "AI-generated ad for Solomonescu's Telemea, a Romanian dairy company, made during a work period in Romania." },
         "lunca-cascaval": { desc: "AI-generated ad for Cascaval Dalia, a Lunca Ilvei cheese, Romanian dairy company, made during a work period in Romania." },
-        "black-white": { desc: "Visual content generated with artificial intelligence, created to advertise a song." },
+        "ai-evolution": { title: "AI Evolution", desc: "A short explainer video on the evolution of artificial intelligence, made in a Vox-style animation where every element moves like a piece of cut paper, in a living collage." },
         genesis: { desc: "AI-created avatar singing a real song, used in an installation called Genesis, in Barcelona." },
         "deserto-sale": { desc: "Visual content generated with artificial intelligence." },
         "lunca-raclette": { desc: "AI-generated ad for the Raclette line by Lunca Ilvei, a Romanian dairy company, made during a work period in Romania." },
@@ -250,7 +250,7 @@
       projects: {
         telemea: { desc: "KI-generierter Werbespot für den Telemea von Solomonescu, einem rumänischen Molkereiunternehmen, entstanden während einer Arbeitsphase in Rumänien." },
         "lunca-cascaval": { desc: "KI-generierter Werbespot für den Cascaval Dalia, einen Käse von Lunca Ilvei, rumänisches Molkereiunternehmen, entstanden während einer Arbeitsphase in Rumänien." },
-        "black-white": { desc: "Mit künstlicher Intelligenz erzeugter visueller Inhalt, erstellt zur Bewerbung eines Songs." },
+        "ai-evolution": { title: "Evolution der KI", desc: "Ein kurzes Erklärvideo über die Entwicklung der künstlichen Intelligenz, im Vox-Stil animiert: jedes Element bewegt sich wie ein ausgeschnittenes Papierstück, in einer lebendigen Collage." },
         genesis: { desc: "Mit künstlicher Intelligenz erschaffener Avatar, der einen echten Song singt, verwendet in einer Installation namens Genesis, in Barcelona." },
         "deserto-sale": { desc: "Mit künstlicher Intelligenz erzeugter visueller Inhalt." },
         "lunca-raclette": { desc: "KI-generierter Werbespot für die Raclette-Linie von Lunca Ilvei, rumänisches Molkereiunternehmen, entstanden während einer Arbeitsphase in Rumänien." },
@@ -315,7 +315,7 @@
       projects: {
         telemea: { desc: "Spot publicitario generado con inteligencia artificial para el Telemea de Solomonescu, empresa láctea rumana, realizado durante un periodo de trabajo en Rumanía." },
         "lunca-cascaval": { desc: "Spot publicitario generado con inteligencia artificial para el Cascaval Dalia, queso de Lunca Ilvei, empresa láctea rumana, realizado durante un periodo de trabajo en Rumanía." },
-        "black-white": { desc: "Contenido visual generado con inteligencia artificial, creado para promocionar una canción." },
+        "ai-evolution": { title: "Evolución de la IA", desc: "Un breve vídeo explicativo sobre la evolución de la inteligencia artificial, realizado con animación estilo Vox: cada elemento se mueve como un recorte de papel, en un collage en movimiento." },
         genesis: { desc: "Avatar creado con inteligencia artificial que canta una canción real, utilizado en una instalación llamada Genesis, en Barcelona." },
         "deserto-sale": { desc: "Contenido visual generado con inteligencia artificial." },
         "lunca-raclette": { desc: "Spot publicitario generado con inteligencia artificial para la línea Raclette de Lunca Ilvei, empresa láctea rumana, realizado durante un periodo de trabajo en Rumanía." },
@@ -380,7 +380,7 @@
       projects: {
         telemea: { desc: "Spot publicitaire généré par intelligence artificielle pour le Telemea de Solomonescu, entreprise laitière roumaine, réalisé lors d'une période de travail en Roumanie." },
         "lunca-cascaval": { desc: "Spot publicitaire généré par intelligence artificielle pour le Cascaval Dalia, fromage de Lunca Ilvei, entreprise laitière roumaine, réalisé lors d'une période de travail en Roumanie." },
-        "black-white": { desc: "Contenu visuel généré par intelligence artificielle, créé pour promouvoir une chanson." },
+        "ai-evolution": { title: "Évolution de l'IA", desc: "Une courte vidéo explicative sur l'évolution de l'intelligence artificielle, animée dans un style Vox : chaque élément bouge comme un morceau de papier découpé, dans un collage vivant." },
         genesis: { desc: "Avatar créé par intelligence artificielle chantant une chanson réelle, utilisé dans une installation appelée Genesis, à Barcelone." },
         "deserto-sale": { desc: "Contenu visuel généré par intelligence artificielle." },
         "lunca-raclette": { desc: "Spot publicitaire généré par intelligence artificielle pour la gamme Raclette de Lunca Ilvei, entreprise laitière roumaine, réalisé lors d'une période de travail en Roumanie." },
@@ -445,7 +445,7 @@
       projects: {
         telemea: { desc: "Anúncio gerado com inteligência artificial para o Telemea da Solomonescu, empresa láctea romena, realizado durante um período de trabalho na Roménia." },
         "lunca-cascaval": { desc: "Anúncio gerado com inteligência artificial para o Cascaval Dalia, queijo da Lunca Ilvei, empresa láctea romena, realizado durante um período de trabalho na Roménia." },
-        "black-white": { desc: "Conteúdo visual gerado com inteligência artificial, criado para promover uma música." },
+        "ai-evolution": { title: "Evolução da IA", desc: "Um pequeno vídeo explicativo sobre a evolução da inteligência artificial, animado em estilo Vox: cada elemento move-se como um recorte de papel, num collage em movimento." },
         genesis: { desc: "Avatar criado com inteligência artificial que canta uma música real, utilizado numa instalação chamada Genesis, em Barcelona." },
         "deserto-sale": { desc: "Conteúdo visual gerado com inteligência artificial." },
         "lunca-raclette": { desc: "Anúncio gerado com inteligência artificial para a linha Raclette da Lunca Ilvei, empresa láctea romena, realizado durante um período de trabalho na Roménia." },
@@ -510,7 +510,7 @@
       projects: {
         telemea: { desc: "Reclamă generată cu inteligență artificială pentru Telemea Solomonescu, companie românească de lactate, realizată în timpul unei perioade de lucru în România." },
         "lunca-cascaval": { desc: "Reclamă generată cu inteligență artificială pentru Cașcaval Dalia, brânză de la Lunca Ilvei, companie românească de lactate, realizată în timpul unei perioade de lucru în România." },
-        "black-white": { desc: "Conținut vizual generat cu inteligență artificială, creat pentru a promova o melodie." },
+        "ai-evolution": { title: "Evoluția IA", desc: "Un scurt video explicativ despre evoluția inteligenței artificiale, animat în stil Vox: fiecare element se mișcă precum o bucată de hârtie decupată, într-un colaj viu." },
         genesis: { desc: "Avatar creat cu inteligență artificială care cântă o melodie reală, folosit într-o instalație numită Genesis, la Barcelona." },
         "deserto-sale": { desc: "Conținut vizual generat cu inteligență artificială." },
         "lunca-raclette": { desc: "Reclamă generată cu inteligență artificială pentru linia Raclette de la Lunca Ilvei, companie românească de lactate, realizată în timpul unei perioade de lucru în România." },
@@ -575,7 +575,7 @@
       projects: {
         telemea: { desc: "AI-gegenereerde reclame voor de Telemea van Solomonescu, een Roemeens zuivelbedrijf, gemaakt tijdens een werkperiode in Roemenië." },
         "lunca-cascaval": { desc: "AI-gegenereerde reclame voor de Cascaval Dalia, een kaas van Lunca Ilvei, Roemeens zuivelbedrijf, gemaakt tijdens een werkperiode in Roemenië." },
-        "black-white": { desc: "Visuele content gegenereerd met kunstmatige intelligentie, gemaakt om een nummer te promoten." },
+        "ai-evolution": { title: "Evolutie van AI", desc: "Een korte uitlegvideo over de evolutie van kunstmatige intelligentie, geanimeerd in Vox-stijl: elk element beweegt als een uitgeknipt stukje papier, in een levende collage." },
         genesis: { desc: "Met kunstmatige intelligentie gecreëerde avatar die een echt nummer zingt, gebruikt in een installatie genaamd Genesis, in Barcelona." },
         "deserto-sale": { desc: "Visuele content gegenereerd met kunstmatige intelligentie." },
         "lunca-raclette": { desc: "AI-gegenereerde reclame voor de Raclette-lijn van Lunca Ilvei, Roemeens zuivelbedrijf, gemaakt tijdens een werkperiode in Roemenië." },
@@ -640,7 +640,7 @@
       projects: {
         telemea: { desc: "为罗马尼亚乳制品公司 Solomonescu 的 Telemea 奶酪制作的 AI 生成广告，创作于在罗马尼亚工作期间。" },
         "lunca-cascaval": { desc: "为罗马尼亚乳制品公司 Lunca Ilvei 的 Cascaval Dalia 奶酪制作的 AI 生成广告，创作于在罗马尼亚工作期间。" },
-        "black-white": { desc: "由人工智能生成的视觉内容，用于宣传一首歌曲。" },
+        "ai-evolution": { title: "人工智能的演变", desc: "一段关于人工智能演变的简短解说视频，以 Vox 风格制作：每个元素都像剪纸一样移动，构成一幅动态拼贴画。" },
         genesis: { desc: "由人工智能创建的虚拟形象演唱一首真实歌曲，用于巴塞罗那一场名为 Genesis 的装置艺术展。" },
         "deserto-sale": { desc: "由人工智能生成的视觉内容。" },
         "lunca-raclette": { desc: "为罗马尼亚乳制品公司 Lunca Ilvei 的 Raclette 系列制作的 AI 生成广告，创作于在罗马尼亚工作期间。" },
