@@ -777,6 +777,10 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
 /* Motion design: widescreen 16:9 footage, sized by width instead of the
    default 9:16 frame's fixed height, so it doesn't force an oversized panel. */
 .ai-lightbox__media--wide-video { aspect-ratio: 16/9; width: min(56vw, 620px); height: auto; }
+/* Real vertical footage (1080x1920, true 9:16) — its own box so the full
+   frame shows instead of being cropped by the Figma-prototype default
+   above (9:19.5, taller/narrower than the actual video). */
+.ai-lightbox__media--video { aspect-ratio: 9/16; }
 /* Touch of Beauty's presentation, rendered to static slides — wide enough
    to actually read, since it replaces a deck meant to be looked through
    page by page rather than glanced at like a video clip. Sized by height
@@ -926,8 +930,11 @@ button.btn { background: none; font-family: inherit; color: inherit; cursor: poi
   .ai-lightbox__media--figma iframe { transform: none !important; }
   .ai-lightbox__media--figma { aspect-ratio: 9/19.5 !important; }
   .ai-lightbox__media--image, .ai-lightbox__media--image img { max-height: 68svh; }
-  /* Taller than 9:16 — see the desktop rule above for why. */
-  .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--deck):not(.ai-lightbox__media--wide-video):not(.ai-lightbox__media--slides) {
+  /* Taller than 9:16 — see the desktop rule above for why. Real vertical
+     video (--video) is excluded: it's already a true 9:16 frame, so this
+     would re-crop it right back after the desktop rule above sized it
+     correctly. */
+  .ai-lightbox__media:not(.ai-lightbox__media--image):not(.ai-lightbox__media--deck):not(.ai-lightbox__media--wide-video):not(.ai-lightbox__media--slides):not(.ai-lightbox__media--video) {
     aspect-ratio: 9/19.5;
   }
   .ai-lightbox__media--wide-video, .ai-lightbox__media--slides { width: 100%; max-height: none; }

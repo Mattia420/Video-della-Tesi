@@ -202,6 +202,11 @@
       mediaEl.appendChild(iframe);
     } else if (data.video) {
       if (data.wide) mediaEl.classList.add('ai-lightbox__media--wide-video');
+      // The shared default box (9:19.5) is sized for Figma phone-frame
+      // prototypes, taller/narrower than a real 9:16 video — with
+      // object-fit:cover that crops ~9% off each side. Real vertical
+      // footage gets its own box matching its actual frame instead.
+      else mediaEl.classList.add('ai-lightbox__media--video');
       const video = document.createElement('video');
       // The Media Fragments hash seeks straight there on some browsers
       // without waiting for a 'loadedmetadata' round trip — the explicit
