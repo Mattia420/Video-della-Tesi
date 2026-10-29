@@ -862,7 +862,7 @@
       title: 'Evoluzione dell\'IA',
       desc: 'Breve video esplicativo sull\'evoluzione dell\'intelligenza artificiale, realizzato in stile Vox: ogni elemento è animato come un ritaglio di carta, in un collage in movimento.',
       video: 'assets/video/ai-evolution.mp4',
-      cover: 'assets/img/ai-evolution-cover.webp?v=2',
+      cover: 'assets/img/ai-evolution-cover.webp?v=3',
       type: 'video',
       category: 'Contenuti AI',
       categoryId: 'contenutiAi',
